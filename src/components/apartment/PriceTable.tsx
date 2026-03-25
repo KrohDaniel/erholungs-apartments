@@ -1,0 +1,171 @@
+import { Clock, Tag, CalendarCheck } from 'lucide-react';
+import { getApartmentBySlug } from '@/lib/constants';
+
+// =============================================================================
+// PriceTable Component
+// =============================================================================
+
+interface PriceTableProps {
+  apartmentSlug: string;
+}
+
+export default function PriceTable({ apartmentSlug }: PriceTableProps) {
+  const apartment = getApartmentBySlug(apartmentSlug);
+
+  if (!apartment) return null;
+
+  const { prices, discounts, minNights, checkInTime, checkOutTime } = apartment;
+  const isKellerchen = apartmentSlug === 'erholungs-kellerchen';
+
+  return (
+    <section aria-labelledby="prices-heading">
+      <h2
+        id="prices-heading"
+        className="text-2xl font-semibold text-text mb-6"
+      >
+        Preise
+      </h2>
+
+      {/* Price table */}
+      <div className="overflow-x-auto rounded-xl border border-border-light">
+        <table className="w-full text-left">
+          <thead>
+            <tr className="bg-secondary">
+              <th className="px-5 py-3.5 text-sm font-semibold text-text-light">
+                Zeitraum
+              </th>
+              {isKellerchen ? (
+                <>
+                  <th className="px-5 py-3.5 text-sm font-semibold text-text-light text-center">
+                    1 Person
+                  </th>
+                  <th className="px-5 py-3.5 text-sm font-semibold text-text-light text-center">
+                    2 Personen
+                  </th>
+                </>
+              ) : (
+                <>
+                  <th className="px-5 py-3.5 text-sm font-semibold text-text-light text-center">
+                    1-2 Personen
+                  </th>
+                  <th className="px-5 py-3.5 text-sm font-semibold text-text-light text-center">
+                    3 Personen
+                  </th>
+                  <th className="px-5 py-3.5 text-sm font-semibold text-text-light text-center">
+                    4 Personen
+                  </th>
+                </>
+              )}
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-border-light">
+            {isKellerchen ? (
+              <>
+                {/* Kellerchen: weekday / weekend rows */}
+                <tr className="bg-white hover:bg-background transition-colors">
+                  <td className="px-5 py-4 text-sm font-medium text-text">
+                    Mo – Do
+                  </td>
+                  <td className="px-5 py-4 text-center">
+                    <span className="text-lg font-semibold text-primary">
+                      {prices.weekday[1]}&thinsp;&euro;
+                    </span>
+                    <span className="text-xs text-text-muted block">/Nacht</span>
+                  </td>
+                  <td className="px-5 py-4 text-center">
+                    <span className="text-lg font-semibold text-primary">
+                      {prices.weekday[2]}&thinsp;&euro;
+                    </span>
+                    <span className="text-xs text-text-muted block">/Nacht</span>
+                  </td>
+                </tr>
+                <tr className="bg-white hover:bg-background transition-colors">
+                  <td className="px-5 py-4 text-sm font-medium text-text">
+                    Fr – So
+                  </td>
+                  <td className="px-5 py-4 text-center">
+                    <span className="text-lg font-semibold text-primary">
+                      {prices.weekend[1]}&thinsp;&euro;
+                    </span>
+                    <span className="text-xs text-text-muted block">/Nacht</span>
+                  </td>
+                  <td className="px-5 py-4 text-center">
+                    <span className="text-lg font-semibold text-primary">
+                      {prices.weekend[2]}&thinsp;&euro;
+                    </span>
+                    <span className="text-xs text-text-muted block">/Nacht</span>
+                  </td>
+                </tr>
+              </>
+            ) : (
+              <>
+                {/* Apartment: single row (weekday === weekend in data) */}
+                <tr className="bg-white hover:bg-background transition-colors">
+                  <td className="px-5 py-4 text-sm font-medium text-text">
+                    Pro Nacht
+                  </td>
+                  <td className="px-5 py-4 text-center">
+                    <span className="text-lg font-semibold text-primary">
+                      {prices.weekday[1]}&thinsp;&euro;
+                    </span>
+                    <span className="text-xs text-text-muted block">/Nacht</span>
+                  </td>
+                  <td className="px-5 py-4 text-center">
+                    <span className="text-lg font-semibold text-primary">
+                      {prices.weekday[3]}&thinsp;&euro;
+                    </span>
+                    <span className="text-xs text-text-muted block">/Nacht</span>
+                  </td>
+                  <td className="px-5 py-4 text-center">
+                    <span className="text-lg font-semibold text-primary">
+                      {prices.weekday[4]}&thinsp;&euro;
+                    </span>
+                    <span className="text-xs text-text-muted block">/Nacht</span>
+                  </td>
+                </tr>
+              </>
+            )}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Discounts */}
+      <div className="mt-6 flex flex-wrap gap-3">
+        {discounts.map((discount) => (
+          <span
+            key={discount.minNights}
+            className="
+              inline-flex items-center gap-1.5 px-3.5 py-1.5
+              bg-accent/10 text-accent-dark border border-accent/20
+              rounded-full text-sm font-semibold
+            "
+          >
+            <Tag size={14} />
+            -{discount.percentage}% ab {discount.minNights} Nächten
+          </span>
+        ))}
+      </div>
+
+      {/* Additional info */}
+      <div className="mt-6 space-y-3">
+        <div className="flex items-center gap-3 text-sm text-text-light">
+          <CalendarCheck size={18} className="text-primary flex-shrink-0" />
+          <span>
+            Mindestaufenthalt: <strong className="text-text">{minNights} Nächte</strong>
+          </span>
+        </div>
+        <div className="flex items-center gap-3 text-sm text-text-light">
+          <Clock size={18} className="text-primary flex-shrink-0" />
+          <span>
+            Check-in ab <strong className="text-text">{checkInTime} Uhr</strong>
+            {' '}&middot;{' '}
+            Check-out bis <strong className="text-text">{checkOutTime} Uhr</strong>
+          </span>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+export { PriceTable };
+export type { PriceTableProps };

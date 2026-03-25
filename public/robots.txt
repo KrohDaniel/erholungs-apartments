@@ -1,0 +1,8 @@
+# Erholungs Apartments - robots.txt
+# https://erholungs-apartments.de
+
+User-agent: *
+Allow: /
+Disallow: /api/
+
+Sitemap: https://erholungs-apartments.de/sitemap.xml

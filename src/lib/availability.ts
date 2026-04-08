@@ -11,6 +11,54 @@ import {
   addDays,
 } from 'date-fns';
 import { getAdminDb } from '@/lib/firebase-admin';
+import { ICAL_FEEDS } from '@/lib/constants';
+
+// -----------------------------------------------------------------------------
+// On-demand iCal freshness (throttled)
+// -----------------------------------------------------------------------------
+
+/**
+ * In-memory cache of last successful sync timestamps per apartment+source.
+ * Survives the lifetime of a serverless instance — good enough to prevent
+ * hammering Booking.com on every request while keeping the calendar fresh.
+ */
+const lastSyncAt = new Map<string, number>();
+const SYNC_TTL_MS = 2 * 60 * 1000; // 2 minutes
+
+/**
+ * Ensures external calendars (Booking.com, Airbnb) for an apartment have been
+ * synced recently. Runs at most once per SYNC_TTL_MS per source. Failures are
+ * swallowed and logged — a stale calendar is better than a failed booking flow.
+ */
+export async function ensureFreshCalendar(apartmentId: string): Promise<void> {
+  const feeds = ICAL_FEEDS[apartmentId];
+  if (!feeds) return;
+
+  const now = Date.now();
+  const syncTasks: Promise<unknown>[] = [];
+
+  for (const [source, url] of Object.entries(feeds)) {
+    if (!url) continue;
+    const key = `${apartmentId}:${source}`;
+    const last = lastSyncAt.get(key) ?? 0;
+    if (now - last < SYNC_TTL_MS) continue;
+
+    // Mark optimistically so parallel requests don't duplicate work
+    lastSyncAt.set(key, now);
+
+    syncTasks.push(
+      syncExternalCalendar(apartmentId, url, source as 'airbnb' | 'booking').catch(
+        (err) => {
+          // Roll back timestamp on failure so next request retries
+          lastSyncAt.delete(key);
+          console.error(`[ensureFreshCalendar] ${apartmentId}/${source}:`, err);
+        }
+      )
+    );
+  }
+
+  await Promise.all(syncTasks);
+}
 
 // -----------------------------------------------------------------------------
 // Check Availability

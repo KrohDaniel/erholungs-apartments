@@ -39,43 +39,43 @@ function BookingBar({
   onSearch: () => void;
 }) {
   return (
-    <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 sm:gap-3 md:grid-cols-4">
-      <div>
+    <div className="grid grid-cols-2 gap-2 sm:gap-3">
+      <div className="min-w-0">
         <label htmlFor="hero-checkin" className="mb-1.5 block text-xs font-medium text-text-muted sm:text-sm">Anreise</label>
         <div className="relative">
-          <CalendarDays className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-text-muted" />
+          <CalendarDays className="pointer-events-none absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-text-muted" />
           <input id="hero-checkin" type="date" value={booking.checkIn} onChange={(e) => setBooking({ checkIn: e.target.value })}
             min={new Date().toISOString().split('T')[0]}
-            className="w-full rounded-lg border border-border bg-background py-2.5 pl-10 pr-2 text-sm text-text transition-colors focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary" />
+            className="w-full min-w-0 rounded-lg border border-border bg-background py-2.5 pl-9 pr-2 text-sm text-text transition-colors focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary" />
         </div>
       </div>
-      <div>
+      <div className="min-w-0">
         <label htmlFor="hero-checkout" className="mb-1.5 block text-xs font-medium text-text-muted sm:text-sm">Abreise</label>
         <div className="relative">
-          <CalendarDays className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-text-muted" />
+          <CalendarDays className="pointer-events-none absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-text-muted" />
           <input id="hero-checkout" type="date" value={booking.checkOut} onChange={(e) => setBooking({ checkOut: e.target.value })}
             min={booking.checkIn || new Date().toISOString().split('T')[0]}
-            className="w-full rounded-lg border border-border bg-background py-2.5 pl-10 pr-2 text-sm text-text transition-colors focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary" />
+            className="w-full min-w-0 rounded-lg border border-border bg-background py-2.5 pl-9 pr-2 text-sm text-text transition-colors focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary" />
         </div>
       </div>
-      <div>
+      <div className="min-w-0">
         <label htmlFor="hero-guests" className="mb-1.5 block text-xs font-medium text-text-muted sm:text-sm">Gäste</label>
         <div className="relative">
-          <Users className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-text-muted" />
+          <Users className="pointer-events-none absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-text-muted" />
           <select id="hero-guests" value={booking.guests} onChange={(e) => setBooking({ guests: e.target.value })}
-            className="w-full appearance-none rounded-lg border border-border bg-background py-2.5 pl-10 pr-8 text-sm text-text transition-colors focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary">
-            <option value="1">1 Gast</option>
-            <option value="2">2 Gäste</option>
-            <option value="3">3 Gäste</option>
-            <option value="4">4 Gäste</option>
+            className="w-full min-w-0 appearance-none rounded-lg border border-border bg-background py-2.5 pl-9 pr-8 text-sm text-text transition-colors focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
           </select>
-          <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-text-muted" />
+          <ChevronDown className="pointer-events-none absolute right-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-text-muted" />
         </div>
       </div>
-      <div className="flex items-end">
+      <div className="col-span-2 flex items-end">
         <button type="button" onClick={onSearch}
-          className="flex w-full items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-white shadow-md transition-all duration-200 hover:bg-primary-light hover:shadow-lg active:scale-[0.98] cursor-pointer">
-          <Search className="h-4 w-4" />
+          className="flex w-full items-center justify-center gap-2 whitespace-nowrap rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-white shadow-md transition-all duration-200 hover:bg-primary-light hover:shadow-lg active:scale-[0.98] cursor-pointer">
+          <Search className="h-4 w-4 shrink-0" />
           <span>Suchen</span>
         </button>
       </div>
@@ -113,14 +113,14 @@ export default function Hero() {
           {/* Left: Text content */}
           <div className="flex-shrink-0 px-6 pb-8 sm:px-10 md:mx-auto md:max-w-2xl lg:mx-0 lg:max-w-none lg:w-[42%] lg:pb-0 lg:pl-16 lg:pr-10 xl:pl-24">
             {/* Rating badge */}
-            <div className="mb-5 inline-flex items-center gap-2 rounded-full bg-secondary px-4 py-2">
-              <Star className="h-4 w-4 fill-accent text-accent" />
-              <span className="text-sm font-semibold text-text">9.0/10</span>
-              <span className="text-sm text-text-muted">Booking.com</span>
+            <div className="mb-5 inline-flex max-w-full items-center gap-2 rounded-full bg-secondary px-3 py-2 sm:px-4">
+              <Star className="h-4 w-4 shrink-0 fill-accent text-accent" />
+              <span className="whitespace-nowrap text-sm font-semibold text-text">9.0/10</span>
+              <span className="whitespace-nowrap text-sm text-text-muted">Booking.com</span>
             </div>
 
             {/* Headline */}
-            <h1 className="mb-5 text-3xl font-bold leading-[1.1] tracking-tight text-text sm:text-4xl lg:text-5xl">
+            <h1 className="mb-5 text-[clamp(1.75rem,6vw,3rem)] font-bold leading-[1.1] tracking-tight text-text lg:text-5xl">
               Ferienwohnungen
               <br />
               <span className="text-primary">in Bad Lippspringe</span>
@@ -132,15 +132,15 @@ export default function Hero() {
             </p>
 
             {/* USP pills */}
-            <div className="mb-8 flex flex-wrap gap-2.5">
-              <span className="flex items-center gap-1.5 rounded-full bg-primary/8 px-3.5 py-2 text-sm font-medium text-primary">
-                <MapPin className="h-3.5 w-3.5" /> 500m Therme
+            <div className="mb-8 flex flex-wrap gap-2">
+              <span className="inline-flex items-center gap-1.5 whitespace-nowrap rounded-full bg-primary/8 px-3 py-1.5 text-xs font-medium text-primary sm:px-3.5 sm:py-2 sm:text-sm">
+                <MapPin className="h-3.5 w-3.5 shrink-0" /> 500m Therme
               </span>
-              <span className="flex items-center gap-1.5 rounded-full bg-primary/8 px-3.5 py-2 text-sm font-medium text-primary">
-                <Wifi className="h-3.5 w-3.5" /> Gratis WLAN
+              <span className="inline-flex items-center gap-1.5 whitespace-nowrap rounded-full bg-primary/8 px-3 py-1.5 text-xs font-medium text-primary sm:px-3.5 sm:py-2 sm:text-sm">
+                <Wifi className="h-3.5 w-3.5 shrink-0" /> Gratis WLAN
               </span>
-              <span className="flex items-center gap-1.5 rounded-full bg-primary/8 px-3.5 py-2 text-sm font-medium text-primary">
-                <Car className="h-3.5 w-3.5" /> Kostenlos Parken
+              <span className="inline-flex items-center gap-1.5 whitespace-nowrap rounded-full bg-primary/8 px-3 py-1.5 text-xs font-medium text-primary sm:px-3.5 sm:py-2 sm:text-sm">
+                <Car className="h-3.5 w-3.5 shrink-0" /> Kostenlos Parken
               </span>
             </div>
 
@@ -153,14 +153,16 @@ export default function Hero() {
             </div>
 
             {/* Quick links */}
-            <div className="flex gap-5">
-              <Link href="/erholungs-kellerchen/" className="group flex items-center gap-1.5 text-sm font-medium text-primary hover:text-primary-light">
-                Kellerchen ab 40&euro;
-                <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
+            <div className="flex flex-wrap gap-2 sm:gap-3">
+              <Link href="/erholungs-kellerchen/" className="group inline-flex min-w-0 items-center gap-1.5 whitespace-nowrap rounded-full border border-primary/20 bg-white px-3 py-2 text-xs font-semibold text-primary shadow-sm transition-all hover:border-primary hover:bg-primary hover:text-white hover:shadow-md sm:gap-2 sm:px-4 sm:text-sm">
+                <span>Kellerchen</span>
+                <span className="rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-bold group-hover:bg-white/20 group-hover:text-white sm:text-xs">ab 40&euro;</span>
+                <ArrowRight className="h-3.5 w-3.5 shrink-0 transition-transform group-hover:translate-x-0.5" />
               </Link>
-              <Link href="/erholungs-apartment/" className="group flex items-center gap-1.5 text-sm font-medium text-primary hover:text-primary-light">
-                Apartment ab 70&euro;
-                <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
+              <Link href="/erholungs-apartment/" className="group inline-flex min-w-0 items-center gap-1.5 whitespace-nowrap rounded-full border border-primary/20 bg-white px-3 py-2 text-xs font-semibold text-primary shadow-sm transition-all hover:border-primary hover:bg-primary hover:text-white hover:shadow-md sm:gap-2 sm:px-4 sm:text-sm">
+                <span>Apartment</span>
+                <span className="rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-bold group-hover:bg-white/20 group-hover:text-white sm:text-xs">ab 70&euro;</span>
+                <ArrowRight className="h-3.5 w-3.5 shrink-0 transition-transform group-hover:translate-x-0.5" />
               </Link>
             </div>
           </div>

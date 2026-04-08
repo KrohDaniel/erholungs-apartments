@@ -30,7 +30,7 @@ interface AvailabilityCalendarProps {
   apartmentId: string;
   onDateSelect: (checkIn: Date, checkOut: Date) => void;
   blockedDates?: string[];
-  /** Mindestaufenthalt in Naechten (Standard: 2) */
+  /** Mindestaufenthalt in Nächten (Standard: 2) */
   minNights?: number;
 }
 
@@ -80,10 +80,11 @@ export default function AvailabilityCalendar({
           `/api/availability?apartmentId=${encodeURIComponent(apartmentId)}&month=${month}&year=${year}`
         );
         if (res.ok) {
-          const data: string[] = await res.json();
+          const data: { blockedDates?: string[] } = await res.json();
+          const dates = data.blockedDates ?? [];
           setFetchedBlockedDates((prev) => {
             const next = new Set(prev);
-            for (const d of data) {
+            for (const d of dates) {
               next.add(d);
             }
             return next;
@@ -97,6 +98,12 @@ export default function AvailabilityCalendar({
     },
     [apartmentId]
   );
+
+  // Beim Apartment-Wechsel: alten Cache verwerfen, sonst akkumulieren sich
+  // Sperrtermine beider Wohnungen
+  useEffect(() => {
+    setFetchedBlockedDates(new Set());
+  }, [apartmentId]);
 
   // Beim Monatswechsel beide sichtbaren Monate laden
   useEffect(() => {
@@ -335,8 +342,8 @@ export default function AvailabilityCalendar({
                   }
                 }}
                 aria-label={`${format(day, 'd. MMMM yyyy', { locale: de })}${
-                  blocked ? ', nicht verfuegbar' : ''
-                }${isSelected ? ', ausgewaehlt' : ''}`}
+                  blocked ? ', nicht verfügbar' : ''
+                }${isSelected ? ', ausgewählt' : ''}`}
                 aria-disabled={disabled}
               >
                 {/* Heute-Indikator */}
@@ -358,14 +365,14 @@ export default function AvailabilityCalendar({
 
   function renderSelectionHint() {
     if (selectionState === 'idle') {
-      return 'Bitte Anreisedatum auswaehlen';
+      return 'Bitte Anreisedatum auswählen';
     }
     if (selectionState === 'checkIn' && checkIn) {
-      return `Anreise: ${format(checkIn, 'd. MMM yyyy', { locale: de })} - Bitte Abreisedatum waehlen (mind. ${minNights} Naechte)`;
+      return `Anreise: ${format(checkIn, 'd. MMM yyyy', { locale: de })} – Bitte Abreisedatum wählen (mind. ${minNights} Nächte)`;
     }
     if (checkIn && checkOut) {
       const nights = differenceInDays(checkOut, checkIn);
-      return `${format(checkIn, 'd. MMM', { locale: de })} - ${format(checkOut, 'd. MMM yyyy', { locale: de })} (${nights} ${nights === 1 ? 'Nacht' : 'Naechte'})`;
+      return `${format(checkIn, 'd. MMM', { locale: de })} – ${format(checkOut, 'd. MMM yyyy', { locale: de })} (${nights} ${nights === 1 ? 'Nacht' : 'Nächte'})`;
     }
     return '';
   }
@@ -377,7 +384,7 @@ export default function AvailabilityCalendar({
   const secondMonth = addMonths(currentMonth, 1);
 
   return (
-    <div className="w-full" role="application" aria-label="Verfuegbarkeitskalender">
+    <div className="w-full" role="application" aria-label="Verfügbarkeitskalender">
       {/* Navigation Header */}
       <div className="mb-6 flex items-center justify-between">
         <button
@@ -399,7 +406,7 @@ export default function AvailabilityCalendar({
         <button
           onClick={goToNextMonth}
           className="flex h-10 w-10 items-center justify-center rounded-full text-text-light transition-all duration-[var(--transition-fast)] hover:bg-secondary"
-          aria-label="Naechster Monat"
+          aria-label="Nächster Monat"
         >
           <ChevronRight className="h-5 w-5" />
         </button>
@@ -423,7 +430,7 @@ export default function AvailabilityCalendar({
       <div className="mt-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-text-muted">
         <div className="flex items-center gap-1.5">
           <span className="inline-block h-3 w-3 rounded-full bg-accent" />
-          Ausgewaehlt
+          Ausgewählt
         </div>
         <div className="flex items-center gap-1.5">
           <span className="inline-block h-3 w-3 rounded-full bg-accent/15 border border-accent/30" />

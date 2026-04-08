@@ -1,0 +1,30 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "blockedDates",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "apartmentId", "order": "ASCENDING" },
+        { "fieldPath": "date", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "blockedDates",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "apartmentId", "order": "ASCENDING" },
+        { "fieldPath": "source", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "bookings",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "apartmentId", "order": "ASCENDING" },
+        { "fieldPath": "status", "order": "ASCENDING" },
+        { "fieldPath": "checkIn", "order": "ASCENDING" }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}

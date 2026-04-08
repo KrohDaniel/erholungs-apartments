@@ -4,7 +4,7 @@
 
 import { NextResponse } from 'next/server';
 import { format } from 'date-fns';
-import { checkAvailability, getBlockedDates } from '@/lib/availability';
+import { checkAvailability, getBlockedDates, ensureFreshCalendar } from '@/lib/availability';
 import { APARTMENTS } from '@/lib/constants';
 
 // -----------------------------------------------------------------------------
@@ -55,6 +55,9 @@ export async function GET(request: Request) {
         );
       }
 
+      // Pull fresh Booking.com/Airbnb data before answering
+      await ensureFreshCalendar(apartmentId);
+
       const available = await checkAvailability(apartmentId, checkIn, checkOut);
 
       return NextResponse.json({ available });
@@ -82,6 +85,9 @@ export async function GET(request: Request) {
           { status: 400 }
         );
       }
+
+      // Pull fresh Booking.com/Airbnb data before rendering the calendar
+      await ensureFreshCalendar(apartmentId);
 
       const blockedDateObjects = await getBlockedDates(apartmentId, month, year);
       const blockedDates = blockedDateObjects.map((d) => format(d, 'yyyy-MM-dd'));

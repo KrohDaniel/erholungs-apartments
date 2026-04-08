@@ -4,12 +4,24 @@
 
 import { NextResponse } from 'next/server';
 import { getAdminDb } from '@/lib/firebase-admin';
-import { checkAvailability } from '@/lib/availability';
+import { ensureFreshCalendar } from '@/lib/availability';
 import { calculateTotalPrice, PricingError } from '@/lib/pricing';
 import { createCheckoutSession } from '@/lib/stripe';
 import { getApartmentById } from '@/lib/constants';
 import { BookingStatus } from '@/types';
 import type { Booking, PaymentMethod } from '@/types';
+
+// -----------------------------------------------------------------------------
+// Sentinel error: thrown inside the booking transaction to signal that the
+// requested dates are not available. Caught and translated into HTTP 409.
+// -----------------------------------------------------------------------------
+
+class UnavailableError extends Error {
+  constructor() {
+    super('Apartment unavailable for requested dates');
+    this.name = 'UnavailableError';
+  }
+}
 
 // -----------------------------------------------------------------------------
 // Validation Helpers
@@ -145,27 +157,8 @@ export async function POST(request: Request) {
     }
 
     // -------------------------------------------------------------------------
-    // Check availability
-    // -------------------------------------------------------------------------
-
-    const available = await checkAvailability(
-      validApartmentId,
-      validCheckIn,
-      validCheckOut
-    );
-
-    if (!available) {
-      return NextResponse.json(
-        {
-          error:
-            'Das Apartment ist im gewünschten Zeitraum leider nicht verfügbar. Bitte wählen Sie andere Daten.',
-        },
-        { status: 409 }
-      );
-    }
-
-    // -------------------------------------------------------------------------
-    // Calculate price server-side
+    // Calculate price server-side (before transaction so we fail fast on
+    // pricing errors and don't waste a transaction round-trip)
     // -------------------------------------------------------------------------
 
     let priceCalculation;
@@ -184,8 +177,19 @@ export async function POST(request: Request) {
     }
 
     // -------------------------------------------------------------------------
-    // Create booking document in Firestore
+    // Atomic availability check + booking creation
+    //
+    // 1. Force-refresh external calendars (Booking.com/Airbnb) right before
+    //    the transaction so we catch reservations made elsewhere.
+    // 2. Inside the transaction we re-read overlapping bookings and blocked
+    //    dates, then create the new booking only if both queries are empty.
+    //    Firestore guarantees serializable isolation: if any document we
+    //    read is modified by another transaction in parallel, our transaction
+    //    is retried automatically — preventing race conditions between two
+    //    simultaneous bookings on the same dates.
     // -------------------------------------------------------------------------
+
+    await ensureFreshCalendar(validApartmentId);
 
     const db = getAdminDb();
     const bookingRef = db.collection('bookings').doc();
@@ -208,7 +212,58 @@ export async function POST(request: Request) {
       notes: notes || undefined,
     };
 
-    await bookingRef.set(booking);
+    // ACTIVE statuses block the dates. PENDING is included on purpose so two
+    // users can't simultaneously start a booking for the same nights.
+    const ACTIVE_STATUSES = [
+      BookingStatus.PENDING,
+      BookingStatus.CONFIRMED,
+      BookingStatus.PAID,
+    ];
+
+    try {
+      await db.runTransaction(async (tx) => {
+        // Read 1: overlapping non-cancelled bookings
+        const bookingsQuery = db
+          .collection('bookings')
+          .where('apartmentId', '==', validApartmentId)
+          .where('status', 'in', ACTIVE_STATUSES)
+          .where('checkIn', '<', validCheckOut);
+        const bookingsSnap = await tx.get(bookingsQuery);
+        const overlapping = bookingsSnap.docs.filter(
+          (doc) => (doc.data().checkOut as string) > validCheckIn
+        );
+        if (overlapping.length > 0) {
+          throw new UnavailableError();
+        }
+
+        // Read 2: any blocked date inside the requested range
+        const blockedQuery = db
+          .collection('blockedDates')
+          .where('apartmentId', '==', validApartmentId)
+          .where('date', '>=', validCheckIn)
+          .where('date', '<', validCheckOut)
+          .limit(1);
+        const blockedSnap = await tx.get(blockedQuery);
+        if (!blockedSnap.empty) {
+          throw new UnavailableError();
+        }
+
+        // Write: create the booking. Firestore will retry the whole
+        // transaction if any document we read above changes in parallel.
+        tx.create(bookingRef, booking);
+      });
+    } catch (err) {
+      if (err instanceof UnavailableError) {
+        return NextResponse.json(
+          {
+            error:
+              'Das Apartment ist im gewünschten Zeitraum leider nicht verfügbar. Bitte wählen Sie andere Daten.',
+          },
+          { status: 409 }
+        );
+      }
+      throw err;
+    }
 
     // -------------------------------------------------------------------------
     // Handle payment method

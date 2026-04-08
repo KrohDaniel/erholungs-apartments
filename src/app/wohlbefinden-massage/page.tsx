@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
 import {
   ChevronRight,
   Phone,
@@ -17,7 +18,6 @@ import {
   CheckCircle,
   CalendarCheck,
 } from 'lucide-react';
-import { SITE_CONFIG } from '@/lib/constants';
 import SchemaMarkup, { BreadcrumbSchema } from '@/components/seo/SchemaMarkup';
 
 // =============================================================================
@@ -188,21 +188,69 @@ export default function WohlbefindenMassagePage() {
       {/* About */}
       <section className="py-12 sm:py-16 lg:py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-3xl text-center">
+          <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
+            <div className="relative aspect-square overflow-hidden rounded-2xl shadow-xl">
+              <Image
+                src="/images/massage/andreas_kroh.jpg"
+                alt="Andreas Kroh – Massagetherapeut in Bad Lippspringe"
+                fill
+                className="object-cover"
+                sizes="(max-width: 1024px) 100vw, 50vw"
+              />
+            </div>
+            <div>
+              <h2 className="text-2xl font-bold text-text sm:text-3xl">
+                Ihr Wohlbefinden liegt uns am Herzen
+              </h2>
+              <div className="mt-4 h-1 w-16 rounded-full bg-accent" />
+              <p className="mt-6 text-lg text-text-light leading-relaxed">
+                Andreas Kroh bietet professionelle Massage-Behandlungen direkt
+                im gleichen Haus wie die Erholungs Apartments an. Ob
+                Tiefenentspannung, gezielte Behandlung von Verspannungen oder
+                intensive Schmerztherapie &ndash; mit langj&auml;hriger
+                Erfahrung und individueller Betreuung sorgt er daf&uuml;r, dass
+                Sie sich rundum wohlf&uuml;hlen. Kombinieren Sie Ihren
+                Aufenthalt in Bad Lippspringe mit einer professionellen Massage
+                und erleben Sie Erholung auf ganzer Linie.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Praxis Gallery */}
+      <section className="py-12 sm:py-16 lg:py-20">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mb-12 text-center">
             <h2 className="text-2xl font-bold text-text sm:text-3xl">
-              Ihr Wohlbefinden liegt uns am Herzen
+              Einblicke in unsere Praxis
             </h2>
             <div className="mx-auto mt-4 h-1 w-16 rounded-full bg-accent" />
-            <p className="mt-6 text-lg text-text-light leading-relaxed">
-              Andreas Kroh bietet professionelle Massage-Behandlungen direkt im
-              gleichen Haus wie die Erholungs Apartments an. Ob
-              Tiefenentspannung, gezielte Behandlung von Verspannungen oder
-              intensive Schmerztherapie &ndash; mit langj&auml;hriger Erfahrung
-              und individueller Betreuung sorgt er daf&uuml;r, dass Sie sich
-              rundum wohlf&uuml;hlen. Kombinieren Sie Ihren Aufenthalt in
-              Bad Lippspringe mit einer professionellen Massage und erleben Sie
-              Erholung auf ganzer Linie.
+            <p className="mx-auto mt-4 max-w-2xl text-text-muted">
+              Eine ruhige, einladende Atmosph&auml;re &ndash; direkt im Haus der
+              Erholungs Apartments.
             </p>
+          </div>
+          <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
+            {[
+              { src: '/images/massage/praxisraum-1.jpg', alt: 'Behandlungsraum mit Massageliege' },
+              { src: '/images/massage/praxisraum-2.jpg', alt: 'Behandlungsraum mit warmem Licht' },
+              { src: '/images/massage/massage-praxis.jpg', alt: 'Wirbels&auml;ulen-Behandlung' },
+              { src: '/images/massage/fussreflexzonen-detail.jpg', alt: 'Fussreflexzonen-Massage Detail' },
+            ].map((img) => (
+              <div
+                key={img.src}
+                className="group relative aspect-square overflow-hidden rounded-xl shadow-sm"
+              >
+                <Image
+                  src={img.src}
+                  alt={img.alt}
+                  fill
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                />
+              </div>
+            ))}
           </div>
         </div>
       </section>

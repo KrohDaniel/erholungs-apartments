@@ -82,10 +82,10 @@ export function Header() {
                 `}
               >
                 <Image
-                  src="/images/general/logo-gross.png"
+                  src="/images/general/logo-ohne-schrift.png"
                   alt="Erholungs Apartments Logo"
                   fill
-                  className="object-contain drop-shadow-lg"
+                  className="object-contain mix-blend-multiply"
                   sizes="110px"
                   priority
                 />

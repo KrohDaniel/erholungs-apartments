@@ -55,14 +55,14 @@ export default function MassageTeaser() {
               {packages.map((pkg) => (
                 <div
                   key={pkg.name}
-                  className="rounded-xl border border-border bg-white p-4 text-center shadow-sm transition-all duration-300 hover:border-accent/30 hover:shadow-md"
+                  className="min-w-0 rounded-xl border border-border bg-white p-3 text-center shadow-sm transition-all duration-300 hover:border-accent/30 hover:shadow-md sm:p-4"
                 >
                   <Sparkles className="mx-auto mb-2 h-5 w-5 text-accent" />
-                  <h4 className="mb-1 text-sm font-bold text-text">
+                  <h4 className="mb-1 break-words text-sm font-bold leading-tight text-text">
                     {pkg.name}
                   </h4>
                   <div className="flex items-center justify-center gap-1.5 text-xs text-text-muted">
-                    <Clock className="h-3 w-3" />
+                    <Clock className="h-3 w-3 shrink-0" />
                     <span>{pkg.duration}</span>
                   </div>
                   <p className="mt-2 text-lg font-bold text-primary">

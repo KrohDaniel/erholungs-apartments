@@ -227,7 +227,7 @@ const attractionData: Record<string, AttractionData> = {
       { text: 'Naturerlebnisstationen' },
     ],
     tip: null,
-    image: '/images/umgebung/kurwald.png',
+    image: '/images/umgebung/kurwald.jpg',
   },
 
   externsteine: {
@@ -342,13 +342,13 @@ const attractionData: Record<string, AttractionData> = {
     address: 'Lindenstraße 1a, 33175 Bad Lippspringe',
     website: 'https://www.gartenschau-badlippspringe.de',
     tip: null,
-    image: '/images/umgebung/gartenschau/brunnen.png',
+    image: '/images/umgebung/gartenschau/brunnen.jpg',
     gallery: [
-      { src: '/images/umgebung/gartenschau/brunnen.png', alt: 'Gartenschau – Brunnenanlage mit Blumenbeeten' },
-      { src: '/images/umgebung/gartenschau/tulpen.png', alt: 'Tulpenblüte in der Gartenschau' },
-      { src: '/images/umgebung/gartenschau/pavillon.png', alt: 'Pavillon im Frühling mit Tulpen' },
-      { src: '/images/umgebung/gartenschau/kuerbis-skulptur.png', alt: 'Kürbis-Skulptur beim Kürbisfest' },
-      { src: '/images/umgebung/gartenschau/kuerbisfest.png', alt: 'Kürbisfest – Riesen-Kürbis-Wettbewerb' },
+      { src: '/images/umgebung/gartenschau/brunnen.jpg', alt: 'Gartenschau – Brunnenanlage mit Blumenbeeten' },
+      { src: '/images/umgebung/gartenschau/tulpen.jpg', alt: 'Tulpenblüte in der Gartenschau' },
+      { src: '/images/umgebung/gartenschau/pavillon.jpg', alt: 'Pavillon im Frühling mit Tulpen' },
+      { src: '/images/umgebung/gartenschau/kuerbis-skulptur.jpg', alt: 'Kürbis-Skulptur beim Kürbisfest' },
+      { src: '/images/umgebung/gartenschau/kuerbisfest.jpg', alt: 'Kürbisfest – Riesen-Kürbis-Wettbewerb' },
     ],
   },
 
@@ -392,11 +392,11 @@ const attractionData: Record<string, AttractionData> = {
       { text: 'Ideal für Morgen- & Abendspaziergänge' },
     ],
     tip: 'Der See ist frei zugänglich – kein Eintritt nötig. Perfekt für einen Morgenspaziergang vor dem Frühstück!',
-    image: '/images/umgebung/dedinger-heidesee/panorama-see.png',
+    image: '/images/umgebung/dedinger-heidesee/panorama-see.jpg',
     gallery: [
-      { src: '/images/umgebung/dedinger-heidesee/panorama-see.png', alt: 'Dedingerheide See – Panoramablick über das Wasser' },
-      { src: '/images/umgebung/dedinger-heidesee/luftbild.png', alt: 'Dedingerheide See – Luftbild mit Bad Lippspringe' },
-      { src: '/images/umgebung/dedinger-heidesee/ufer-gaense.png', alt: 'Gänse am Ufer des Dedingerheide Sees' },
+      { src: '/images/umgebung/dedinger-heidesee/panorama-see.jpg', alt: 'Dedingerheide See – Panoramablick über das Wasser' },
+      { src: '/images/umgebung/dedinger-heidesee/luftbild.jpg', alt: 'Dedingerheide See – Luftbild mit Bad Lippspringe' },
+      { src: '/images/umgebung/dedinger-heidesee/ufer-gaense.jpg', alt: 'Gänse am Ufer des Dedingerheide Sees' },
     ],
   },
 
@@ -472,10 +472,10 @@ const attractionData: Record<string, AttractionData> = {
       { text: 'Direkt ab unserer Haustür' },
     ],
     tip: 'Die Tourist-Information Bad Lippspringe bietet regelmäßig geführte Wanderungen an. Fragen Sie bei Ihrer Anreise nach dem aktuellen Programm!',
-    image: '/images/umgebung/wandern/wanderer-felsen.png',
+    image: '/images/umgebung/wandern/wanderer-felsen.jpg',
     gallery: [
-      { src: '/images/umgebung/wandern/wanderer-felsen.png', alt: 'Wanderer auf Felsenpfad im Teutoburger Wald' },
-      { src: '/images/umgebung/wandern/externsteine-spiegelung.png', alt: 'Externsteine mit Spiegelung im See' },
+      { src: '/images/umgebung/wandern/wanderer-felsen.jpg', alt: 'Wanderer auf Felsenpfad im Teutoburger Wald' },
+      { src: '/images/umgebung/wandern/externsteine-spiegelung.jpg', alt: 'Externsteine mit Spiegelung im See' },
       { src: '/images/umgebung/wandern/wandergruppe-berge.png', alt: 'Wandergruppe auf Bergpfad' },
     ],
   },

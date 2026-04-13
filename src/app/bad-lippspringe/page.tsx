@@ -74,7 +74,7 @@ const attractions = [
     color: 'from-emerald-50 to-green-50',
     iconBg: 'bg-emerald-100',
     iconColor: 'text-emerald-700',
-    image: '/images/umgebung/kurwald.png',
+    image: '/images/umgebung/kurwald.jpg',
   },
   {
     slug: 'externsteine',
@@ -98,7 +98,7 @@ const attractions = [
     color: 'from-pink-50 to-rose-50',
     iconBg: 'bg-pink-100',
     iconColor: 'text-pink-600',
-    image: '/images/umgebung/gartenschau/brunnen.png',
+    image: '/images/umgebung/gartenschau/brunnen.jpg',
   },
   {
     slug: 'dedingerheide-see',
@@ -110,7 +110,7 @@ const attractions = [
     color: 'from-sky-50 to-indigo-50',
     iconBg: 'bg-sky-100',
     iconColor: 'text-sky-600',
-    image: '/images/umgebung/dedinger-heidesee/panorama-see.png',
+    image: '/images/umgebung/dedinger-heidesee/panorama-see.jpg',
   },
   {
     slug: 'wanderwege',
@@ -122,7 +122,7 @@ const attractions = [
     color: 'from-lime-50 to-emerald-50',
     iconBg: 'bg-lime-100',
     iconColor: 'text-lime-700',
-    image: '/images/umgebung/wandern/wanderer-felsen.png',
+    image: '/images/umgebung/wandern/wanderer-felsen.jpg',
   },
 ];
 
@@ -243,11 +243,10 @@ export default function BadLippspringePage() {
 
               const cardContent = (
                 <div
-                  className={`group relative overflow-hidden rounded-2xl bg-gradient-to-br ${attraction.color} border border-[#F0EDE7] shadow-sm transition-all duration-300 ${
-                    isLinked
+                  className={`group relative overflow-hidden rounded-2xl bg-gradient-to-br ${attraction.color} border border-[#F0EDE7] shadow-sm transition-all duration-300 ${isLinked
                       ? 'hover:-translate-y-1 hover:shadow-lg cursor-pointer'
                       : ''
-                  }`}
+                    }`}
                 >
                   {/* Card image */}
                   {attraction.image && (
@@ -276,9 +275,8 @@ export default function BadLippspringePage() {
                     {!attraction.image && (
                       <div className="mb-4 flex items-start justify-between">
                         <div
-                          className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl ${attraction.iconBg} transition-transform duration-300 ${
-                            isLinked ? 'group-hover:scale-110' : ''
-                          }`}
+                          className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl ${attraction.iconBg} transition-transform duration-300 ${isLinked ? 'group-hover:scale-110' : ''
+                            }`}
                         >
                           <IconComponent
                             className={`h-7 w-7 ${attraction.iconColor}`}

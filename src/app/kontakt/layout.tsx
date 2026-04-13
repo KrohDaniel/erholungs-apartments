@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     siteName: 'Erholungs Apartments',
   },
   alternates: {
-    canonical: '/kontakt',
+    canonical: '/kontakt/',
   },
 };
 

@@ -71,7 +71,7 @@ export default function KontaktPage() {
     <>
       <BreadcrumbSchema items={[
         { name: 'Startseite', href: '/' },
-        { name: 'Kontakt', href: '/kontakt' },
+        { name: 'Kontakt', href: '/kontakt/' },
       ]} />
 
       {/* Breadcrumb */}
@@ -263,7 +263,7 @@ export default function KontaktPage() {
 
                   {/* Owner Info */}
                   <div className="mt-6 rounded-xl bg-secondary p-4">
-                    <p className="text-sm text-text-muted">Inhaberin</p>
+                    <p className="text-sm text-text-muted">Inhaber</p>
                     <p className="mt-0.5 font-medium text-text">{SITE_CONFIG.owner}</p>
                   </div>
                 </div>
@@ -278,6 +278,7 @@ export default function KontaktPage() {
                     allowFullScreen={false}
                     loading="lazy"
                     referrerPolicy="no-referrer-when-downgrade"
+                    sandbox="allow-scripts allow-same-origin"
                     title="Standort Erholungs Apartments"
                     className="w-full h-full min-h-[200px]"
                   />

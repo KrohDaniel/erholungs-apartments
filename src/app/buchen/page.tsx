@@ -10,11 +10,11 @@ import { BookingForm } from '@/components/booking/BookingForm';
 // =============================================================================
 
 export const metadata: Metadata = {
-  title: 'Online Buchen | Ferienwohnung Bad Lippspringe ab 40€',
+  title: 'Online Buchen | Ferienwohnung Bad Lippspringe ab 30€',
   description:
-    'Buchen Sie Ihre Ferienwohnung in Bad Lippspringe direkt online. ' +
-    'Erholungs Kellerchen oder Erholungs Apartment – einfach Datum wählen, ' +
-    'Gäste angeben und sicher bezahlen. Nahe der Westfalen Therme.',
+    'Prüfen Sie die Verfügbarkeit unserer Ferienwohnungen in Bad Lippspringe. ' +
+    'Erholungs Kellerchen oder Erholungs Apartment – Datum wählen und ' +
+    'bequem über Booking.com buchen. Nahe der Westfalen Therme.',
   keywords: [
     'Ferienwohnung buchen Bad Lippspringe',
     'Online Buchung Erholungs Apartments',
@@ -25,14 +25,14 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Online Buchen | Erholungs Apartments Bad Lippspringe',
     description:
-      'Buchen Sie Ihre Ferienwohnung in Bad Lippspringe direkt online. ' +
-      'Einfach, sicher und schnell.',
+      'Verfügbarkeit prüfen und bequem über Booking.com buchen. ' +
+      'Ferienwohnungen in Bad Lippspringe.',
     type: 'website',
     locale: 'de_DE',
     siteName: 'Erholungs Apartments',
   },
   alternates: {
-    canonical: '/buchen',
+    canonical: '/buchen/',
   },
 };
 
@@ -47,7 +47,7 @@ export default function BuchenPage() {
       <SchemaMarkup type="LodgingBusiness" />
       <BreadcrumbSchema items={[
         { name: 'Startseite', href: '/' },
-        { name: 'Online Buchen', href: '/buchen' },
+        { name: 'Online Buchen', href: '/buchen/' },
       ]} />
 
       {/* -----------------------------------------------------------------------
@@ -82,9 +82,8 @@ export default function BuchenPage() {
           </h1>
           <div className="mx-auto mt-4 h-1 w-16 rounded-full bg-accent" />
           <p className="mx-auto mt-6 max-w-2xl text-lg text-text-light leading-relaxed">
-            Buchen Sie Ihre Ferienwohnung in Bad Lippspringe in wenigen Schritten.
-            Wählen Sie Ihr Wunsch-Apartment, Ihren Reisezeitraum und bezahlen Sie
-            sicher online.
+            Prüfen Sie die Verfügbarkeit unserer Ferienwohnungen in Bad Lippspringe
+            und buchen Sie bequem über Booking.com.
           </p>
         </div>
       </section>

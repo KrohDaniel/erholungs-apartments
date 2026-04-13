@@ -67,7 +67,7 @@ export function CookieConsent() {
                 notwendige Cookies sowie optionale Analyse-Cookies (Google
                 Analytics). Weitere Informationen finden Sie in unserer{' '}
                 <a
-                  href="/datenschutzerklaerung"
+                  href="/datenschutzerklaerung/"
                   className="text-primary underline underline-offset-2 hover:text-primary-light transition-colors"
                 >
                   Datenschutzerkl&auml;rung

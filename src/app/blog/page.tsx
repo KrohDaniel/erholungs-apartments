@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
+import { BreadcrumbSchema } from '@/components/seo/SchemaMarkup';
 import {
   ChevronRight,
   Calendar,
@@ -36,7 +37,7 @@ export const metadata: Metadata = {
     siteName: 'Erholungs Apartments',
   },
   alternates: {
-    canonical: '/blog',
+    canonical: '/blog/',
   },
 };
 
@@ -113,6 +114,12 @@ export default function BlogPage() {
 
   return (
     <>
+      <BreadcrumbSchema
+        items={[
+          { name: 'Startseite', href: '/' },
+          { name: 'Blog', href: '/blog/' },
+        ]}
+      />
       {/* ------------------------------------------------------------------ */}
       {/* Breadcrumb                                                         */}
       {/* ------------------------------------------------------------------ */}

@@ -68,6 +68,19 @@ export interface Apartment {
 // Booking
 // -----------------------------------------------------------------------------
 
+/**
+ * Billing address + optional business details required to issue a
+ * GoBD-compliant German invoice (§14 UStG).
+ */
+export interface BillingAddress {
+  street: string;        // Straße + Hausnummer
+  zip: string;           // Postleitzahl
+  city: string;          // Stadt
+  country: string;       // Land (ISO-Name, default "Deutschland")
+  company?: string;      // optional: Firmenname (B2B)
+  vatId?: string;        // optional: USt-IdNr. (B2B EU)
+}
+
 export interface Booking {
   id: string;
   apartmentId: string;
@@ -77,10 +90,15 @@ export interface Booking {
   guestName: string;
   guestEmail: string;
   guestPhone: string;
+  billing: BillingAddress;
   totalPrice: number;
   status: BookingStatus;
   paymentId: string | null;
   paymentMethod: PaymentMethod | null;
+  /** Sequential invoice number, set when payment is confirmed. */
+  invoiceNumber: string | null;
+  /** ISO datetime the invoice number was assigned (= payment confirmed). */
+  invoicedAt: string | null;
   createdAt: string; // ISO datetime string
   notes?: string;
 }
@@ -93,6 +111,7 @@ export interface BookingFormData {
   guestName: string;
   guestEmail: string;
   guestPhone: string;
+  billing: BillingAddress;
   notes?: string;
 }
 

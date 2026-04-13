@@ -62,7 +62,7 @@ const attractions = [
     color: 'from-blue-50 to-cyan-50',
     iconBg: 'bg-blue-100',
     iconColor: 'text-blue-600',
-    image: '/images/umgebung/westfalen-therme.jpg',
+    image: '/images/umgebung/westfalen-therme/thermenkuppel.jpg',
   },
   {
     slug: 'kurwald',
@@ -74,7 +74,7 @@ const attractions = [
     color: 'from-emerald-50 to-green-50',
     iconBg: 'bg-emerald-100',
     iconColor: 'text-emerald-700',
-    image: '/images/umgebung/kurwald.jpg',
+    image: '/images/umgebung/kurwald.png',
   },
   {
     slug: 'externsteine',
@@ -86,7 +86,7 @@ const attractions = [
     color: 'from-amber-50 to-orange-50',
     iconBg: 'bg-amber-100',
     iconColor: 'text-amber-700',
-    image: '/images/umgebung/externsteine.jpg',
+    image: '/images/umgebung/externsteine/externsteine-panorama.jpg',
   },
   {
     slug: 'gartenschau',
@@ -98,31 +98,31 @@ const attractions = [
     color: 'from-pink-50 to-rose-50',
     iconBg: 'bg-pink-100',
     iconColor: 'text-pink-600',
-    image: '/images/umgebung/gartenschau.jpg',
+    image: '/images/umgebung/gartenschau/brunnen.png',
   },
   {
-    slug: null,
+    slug: 'dedingerheide-see',
     name: 'Dedingerheide See',
-    distance: null,
+    distance: '150m',
     description:
-      'Lokaler See für Erholung und Freizeitaktivitäten',
+      'Idyllischer See direkt vor der Haustür – perfekt für Spaziergänge und Naturerlebnis',
     icon: Fish,
     color: 'from-sky-50 to-indigo-50',
     iconBg: 'bg-sky-100',
     iconColor: 'text-sky-600',
-    image: null,
+    image: '/images/umgebung/dedinger-heidesee/panorama-see.png',
   },
   {
-    slug: null,
+    slug: 'wanderwege',
     name: 'Wanderwege',
-    distance: null,
+    distance: 'Ab Haustür',
     description:
-      'Zahlreiche Wanderwege im Teutoburger Wald',
+      'Hermannsweg, Eggeweg, Planetenweg & Terrainkurwege im Teutoburger Wald',
     icon: Footprints,
     color: 'from-lime-50 to-emerald-50',
     iconBg: 'bg-lime-100',
     iconColor: 'text-lime-700',
-    image: null,
+    image: '/images/umgebung/wandern/wanderer-felsen.png',
   },
 ];
 
@@ -135,7 +135,7 @@ export default function BadLippspringePage() {
     <>
       <BreadcrumbSchema items={[
         { name: 'Startseite', href: '/' },
-        { name: 'Bad Lippspringe', href: '/bad-lippspringe' },
+        { name: 'Bad Lippspringe', href: '/bad-lippspringe/' },
       ]} />
 
       {/* ------------------------------------------------------------------ */}

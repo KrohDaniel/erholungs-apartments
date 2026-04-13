@@ -7,7 +7,8 @@ import Script from 'next/script';
 // Google Analytics 4 Component (DSGVO-konform: nur nach Cookie-Consent)
 // =============================================================================
 
-const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
+const GA_ID_RAW = process.env.NEXT_PUBLIC_GA_ID ?? '';
+const GA_ID = /^G-[A-Z0-9]+$/.test(GA_ID_RAW) ? GA_ID_RAW : undefined;
 const CONSENT_KEY = 'cookie-consent';
 
 export default function GoogleAnalytics() {

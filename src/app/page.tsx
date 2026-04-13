@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   title:
     'Erholungs Apartments Bad Lippspringe | Ferienwohnungen nahe Westfalen Therme',
   description:
-    'Gemütliche Ferienwohnungen in Bad Lippspringe, nur 500m zur Westfalen Therme. Kostenlos Parken, WLAN & Wohlbefinden Massage im Haus. Ab 40€/Nacht. Jetzt buchen!',
+    'Gemütliche Ferienwohnungen in Bad Lippspringe, nur 500m zur Westfalen Therme. Kostenlos Parken, WLAN & Wohlbefinden Massage im Haus. Ab 30€/Nacht. Jetzt buchen!',
   keywords: [
     'Ferienwohnung Bad Lippspringe',
     'Erholungs Apartments',
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Erholungs Apartments Bad Lippspringe | Ferienwohnungen nahe Westfalen Therme',
     description:
-      'Gemütliche Ferienwohnungen in Bad Lippspringe, nur 500m zur Westfalen Therme. Ab 40€/Nacht.',
+      'Gemütliche Ferienwohnungen in Bad Lippspringe, nur 500m zur Westfalen Therme. Ab 30€/Nacht.',
     type: 'website',
     locale: 'de_DE',
     siteName: 'Erholungs Apartments',
@@ -41,7 +41,6 @@ export default function HomePage() {
   return (
     <>
       <SchemaMarkup type="LodgingBusiness" />
-      <SchemaMarkup type="FAQPage" />
       <SchemaMarkup type="WebSite" />
       <Hero />
       <TrustBar />

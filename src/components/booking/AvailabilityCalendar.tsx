@@ -133,7 +133,7 @@ export default function AvailabilityCalendar({
   );
 
   /**
-   * Prueft ob zwischen zwei Daten blockierte Tage liegen.
+   * Prüft ob zwischen zwei Daten blockierte Tage liegen.
    */
   const hasBlockedInRange = useCallback(
     (start: Date, end: Date): boolean => {
@@ -171,7 +171,7 @@ export default function AvailabilityCalendar({
           return;
         }
 
-        // Pruefe ob blockierte Tage im Bereich liegen
+        // Prüfe ob blockierte Tage im Bereich liegen
         if (hasBlockedInRange(checkIn, date)) {
           // Blockiertes Datum im Bereich - als neuen Check-in setzen
           setCheckIn(date);
@@ -236,7 +236,7 @@ export default function AvailabilityCalendar({
   const canGoPrev = !isBefore(endOfMonth(subMonths(currentMonth, 1)), today);
 
   // ---------------------------------------------------------------------------
-  // Kalender-Grid fuer einen Monat generieren
+  // Kalender-Grid für einen Monat generieren
   // ---------------------------------------------------------------------------
 
   function renderMonth(monthDate: Date) {
@@ -278,7 +278,7 @@ export default function AvailabilityCalendar({
             const inRange = isInRange(day);
             const isSelected = rangeStart || rangeEnd;
 
-            // Hover-Logik: Pruefe ob Hover-Datum valide waere
+            // Hover-Logik: Prüfe ob Hover-Datum valide wäre
             const isHoverPreview =
               selectionState === 'checkIn' &&
               checkIn &&
@@ -460,7 +460,7 @@ export default function AvailabilityCalendar({
             }}
             className="text-sm text-text-muted underline transition-colors duration-[var(--transition-fast)] hover:text-primary"
           >
-            Auswahl zuruecksetzen
+            Auswahl zurücksetzen
           </button>
         </div>
       )}

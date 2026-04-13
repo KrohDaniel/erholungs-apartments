@@ -172,7 +172,7 @@ export default function BookingCTA({ apartmentSlug, minPrice }: BookingCTAProps)
 
             {/* Phone CTA */}
             <a
-              href={`tel:${SITE_CONFIG.phone}`}
+              href={`tel:+49${SITE_CONFIG.phone.replace(/^0/, '').replace(/\s/g, '')}`}
               className="
                 flex items-center justify-center gap-2.5
                 w-full py-3 px-4 rounded-lg
@@ -202,7 +202,7 @@ export default function BookingCTA({ apartmentSlug, minPrice }: BookingCTAProps)
               <span className="text-text-muted text-sm">/Nacht</span>
             </div>
             <a
-              href={`tel:${SITE_CONFIG.phone}`}
+              href={`tel:+49${SITE_CONFIG.phone.replace(/^0/, '').replace(/\s/g, '')}`}
               className="text-xs text-primary hover:underline flex items-center gap-1 mt-0.5"
             >
               <Phone size={11} />

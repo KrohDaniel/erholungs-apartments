@@ -25,7 +25,7 @@ export const SITE_CONFIG: SiteConfig = {
   country: 'Deutschland',
   phone: '0177 1666353',
   email: 'info@erholungs-apartments.de',
-  owner: 'Natalja Kroh',
+  owner: 'Familie Kroh',
 };
 
 // -----------------------------------------------------------------------------
@@ -88,8 +88,8 @@ export const APARTMENTS: Apartment[] = [
       'Gemütliche Atmosphäre',
     ],
     prices: {
-      weekday: { 1: 40, 2: 45 },
-      weekend: { 1: 55, 2: 60 },
+      weekday: { 1: 30, 2: 35 },
+      weekend: { 1: 45, 2: 50 },
     },
     discounts: [
       { minNights: 7, percentage: 10 },
@@ -146,8 +146,8 @@ export const APARTMENTS: Apartment[] = [
       'Erdgeschoss',
     ],
     prices: {
-      weekday: { 1: 70, 2: 70, 3: 80, 4: 90 },
-      weekend: { 1: 70, 2: 70, 3: 80, 4: 90 },
+      weekday: { 1: 60, 2: 60, 3: 70, 4: 80 },
+      weekend: { 1: 60, 2: 60, 3: 70, 4: 80 },
     },
     discounts: [
       { minNights: 7, percentage: 10 },
@@ -344,11 +344,22 @@ export const SOCIAL_LINKS = {
 // External Calendar (iCal) URLs
 // -----------------------------------------------------------------------------
 
+// -----------------------------------------------------------------------------
+// Booking.com URLs (for direct booking redirect)
+// -----------------------------------------------------------------------------
+
+export const BOOKING_COM_URLS: Record<string, string> = {
+  'erholungs-apartment':
+    'https://www.booking.com/hotel/de/erholungs-apartment.de.html?aid=356980&label=gog235jc-10CAsoO0ITZXJob2x1bmdzLWFwYXJ0bWVudEgHWANoO4gBAZgBM7gBB8gBDdgBA-gBAfgBAYgCAagCAbgCnerTzgbAAgHSAiQxZDZjMmM0OC02N2Q2LTQ5ZjYtYjU3Mi0zNGRiZDJjM2EyNznYAgHgAgE&sid=95149c3c7b296c53d3726581a25034a7',
+  'erholungs-kellerchen':
+    'https://www.booking.com/hotel/de/erholungskellerche.de.html?label=gog235jc-10CAsoO0ITZXJob2x1bmdzLWFwYXJ0bWVudEgHWANoO4gBAZgBM7gBB8gBDdgBA-gBAfgBAYgCAagCAbgCnerTzgbAAgHSAiQxZDZjMmM0OC02N2Q2LTQ5ZjYtYjU3Mi0zNGRiZDJjM2EyNznYAgHgAgE&sid=95149c3c7b296c53d3726581a25034a7&aid=356980',
+};
+
 export const ICAL_FEEDS: Record<string, { booking?: string; airbnb?: string }> = {
   'erholungs-apartment': {
-    booking: 'https://ical.booking.com/v1/export/t/3ff3e903-bd6a-499d-805c-ef203bc753dd.ics',
+    booking: process.env.ICAL_FEED_APARTMENT || undefined,
   },
   'erholungs-kellerchen': {
-    booking: 'https://ical.booking.com/v1/export/t/b69da8f7-e064-40a1-b184-20dbd746c857.ics',
+    booking: process.env.ICAL_FEED_KELLERCHEN || undefined,
   },
 };

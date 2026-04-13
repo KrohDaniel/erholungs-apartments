@@ -13,23 +13,23 @@ import type { NavigationItem } from '@/types';
 export const NAV_ITEMS: NavigationItem[] = [
   {
     label: 'Apartments',
-    href: '/erholungs-apartment',
+    href: '/erholungs-apartment/',
     children: [
-      { label: 'Kellerchen', href: '/erholungs-kellerchen' },
-      { label: 'Apartment', href: '/erholungs-apartment' },
+      { label: 'Kellerchen', href: '/erholungs-kellerchen/' },
+      { label: 'Apartment', href: '/erholungs-apartment/' },
     ],
   },
-  { label: 'Buchen', href: '/buchen' },
-  { label: 'Massage', href: '/wohlbefinden-massage' },
-  { label: 'Umgebung', href: '/bad-lippspringe' },
-  { label: 'Bewertungen', href: '/bewertungen' },
-  { label: 'Kontakt', href: '/kontakt' },
+  { label: 'Buchen', href: '/buchen/' },
+  { label: 'Massage', href: '/wohlbefinden-massage/' },
+  { label: 'Umgebung', href: '/bad-lippspringe/' },
+  { label: 'Bewertungen', href: '/bewertungen/' },
+  { label: 'Kontakt', href: '/kontakt/' },
 ];
 
 export const PHONE_NUMBER = '0177 1666353';
 export const PHONE_HREF = 'tel:+491771666353';
 export const EMAIL = 'info@erholungs-apartments.de';
-export const BOOKING_HREF = '/buchen';
+export const BOOKING_HREF = '/buchen/';
 
 // =============================================================================
 // Active Link Detection

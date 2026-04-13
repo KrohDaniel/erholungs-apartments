@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     siteName: 'Erholungs Apartments',
   },
   alternates: {
-    canonical: '/bewertungen',
+    canonical: '/bewertungen/',
   },
 };
 
@@ -214,7 +214,7 @@ export default function BewertungenPage() {
       <SchemaMarkup type="LodgingBusiness" />
       <BreadcrumbSchema items={[
         { name: 'Startseite', href: '/' },
-        { name: 'Gästebewertungen', href: '/bewertungen' },
+        { name: 'Gästebewertungen', href: '/bewertungen/' },
       ]} />
 
       {/* Breadcrumb */}

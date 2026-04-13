@@ -83,7 +83,7 @@ export default function PriceCalculator({
   }, [checkIn, checkOut, apartment, guests]);
 
   // ---------------------------------------------------------------------------
-  // Kein Datum ausgewaehlt
+  // Kein Datum ausgewählt
   // ---------------------------------------------------------------------------
 
   if (!checkIn || !checkOut) {
@@ -91,9 +91,9 @@ export default function PriceCalculator({
       <Card>
         <CardContent className="py-10 text-center">
           <Calculator className="mx-auto mb-3 h-10 w-10 text-text-muted/40" />
-          <p className="text-text-muted">Bitte Datum auswaehlen</p>
+          <p className="text-text-muted">Bitte Datum auswählen</p>
           <p className="mt-1 text-sm text-text-muted/60">
-            Waehlen Sie An- und Abreisedatum, um den Preis zu berechnen.
+            Wählen Sie An- und Abreisedatum, um den Preis zu berechnen.
           </p>
         </CardContent>
       </Card>
@@ -109,7 +109,7 @@ export default function PriceCalculator({
       <Card>
         <CardContent className="py-10 text-center">
           <p className="text-red-500">
-            Preis konnte nicht berechnet werden. Bitte pruefen Sie Ihre Eingaben.
+            Preis konnte nicht berechnet werden. Bitte prüfen Sie Ihre Eingaben.
           </p>
         </CardContent>
       </Card>
@@ -135,18 +135,18 @@ export default function PriceCalculator({
         <p className="mt-1 text-sm text-text-muted">
           {format(checkIn, 'd. MMM', { locale: de })} -{' '}
           {format(checkOut, 'd. MMM yyyy', { locale: de })}
-          {' '}({nights} {nights === 1 ? 'Nacht' : 'Naechte'})
+          {' '}({nights} {nights === 1 ? 'Nacht' : 'Nächte'})
         </p>
       </CardHeader>
 
       <CardContent className="space-y-3">
-        {/* Wochentag-Naechte */}
+        {/* Wochentag-Nächte */}
         {weekdayNights > 0 && (
           <div className="flex items-center justify-between text-sm">
             <div className="flex items-center gap-2 text-text-light">
               <Moon className="h-4 w-4 text-text-muted" />
               <span>
-                {weekdayNights} {weekdayNights === 1 ? 'Wochennacht' : 'Wochennaechte'}
+                {weekdayNights} {weekdayNights === 1 ? 'Wochennacht' : 'Wochennächte'}
                 {hasDifferentPrices && (
                   <span className="text-text-muted"> x {formatPrice(weekdayPrice)}</span>
                 )}
@@ -158,13 +158,13 @@ export default function PriceCalculator({
           </div>
         )}
 
-        {/* Wochenend-Naechte */}
+        {/* Wochenend-Nächte */}
         {weekendNights > 0 && (
           <div className="flex items-center justify-between text-sm">
             <div className="flex items-center gap-2 text-text-light">
               <Sun className="h-4 w-4 text-text-muted" />
               <span>
-                {weekendNights} {weekendNights === 1 ? 'Wochenendnacht' : 'Wochenendnaechte'}
+                {weekendNights} {weekendNights === 1 ? 'Wochenendnacht' : 'Wochenendnächte'}
                 {hasDifferentPrices && (
                   <span className="text-text-muted"> x {formatPrice(weekendPrice)}</span>
                 )}
@@ -195,8 +195,8 @@ export default function PriceCalculator({
               <Percent className="h-4 w-4" />
               <span>
                 Langzeitrabatt (-{discountPercentage}%
-                {discountPercentage === 10 && ', ab 7 Naechte'}
-                {discountPercentage === 20 && ', ab 30 Naechte'})
+                {discountPercentage === 10 && ', ab 7 Nächte'}
+                {discountPercentage === 20 && ', ab 30 Nächte'})
               </span>
             </div>
             <span className="font-medium text-green-700">
@@ -225,7 +225,7 @@ export default function PriceCalculator({
           <div className="mt-3 flex items-start gap-2 rounded-lg bg-accent/10 px-3 py-2">
             <Tag className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
             <p className="text-xs text-text-light">
-              <span className="font-semibold">Tipp:</span> Ab 7 Naechten erhalten Sie 10% Rabatt!
+              <span className="font-semibold">Tipp:</span> Ab 7 Nächten erhalten Sie 10% Rabatt!
             </p>
           </div>
         )}

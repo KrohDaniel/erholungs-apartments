@@ -100,7 +100,7 @@ export default function MassageTeaser() {
           <div className="relative overflow-hidden">
             <div className="aspect-[4/5] overflow-hidden rounded-2xl shadow-xl">
               <Image
-                src="/images/massage/massage-behandlung.jpg"
+                src="/images/massage/massage-wohlbefinden.jpg"
                 alt="Wohlbefinden Massage - Professionelle Behandlung"
                 fill
                 className="object-cover"

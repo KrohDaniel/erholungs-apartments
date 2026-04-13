@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ChevronRight } from 'lucide-react';
+import { BreadcrumbSchema } from '@/components/seo/SchemaMarkup';
 import { SITE_CONFIG } from '@/lib/constants';
 
 // =============================================================================
@@ -15,7 +16,7 @@ export const metadata: Metadata = {
     follow: true,
   },
   alternates: {
-    canonical: '/impressum',
+    canonical: '/impressum/',
   },
 };
 
@@ -26,6 +27,12 @@ export const metadata: Metadata = {
 export default function ImpressumPage() {
   return (
     <>
+      <BreadcrumbSchema
+        items={[
+          { name: 'Startseite', href: '/' },
+          { name: 'Impressum', href: '/impressum/' },
+        ]}
+      />
       {/* Breadcrumb */}
       <nav className="bg-secondary" aria-label="Breadcrumb">
         <div className="mx-auto max-w-7xl px-4 py-3 sm:px-6 lg:px-8">
@@ -66,7 +73,7 @@ export default function ImpressumPage() {
             {/* Kontakt */}
             <div>
               <h2 className="mb-4 text-xl font-bold text-text">Kontakt</h2>
-              <p>Telefon: <a href={`tel:+49${SITE_CONFIG.phone}`} className="text-primary hover:text-primary-light transition-colors duration-[var(--transition-fast)] underline underline-offset-2">+49 {SITE_CONFIG.phone.replace(/(\d{3})(\d{7})/, '$1 $2')}</a></p>
+              <p>Telefon: <a href={`tel:+49${SITE_CONFIG.phone.replace(/^0/, '').replace(/\s/g, '')}`} className="text-primary hover:text-primary-light transition-colors duration-[var(--transition-fast)] underline underline-offset-2">+49 {SITE_CONFIG.phone.replace(/^0/, '')}</a></p>
               <p>
                 E-Mail:{' '}
                 <a
@@ -124,7 +131,7 @@ export default function ImpressumPage() {
               </p>
             </div>
 
-            {/* Haftung fuer Inhalte */}
+            {/* Haftung für Inhalte */}
             <div>
               <h2 className="mb-4 text-xl font-bold text-text">
                 Haftung f&uuml;r Inhalte
@@ -148,7 +155,7 @@ export default function ImpressumPage() {
               </p>
             </div>
 
-            {/* Haftung fuer Links */}
+            {/* Haftung für Links */}
             <div>
               <h2 className="mb-4 text-xl font-bold text-text">
                 Haftung f&uuml;r Links

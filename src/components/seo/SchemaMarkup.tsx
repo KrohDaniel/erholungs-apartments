@@ -1,4 +1,4 @@
-import { SITE_CONFIG, APARTMENTS, FAQ_ITEMS } from '@/lib/constants';
+import { SITE_CONFIG, APARTMENTS } from '@/lib/constants';
 
 // =============================================================================
 // Schema.org Structured Data Component
@@ -7,10 +7,10 @@ import { SITE_CONFIG, APARTMENTS, FAQ_ITEMS } from '@/lib/constants';
 type SchemaType =
   | 'LodgingBusiness'
   | 'Apartment'
-  | 'FAQPage'
   | 'BlogPosting'
   | 'LocalBusiness'
-  | 'WebSite';
+  | 'WebSite'
+  | 'Organization';
 
 interface SchemaMarkupProps {
   type: SchemaType;
@@ -28,6 +28,15 @@ interface SchemaMarkupProps {
 }
 
 // =============================================================================
+// Helpers
+// =============================================================================
+
+/** Format phone for Schema: strip leading 0, remove spaces */
+function formatPhoneInternational() {
+  return `+49${SITE_CONFIG.phone.replace(/^0/, '').replace(/\s/g, '')}`;
+}
+
+// =============================================================================
 // Schema Generators
 // =============================================================================
 
@@ -35,12 +44,13 @@ function generateLodgingBusinessSchema() {
   return {
     '@context': 'https://schema.org',
     '@type': 'LodgingBusiness',
+    '@id': `https://${SITE_CONFIG.domain}/#lodging`,
     name: SITE_CONFIG.name,
     description:
       'Gemütliche Ferienwohnungen in Bad Lippspringe nahe der Westfalen Therme. ' +
       'Ideal für Erholung, Kur und Wellness am Teutoburger Wald.',
     url: `https://${SITE_CONFIG.domain}`,
-    telephone: `+49${SITE_CONFIG.phone}`,
+    telephone: formatPhoneInternational(),
     email: SITE_CONFIG.email,
     address: {
       '@type': 'PostalAddress',
@@ -58,13 +68,9 @@ function generateLodgingBusinessSchema() {
     image: `https://${SITE_CONFIG.domain}/images/hero/20180406_182210.jpg`,
     priceRange: '€€',
     currenciesAccepted: 'EUR',
-    paymentAccepted: 'Cash, Bank Transfer',
+    paymentAccepted: 'Cash, Bank Transfer, Credit Card, PayPal',
     checkinTime: '14:00',
     checkoutTime: '11:00',
-    starRating: {
-      '@type': 'Rating',
-      ratingValue: '4.9',
-    },
     aggregateRating: {
       '@type': 'AggregateRating',
       ratingValue: '4.9',
@@ -99,6 +105,7 @@ function generateApartmentSchema(apartmentSlug?: string) {
   return {
     '@context': 'https://schema.org',
     '@type': 'Apartment',
+    '@id': `https://${SITE_CONFIG.domain}/${apartment.slug}/#apartment`,
     name: apartment.name,
     description: apartment.description,
     url: `https://${SITE_CONFIG.domain}/${apartment.slug}/`,
@@ -153,21 +160,6 @@ function generateApartmentSchema(apartmentSlug?: string) {
   };
 }
 
-function generateFAQSchema() {
-  return {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: FAQ_ITEMS.map((item) => ({
-      '@type': 'Question',
-      name: item.question,
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: item.answer,
-      },
-    })),
-  };
-}
-
 function generateBlogPostingSchema(blogPost?: SchemaMarkupProps['blogPost']) {
   if (!blogPost) return null;
 
@@ -212,7 +204,7 @@ function generateLocalBusinessSchema() {
     description:
       'Gemütliche Ferienwohnungen in Bad Lippspringe nahe der Westfalen Therme.',
     url: `https://${SITE_CONFIG.domain}`,
-    telephone: `+49${SITE_CONFIG.phone}`,
+    telephone: formatPhoneInternational(),
     email: SITE_CONFIG.email,
     address: {
       '@type': 'PostalAddress',
@@ -262,6 +254,34 @@ function generateWebSiteSchema() {
   };
 }
 
+function generateOrganizationSchema() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    '@id': `https://${SITE_CONFIG.domain}/#organization`,
+    name: SITE_CONFIG.name,
+    url: `https://${SITE_CONFIG.domain}`,
+    logo: {
+      '@type': 'ImageObject',
+      url: `https://${SITE_CONFIG.domain}/images/general/logo-gross.png`,
+    },
+    contactPoint: {
+      '@type': 'ContactPoint',
+      telephone: formatPhoneInternational(),
+      contactType: 'reservations',
+      availableLanguage: ['German'],
+    },
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: SITE_CONFIG.address,
+      addressLocality: SITE_CONFIG.city,
+      postalCode: SITE_CONFIG.zip,
+      addressCountry: 'DE',
+      addressRegion: 'Nordrhein-Westfalen',
+    },
+  };
+}
+
 // =============================================================================
 // Component
 // =============================================================================
@@ -280,10 +300,7 @@ export default function SchemaMarkup({
     case 'Apartment':
       schema = generateApartmentSchema(apartmentSlug);
       break;
-    case 'FAQPage':
-      schema = generateFAQSchema();
-      break;
-    case 'BlogPosting':
+case 'BlogPosting':
       schema = generateBlogPostingSchema(blogPost);
       break;
     case 'LocalBusiness':
@@ -292,6 +309,9 @@ export default function SchemaMarkup({
     case 'WebSite':
       schema = generateWebSiteSchema();
       break;
+    case 'Organization':
+      schema = generateOrganizationSchema();
+      break;
   }
 
   if (!schema) return null;
@@ -299,7 +319,7 @@ export default function SchemaMarkup({
   return (
     <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema).replace(/<\/script>/gi, '<\\/script>') }}
     />
   );
 }
@@ -326,18 +346,24 @@ export function BreadcrumbSchema({ items }: BreadcrumbSchemaProps) {
   const schema = {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
-    itemListElement: items.map((item, index) => ({
-      '@type': 'ListItem',
-      position: index + 1,
-      name: item.name,
-      item: `${baseUrl}${item.href}`,
-    })),
+    itemListElement: items.map((item, index) => {
+      const entry: Record<string, unknown> = {
+        '@type': 'ListItem',
+        position: index + 1,
+        name: item.name,
+      };
+      // Per Google docs: last item (current page) should not include the URL
+      if (index < items.length - 1) {
+        entry.item = `${baseUrl}${item.href}`;
+      }
+      return entry;
+    }),
   };
 
   return (
     <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema).replace(/<\/script>/gi, '<\\/script>') }}
     />
   );
 }

@@ -328,7 +328,7 @@ function ConfirmationContent() {
             {/* CTA */}
             <div style={styles.ctaGroup} className="confirmation-cta-responsive">
               <a
-                href="/buchen"
+                href="/buchen/"
                 style={styles.btnPrimary}
                 className="confirmation-btn-primary confirmation-btn-responsive"
               >
@@ -429,7 +429,7 @@ function ConfirmationContent() {
               Zur&uuml;ck zur Startseite
             </a>
             <a
-              href="/erholungs-apartment"
+              href="/erholungs-apartment/"
               style={styles.btnSecondary}
               className="confirmation-btn-secondary confirmation-btn-responsive"
             >

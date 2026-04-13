@@ -46,7 +46,7 @@ export const metadata: Metadata = {
     siteName: 'Erholungs Apartments',
   },
   alternates: {
-    canonical: '/wohlbefinden-massage',
+    canonical: '/wohlbefinden-massage/',
   },
 };
 
@@ -147,7 +147,7 @@ export default function WohlbefindenMassagePage() {
       <SchemaMarkup type="LocalBusiness" />
       <BreadcrumbSchema items={[
         { name: 'Startseite', href: '/' },
-        { name: 'Wohlbefinden Massage', href: '/wohlbefinden-massage' },
+        { name: 'Wohlbefinden Massage', href: '/wohlbefinden-massage/' },
       ]} />
 
       {/* Breadcrumb */}
@@ -432,7 +432,7 @@ export default function WohlbefindenMassagePage() {
 
           <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
             <a
-              href="tel:01771666353"
+              href="tel:+491771666353"
               className="inline-flex items-center gap-2 rounded-full bg-white px-8 py-3.5 text-base font-semibold text-primary shadow-lg transition-all duration-[var(--transition-base)] hover:bg-secondary hover:shadow-xl"
             >
               <Phone className="h-5 w-5" />

@@ -1,4 +1,4 @@
-import { Clock, Tag, CalendarCheck } from 'lucide-react';
+import { Clock, Tag, CalendarCheck, ExternalLink } from 'lucide-react';
 import { getApartmentBySlug } from '@/lib/constants';
 
 // =============================================================================
@@ -67,12 +67,14 @@ export default function PriceTable({ apartmentSlug }: PriceTableProps) {
                     Mo – Do
                   </td>
                   <td className="px-5 py-4 text-center">
+                    <span className="text-xs text-text-muted">ab </span>
                     <span className="text-lg font-semibold text-primary">
                       {prices.weekday[1]}&thinsp;&euro;
                     </span>
                     <span className="text-xs text-text-muted block">/Nacht</span>
                   </td>
                   <td className="px-5 py-4 text-center">
+                    <span className="text-xs text-text-muted">ab </span>
                     <span className="text-lg font-semibold text-primary">
                       {prices.weekday[2]}&thinsp;&euro;
                     </span>
@@ -84,12 +86,14 @@ export default function PriceTable({ apartmentSlug }: PriceTableProps) {
                     Fr – So
                   </td>
                   <td className="px-5 py-4 text-center">
+                    <span className="text-xs text-text-muted">ab </span>
                     <span className="text-lg font-semibold text-primary">
                       {prices.weekend[1]}&thinsp;&euro;
                     </span>
                     <span className="text-xs text-text-muted block">/Nacht</span>
                   </td>
                   <td className="px-5 py-4 text-center">
+                    <span className="text-xs text-text-muted">ab </span>
                     <span className="text-lg font-semibold text-primary">
                       {prices.weekend[2]}&thinsp;&euro;
                     </span>
@@ -105,18 +109,21 @@ export default function PriceTable({ apartmentSlug }: PriceTableProps) {
                     Pro Nacht
                   </td>
                   <td className="px-5 py-4 text-center">
+                    <span className="text-xs text-text-muted">ab </span>
                     <span className="text-lg font-semibold text-primary">
                       {prices.weekday[1]}&thinsp;&euro;
                     </span>
                     <span className="text-xs text-text-muted block">/Nacht</span>
                   </td>
                   <td className="px-5 py-4 text-center">
+                    <span className="text-xs text-text-muted">ab </span>
                     <span className="text-lg font-semibold text-primary">
                       {prices.weekday[3]}&thinsp;&euro;
                     </span>
                     <span className="text-xs text-text-muted block">/Nacht</span>
                   </td>
                   <td className="px-5 py-4 text-center">
+                    <span className="text-xs text-text-muted">ab </span>
                     <span className="text-lg font-semibold text-primary">
                       {prices.weekday[4]}&thinsp;&euro;
                     </span>
@@ -129,8 +136,13 @@ export default function PriceTable({ apartmentSlug }: PriceTableProps) {
         </table>
       </div>
 
+      {/* Booking.com hint */}
+      <p className="mt-4 text-xs text-text-muted leading-relaxed">
+        Richtpreise &ndash; der aktuelle Preis inkl. Rabatte wird auf Booking.com angezeigt.
+      </p>
+
       {/* Discounts */}
-      <div className="mt-6 flex flex-wrap gap-3">
+      <div className="mt-5 flex flex-wrap gap-3">
         {discounts.map((discount) => (
           <span
             key={discount.minNights}
@@ -141,7 +153,7 @@ export default function PriceTable({ apartmentSlug }: PriceTableProps) {
             "
           >
             <Tag size={14} />
-            -{discount.percentage}% ab {discount.minNights} Nächten
+            -{discount.percentage}% ab {discount.minNights} N&auml;chten
           </span>
         ))}
       </div>
@@ -151,7 +163,7 @@ export default function PriceTable({ apartmentSlug }: PriceTableProps) {
         <div className="flex items-center gap-3 text-sm text-text-light">
           <CalendarCheck size={18} className="text-primary flex-shrink-0" />
           <span>
-            Mindestaufenthalt: <strong className="text-text">{minNights} Nächte</strong>
+            Mindestaufenthalt: <strong className="text-text">{minNights} N&auml;chte</strong>
           </span>
         </div>
         <div className="flex items-center gap-3 text-sm text-text-light">

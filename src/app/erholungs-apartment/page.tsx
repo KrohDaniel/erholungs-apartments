@@ -46,7 +46,7 @@ export const metadata: Metadata = {
     siteName: 'Erholungs Apartments',
   },
   alternates: {
-    canonical: '/erholungs-apartment',
+    canonical: '/erholungs-apartment/',
   },
 };
 
@@ -65,7 +65,7 @@ export default function ErholungsApartmentPage() {
       <SchemaMarkup type="Apartment" apartmentSlug="erholungs-apartment" />
       <BreadcrumbSchema items={[
         { name: 'Startseite', href: '/' },
-        { name: 'Erholungs Apartment', href: '/erholungs-apartment' },
+        { name: 'Erholungs Apartment', href: '/erholungs-apartment/' },
       ]} />
 
       {/* -------------------------------------------------------------------
@@ -192,7 +192,7 @@ export default function ErholungsApartmentPage() {
                     &ndash; buchen Sie Ihre Entspannung gleich mit.
                   </p>
                   <Link
-                    href="/wohlbefinden-massage"
+                    href="/wohlbefinden-massage/"
                     className="
                       inline-flex items-center gap-1.5
                       text-sm font-semibold text-accent-dark
@@ -268,7 +268,7 @@ export default function ErholungsApartmentPage() {
               </p>
               <div className="flex flex-wrap gap-3">
                 <a
-                  href={`tel:${SITE_CONFIG.phone}`}
+                  href={`tel:+49${SITE_CONFIG.phone.replace(/^0/, '').replace(/\s/g, '')}`}
                   className="
                     inline-flex items-center gap-2 px-4 py-2
                     bg-primary text-white text-sm font-medium rounded-lg
@@ -279,7 +279,7 @@ export default function ErholungsApartmentPage() {
                   {SITE_CONFIG.phone}
                 </a>
                 <Link
-                  href="/kontakt"
+                  href="/kontakt/"
                   className="
                     inline-flex items-center gap-2 px-4 py-2
                     bg-white text-text text-sm font-medium rounded-lg

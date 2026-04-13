@@ -8,23 +8,23 @@ import { Phone, Mail, MapPin } from 'lucide-react';
 
 const NAV_LINKS = [
   { label: 'Startseite', href: '/' },
-  { label: 'Kellerchen', href: '/erholungs-kellerchen' },
-  { label: 'Apartment', href: '/erholungs-apartment' },
-  { label: 'Buchen', href: '/buchen' },
-  { label: 'Massage', href: '/wohlbefinden-massage' },
-  { label: 'Umgebung', href: '/bad-lippspringe' },
-  { label: 'Bewertungen', href: '/bewertungen' },
-  { label: 'Kontakt', href: '/kontakt' },
+  { label: 'Kellerchen', href: '/erholungs-kellerchen/' },
+  { label: 'Apartment', href: '/erholungs-apartment/' },
+  { label: 'Buchen', href: '/buchen/' },
+  { label: 'Massage', href: '/wohlbefinden-massage/' },
+  { label: 'Umgebung', href: '/bad-lippspringe/' },
+  { label: 'Bewertungen', href: '/bewertungen/' },
+  { label: 'Kontakt', href: '/kontakt/' },
 ];
 
 const APARTMENT_LINKS = [
-  { label: 'Kellerchen', href: '/erholungs-kellerchen' },
-  { label: 'Apartment', href: '/erholungs-apartment' },
+  { label: 'Kellerchen', href: '/erholungs-kellerchen/' },
+  { label: 'Apartment', href: '/erholungs-apartment/' },
 ];
 
 const LEGAL_LINKS = [
-  { label: 'Impressum', href: '/impressum' },
-  { label: 'Datenschutz', href: '/datenschutzerklaerung' },
+  { label: 'Impressum', href: '/impressum/' },
+  { label: 'Datenschutz', href: '/datenschutzerklaerung/' },
 ];
 
 export function Footer() {
@@ -207,6 +207,17 @@ export function Footer() {
                 </Link>
               ))}
             </div>
+          </div>
+          <div className="mt-3 text-center text-[11px] text-text-muted/60">
+            Entwickelt von{' '}
+            <a
+              href="https://kroh-daniel.de"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-primary transition-colors duration-[var(--transition-fast)]"
+            >
+              Daniel Kroh
+            </a>
           </div>
         </div>
       </div>

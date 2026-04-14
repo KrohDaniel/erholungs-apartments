@@ -97,8 +97,8 @@ export default function Hero() {
                 className="group relative overflow-hidden rounded-2xl shadow-lg block aspect-[3/4] sm:aspect-auto"
               >
                 <Image
-                  src="/images/apartment/apartment-ferienwohnung.jpg"
-                  alt="Erholungs Apartment - Geräumige Ferienwohnung im Erdgeschoss"
+                  src="/images/apartment/463798182.jpg"
+                  alt="Erholungs Apartment - Wohn- und Schlafbereich mit Doppelbett und Kronleuchter"
                   fill
                   priority
                   className="object-cover transition-transform duration-500 group-hover:scale-105"
@@ -111,7 +111,7 @@ export default function Hero() {
                     Erholungs Apartment
                   </h3>
                   <p className="mt-0.5 text-xs text-white/80 sm:text-sm">
-                    Erdgeschoss &middot; bis 4 Personen
+                    Erdgeschoss &middot; bis 2 Pers. + 1 Kind
                   </p>
                   <span className="mt-2 inline-block rounded-full bg-accent px-2.5 py-0.5 text-[10px] font-semibold text-white shadow sm:px-3 sm:py-1 sm:text-xs">
                     ab 60&euro;/Nacht

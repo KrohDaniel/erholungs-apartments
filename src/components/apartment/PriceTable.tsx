@@ -46,13 +46,7 @@ export default function PriceTable({ apartmentSlug }: PriceTableProps) {
               ) : (
                 <>
                   <th className="px-5 py-3.5 text-sm font-semibold text-text-light text-center">
-                    1-2 Personen
-                  </th>
-                  <th className="px-5 py-3.5 text-sm font-semibold text-text-light text-center">
-                    3 Personen
-                  </th>
-                  <th className="px-5 py-3.5 text-sm font-semibold text-text-light text-center">
-                    4 Personen
+                    1–2 Personen
                   </th>
                 </>
               )}
@@ -112,20 +106,6 @@ export default function PriceTable({ apartmentSlug }: PriceTableProps) {
                     <span className="text-xs text-text-muted">ab </span>
                     <span className="text-lg font-semibold text-primary">
                       {prices.weekday[1]}&thinsp;&euro;
-                    </span>
-                    <span className="text-xs text-text-muted block">/Nacht</span>
-                  </td>
-                  <td className="px-5 py-4 text-center">
-                    <span className="text-xs text-text-muted">ab </span>
-                    <span className="text-lg font-semibold text-primary">
-                      {prices.weekday[3]}&thinsp;&euro;
-                    </span>
-                    <span className="text-xs text-text-muted block">/Nacht</span>
-                  </td>
-                  <td className="px-5 py-4 text-center">
-                    <span className="text-xs text-text-muted">ab </span>
-                    <span className="text-lg font-semibold text-primary">
-                      {prices.weekday[4]}&thinsp;&euro;
                     </span>
                     <span className="text-xs text-text-muted block">/Nacht</span>
                   </td>

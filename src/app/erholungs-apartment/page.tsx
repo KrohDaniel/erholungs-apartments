@@ -24,23 +24,23 @@ import SchemaMarkup, { BreadcrumbSchema } from '@/components/seo/SchemaMarkup';
 const apartment = getApartmentBySlug('erholungs-apartment')!;
 
 export const metadata: Metadata = {
-  title: 'Erholungs Apartment | Ferienwohnung Bad Lippspringe 4 Personen',
+  title: 'Erholungs Apartment | Ferienwohnung Bad Lippspringe 2 Personen',
   description:
-    'Geräumige Erdgeschoss-Ferienwohnung in Bad Lippspringe für bis zu 4 Gäste. ' +
-    'Mit Balkon, Küche, Bad und kostenlosem Parkplatz. Nahe Westfalen Therme. Ab 70 Euro/Nacht.',
+    'Geräumige Erdgeschoss-Ferienwohnung in Bad Lippspringe für bis zu 2 Personen und 1 Kind. ' +
+    'Mit Balkon, Küche, Bad und kostenlosem Parkplatz. Nahe Westfalen Therme. Ab 60 Euro/Nacht.',
   keywords: [
     'Erholungs Apartment',
     'Ferienwohnung Bad Lippspringe',
-    'Ferienwohnung 4 Personen',
+    'Ferienwohnung 2 Personen',
     'Erdgeschoss Ferienwohnung',
     'Westfalen Therme Unterkunft',
     'Familie Ferienwohnung NRW',
     'Balkon Ferienwohnung',
   ],
   openGraph: {
-    title: 'Erholungs Apartment | Ferienwohnung Bad Lippspringe 4 Personen',
+    title: 'Erholungs Apartment | Ferienwohnung Bad Lippspringe 2 Personen',
     description:
-      'Geräumige Erdgeschoss-Ferienwohnung für bis zu 4 Gäste mit Balkon. Nahe Westfalen Therme. Ab 70 Euro/Nacht.',
+      'Geräumige Erdgeschoss-Ferienwohnung für bis zu 2 Personen + 1 Kind mit Balkon. Nahe Westfalen Therme. Ab 60 Euro/Nacht.',
     type: 'website',
     locale: 'de_DE',
     siteName: 'Erholungs Apartments',
@@ -184,12 +184,12 @@ export default function ErholungsApartmentPage() {
                 </div>
                 <div>
                   <h3 className="text-lg font-semibold text-text mb-1">
-                    Tipp: Wohlbefinden Massage
+                    Tipp: Wohlbefinden Massage &ndash; 10% Rabatt
                   </h3>
                   <p className="text-text-light text-sm leading-relaxed mb-3">
                     Gönnen Sie sich eine wohltuende Massage direkt im selben Haus!
                     Von der Wohlfühl-Massage bis zur therapeutischen Schmerzbehandlung
-                    &ndash; buchen Sie Ihre Entspannung gleich mit.
+                    &ndash; als Gast des Erholungs Apartments erhalten Sie <strong className="text-accent-dark">10% Rabatt</strong> auf alle Massage-Behandlungen.
                   </p>
                   <Link
                     href="/wohlbefinden-massage/"

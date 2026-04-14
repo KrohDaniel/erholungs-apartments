@@ -45,12 +45,12 @@ const apartments: ApartmentData[] = [
   {
     slug: '/erholungs-apartment/',
     title: 'Erholungs Apartment',
-    subtitle: 'Erdgeschoss | bis 4 Personen',
+    subtitle: 'Erdgeschoss | bis 2 Pers. + 1 Kind',
     description:
-      'Ger\u00E4umiges Erdgeschoss-Apartment mit Doppelbett, K\u00FCche, Bad und Balkon. Ideal f\u00FCr Familien und kleine Gruppen.',
+      'Ger\u00E4umiges Erdgeschoss-Apartment mit Doppelbett, K\u00FCche, Bad und Balkon. Ideal f\u00FCr Paare und Familien mit Kind.',
     price: 'ab 60\u20AC/Nacht',
-    image: '/images/apartment/apartment-ferienwohnung.jpg',
-    imageAlt: 'Erholungs Apartment - Ferienwohnung',
+    image: '/images/apartment/463798182.jpg',
+    imageAlt: 'Erholungs Apartment - Wohn- und Schlafbereich mit Doppelbett und Kronleuchter',
     amenities: [
       { icon: Bed, label: 'Doppelbett' },
       { icon: CookingPot, label: 'K\u00FCche' },

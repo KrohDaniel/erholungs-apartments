@@ -183,12 +183,12 @@ export default function ErholungsKellerchenPage() {
                 </div>
                 <div>
                   <h3 className="text-lg font-semibold text-text mb-1">
-                    Tipp: Wohlbefinden Massage
+                    Tipp: Wohlbefinden Massage &ndash; 10% Rabatt
                   </h3>
                   <p className="text-text-light text-sm leading-relaxed mb-3">
                     Gönnen Sie sich eine wohltuende Massage direkt im selben Haus!
                     Von der Wohlfühl-Massage bis zur therapeutischen Schmerzbehandlung
-                    &ndash; buchen Sie Ihre Entspannung gleich mit.
+                    &ndash; als Gast des Erholungs Kellerchens erhalten Sie <strong className="text-accent-dark">10% Rabatt</strong> auf alle Massage-Behandlungen.
                   </p>
                   <Link
                     href="/wohlbefinden-massage/"

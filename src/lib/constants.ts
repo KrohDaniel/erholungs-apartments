@@ -106,34 +106,34 @@ export const APARTMENTS: Apartment[] = [
     slug: 'erholungs-apartment',
     name: 'Erholungs Apartment',
     description:
-      'Das Erholungs Apartment befindet sich im Erdgeschoss und bietet Platz für bis zu 4 Gäste. ' +
+      'Das Erholungs Apartment befindet sich im Erdgeschoss und bietet Platz für bis zu 2 Personen und 1 Kind. ' +
       'Die Wohnung verfügt über ein gemütliches Doppelbett, eine voll ausgestattete Küche, ' +
       'ein modernes Badezimmer und einen eigenen Balkon. Die Erdgeschosslage sorgt für einen ' +
-      'bequemen Zugang ohne Treppen. Perfekt für Familien, kleine Gruppen oder Paare, die ' +
+      'bequemen Zugang ohne Treppen. Perfekt für Paare und Familien mit Kind, die ' +
       'einen erholsamen Aufenthalt in Bad Lippspringe genießen möchten.',
     shortDescription:
-      'Geräumige Erdgeschosswohnung für bis zu 4 Gäste mit Balkon, Küche und Bad.',
+      'Geräumige Erdgeschosswohnung für bis zu 2 Personen + 1 Kind mit Balkon, Küche und Bad.',
     sqm: 50,
-    maxGuests: 4,
+    maxGuests: 2,
     images: [
-      { src: '/images/apartment/apartment-ferienwohnung.jpg', alt: 'Erholungs Apartment - Ferienwohnung' },
-      { src: '/images/apartment/apartment-kueche.jpg', alt: 'Erholungs Apartment - Küche' },
-      { src: '/images/apartment/apartment-sitzplatz.jpg', alt: 'Erholungs Apartment - Sitzplatz' },
-      { src: '/images/apartment/apartment-wohnzimmer-spiegel.jpg', alt: 'Erholungs Apartment - Wohnzimmer' },
-      { src: '/images/apartment/apartment-wc.jpg', alt: 'Erholungs Apartment - WC' },
-      { src: '/images/apartment/apartment-deko.jpg', alt: 'Erholungs Apartment - Dekoration' },
-      { src: '/images/apartment/apartment-eingang.jpg', alt: 'Erholungs Apartment - Eingang' },
-      { src: '/images/apartment/apartment-sitzgelegenheit-draussen.jpg', alt: 'Erholungs Apartment - Sitzgelegenheit draussen' },
-      { src: '/images/apartment/apartment-sitzgelegenheit-draussen-2.jpg', alt: 'Erholungs Apartment - Sitzgelegenheit draussen 2' },
-      { src: '/images/apartment/20180913_174826.jpg', alt: 'Erholungs Apartment - Aussenbereich' },
-      { src: '/images/apartment/20180913_174024.jpg', alt: 'Erholungs Apartment - Gartenansicht' },
-      { src: '/images/apartment/20180913_173636.jpg', alt: 'Erholungs Apartment - Terrasse' },
-      { src: '/images/apartment/20180913_171641.jpg', alt: 'Erholungs Apartment - Wohnbereich' },
-      { src: '/images/apartment/20180913_171314.jpg', alt: 'Erholungs Apartment - Schlafbereich' },
-      { src: '/images/apartment/20180907_185002.jpg', alt: 'Erholungs Apartment - Abendstimmung' },
-      { src: '/images/apartment/20180124_230628.jpg', alt: 'Erholungs Apartment - Innenansicht' },
-      { src: '/images/apartment/20180121_142758.jpg', alt: 'Erholungs Apartment - Detailansicht' },
-      { src: '/images/apartment/20170911_133440.jpg', alt: 'Erholungs Apartment - Gesamtansicht' },
+      { src: '/images/apartment/463798182.jpg', alt: 'Erholungs Apartment - Wohn- und Schlafbereich mit Doppelbett, Sofa und Kronleuchter' },
+      { src: '/images/apartment/463798240.jpg', alt: 'Erholungs Apartment - Wohnzimmer mit TV, Steinwand und Balkonzugang' },
+      { src: '/images/apartment/463798570.jpg', alt: 'Erholungs Apartment - Schlafzimmer mit Metallbett und gemütlicher Sitzecke' },
+      { src: '/images/apartment/463798458.jpg', alt: 'Erholungs Apartment - Schlafbereich mit Kleiderstange und Spiegel' },
+      { src: '/images/apartment/463797986.jpg', alt: 'Erholungs Apartment - Voll ausgestattete Küche mit Backofen und Mikrowelle' },
+      { src: '/images/apartment/463798165.jpg', alt: 'Erholungs Apartment - Küche mit Herd und Essplatz am Fenster' },
+      { src: '/images/apartment/463798149.jpg', alt: 'Erholungs Apartment - Küchendetail mit Schneidebrettern und Spüle' },
+      { src: '/images/apartment/463798023.jpg', alt: 'Erholungs Apartment - Willkommensdekoration mit Blumen und Kunstwerk' },
+      { src: '/images/apartment/302153279.jpg', alt: 'Erholungs Apartment - Flur mit Sitzbank und Wanddekoration' },
+      { src: '/images/apartment/302153255.jpg', alt: 'Erholungs Apartment - Badezimmer mit Waschbecken und Handtuchheizung' },
+      { src: '/images/apartment/302153267.jpg', alt: 'Erholungs Apartment - Badewanne mit Dusche' },
+      { src: '/images/apartment/302153277.jpg', alt: 'Erholungs Apartment - WC mit Fenster und Dekoration' },
+      { src: '/images/apartment/302153284.jpg', alt: 'Erholungs Apartment - Dusche im Detail' },
+      { src: '/images/apartment/463798332.jpg', alt: 'Erholungs Apartment - Gemütlicher Balkon mit Sitzgruppe und Pflanzen' },
+      { src: '/images/apartment/463798348.jpg', alt: 'Erholungs Apartment - Balkon mit Blick ins Grüne' },
+      { src: '/images/apartment/463798390.jpg', alt: 'Erholungs Apartment - TV-Bereich mit Steinwand-Akzent' },
+      { src: '/images/apartment/463798257.jpg', alt: 'Erholungs Apartment - Smart-TV mit Gästeinformationen' },
+      { src: '/images/apartment/193468376.jpg', alt: 'Erholungs Apartment - Dekorative Muschel mit Zimmerpflanzen' },
     ],
     amenities: [
       'WLAN',
@@ -146,8 +146,8 @@ export const APARTMENTS: Apartment[] = [
       'Erdgeschoss',
     ],
     prices: {
-      weekday: { 1: 60, 2: 60, 3: 70, 4: 80 },
-      weekend: { 1: 60, 2: 60, 3: 70, 4: 80 },
+      weekday: { 1: 60, 2: 60 },
+      weekend: { 1: 60, 2: 60 },
     },
     discounts: [
       { minNights: 7, percentage: 10 },

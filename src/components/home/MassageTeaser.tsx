@@ -72,9 +72,12 @@ export default function MassageTeaser() {
               ))}
             </div>
 
-            {/* Free consultation note */}
-            <p className="mb-6 text-sm font-medium text-primary">
+            {/* Free consultation note + discount */}
+            <p className="mb-3 text-sm font-medium text-primary">
               &#10003; Erstgespr&auml;ch kostenlos
+            </p>
+            <p className="mb-6 text-sm font-medium text-accent-dark">
+              &#10003; 10% Rabatt bei Buchung eines Apartments
             </p>
 
             {/* CTAs */}

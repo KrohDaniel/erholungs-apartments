@@ -17,6 +17,7 @@ import {
   Quote,
   CheckCircle,
   CalendarCheck,
+  Tag,
 } from 'lucide-react';
 import SchemaMarkup, { BreadcrumbSchema } from '@/components/seo/SchemaMarkup';
 
@@ -306,11 +307,19 @@ export default function WohlbefindenMassagePage() {
           </div>
 
           {/* Free consultation note */}
-          <div className="mt-10 flex items-center justify-center gap-3 rounded-2xl border border-accent/20 bg-accent/5 p-5">
-            <CheckCircle className="h-6 w-6 shrink-0 text-accent" />
-            <p className="text-lg font-medium text-text">
-              Erstgespr&auml;ch kostenlos &ndash; Wir beraten Sie gerne unverbindlich!
-            </p>
+          <div className="mt-10 space-y-4">
+            <div className="flex items-center justify-center gap-3 rounded-2xl border border-accent/20 bg-accent/5 p-5">
+              <CheckCircle className="h-6 w-6 shrink-0 text-accent" />
+              <p className="text-lg font-medium text-text">
+                Erstgespr&auml;ch kostenlos &ndash; Wir beraten Sie gerne unverbindlich!
+              </p>
+            </div>
+            <div className="flex items-center justify-center gap-3 rounded-2xl border border-primary/20 bg-primary/5 p-5">
+              <Tag className="h-6 w-6 shrink-0 text-primary" />
+              <p className="text-lg font-medium text-text">
+                <strong>10% Rabatt</strong> auf alle Massage-Behandlungen bei Buchung des Erholungs Apartments oder Kellerchens!
+              </p>
+            </div>
           </div>
         </div>
       </section>

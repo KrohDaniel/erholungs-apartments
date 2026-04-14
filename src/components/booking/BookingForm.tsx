@@ -195,7 +195,8 @@ export default function BookingForm() {
                 Anzahl Gäste
               </h2>
               <p className="mb-4 text-sm text-text-muted">
-                Maximal {selectedApartment.maxGuests} Gäste in {selectedApartment.name}.
+                Maximal {selectedApartment.maxGuests} {selectedApartment.maxGuests === 1 ? 'Gast' : 'Personen'} in {selectedApartment.name}.
+                {selectedApartment.slug === 'erholungs-apartment' && ' Ein Kind ist zusätzlich willkommen.'}
               </p>
 
               <div className="flex items-center gap-3">

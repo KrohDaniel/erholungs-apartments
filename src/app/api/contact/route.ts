@@ -114,32 +114,35 @@ export async function POST(request: Request) {
     // Cloudflare Turnstile verification
     // -------------------------------------------------------------------------
 
-    if (!turnstileToken) {
+    const turnstileSecret = process.env.TURNSTILE_SECRET_KEY;
+
+    if (turnstileSecret && turnstileToken) {
+      const turnstileResponse = await fetch(
+        'https://challenges.cloudflare.com/turnstile/v0/siteverify',
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            secret: turnstileSecret,
+            response: turnstileToken,
+            remoteip: ip,
+          }),
+        }
+      );
+
+      const turnstileResult = await turnstileResponse.json() as { success: boolean };
+
+      if (!turnstileResult.success) {
+        return NextResponse.json(
+          { error: 'Sicherheitsprüfung fehlgeschlagen. Bitte versuchen Sie es erneut.' },
+          { status: 403 }
+        );
+      }
+    } else if (turnstileSecret && !turnstileToken) {
+      // Secret is configured but no token sent — likely a bot skipping the widget
       return NextResponse.json(
         { error: 'Bitte bestätigen Sie, dass Sie kein Roboter sind.' },
         { status: 400 }
-      );
-    }
-
-    const turnstileResponse = await fetch(
-      'https://challenges.cloudflare.com/turnstile/v0/siteverify',
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          secret: process.env.TURNSTILE_SECRET_KEY,
-          response: turnstileToken,
-          remoteip: ip,
-        }),
-      }
-    );
-
-    const turnstileResult = await turnstileResponse.json() as { success: boolean };
-
-    if (!turnstileResult.success) {
-      return NextResponse.json(
-        { error: 'Sicherheitsprüfung fehlgeschlagen. Bitte versuchen Sie es erneut.' },
-        { status: 403 }
       );
     }
 

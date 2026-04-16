@@ -67,7 +67,10 @@ export default function KontaktPage() {
       return;
     }
 
-    if (!turnstileToken) {
+    // Turnstile check - only enforce if widget loaded (production)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const turnstileLoaded = !!(window as any).turnstile;
+    if (turnstileLoaded && !turnstileToken) {
       setFormState('error');
       setErrorMessage('Bitte bestätigen Sie, dass Sie kein Roboter sind.');
       return;
@@ -79,7 +82,7 @@ export default function KontaktPage() {
       phone: formData.get('phone') as string,
       subject: formData.get('apartment') as string,
       message: formData.get('message') as string,
-      turnstileToken,
+      ...(turnstileToken ? { turnstileToken } : {}),
     };
 
     try {
@@ -256,7 +259,6 @@ export default function KontaktPage() {
                     size="lg"
                     fullWidth
                     loading={formState === 'loading'}
-                    disabled={!turnstileToken}
                     icon={<Send className="h-4 w-4" />}
                     iconPosition="right"
                   >

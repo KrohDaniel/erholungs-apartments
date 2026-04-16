@@ -92,13 +92,56 @@ export async function POST(request: Request) {
 
     const body = await request.json();
 
-    const { name, email, phone, subject, message } = body as {
+    const { name, email, phone, subject, message, turnstileToken } = body as {
       name?: string;
       email?: string;
       phone?: string;
       subject?: string;
       message?: string;
+      turnstileToken?: string;
     };
+
+    // -------------------------------------------------------------------------
+    // Honeypot check (field "website" should not be filled by real users)
+    // -------------------------------------------------------------------------
+
+    if (body.website) {
+      // Bot detected — return fake success
+      return NextResponse.json({ success: true, message: 'Nachricht gesendet.' });
+    }
+
+    // -------------------------------------------------------------------------
+    // Cloudflare Turnstile verification
+    // -------------------------------------------------------------------------
+
+    if (!turnstileToken) {
+      return NextResponse.json(
+        { error: 'Bitte bestätigen Sie, dass Sie kein Roboter sind.' },
+        { status: 400 }
+      );
+    }
+
+    const turnstileResponse = await fetch(
+      'https://challenges.cloudflare.com/turnstile/v0/siteverify',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          secret: process.env.TURNSTILE_SECRET_KEY,
+          response: turnstileToken,
+          remoteip: ip,
+        }),
+      }
+    );
+
+    const turnstileResult = await turnstileResponse.json() as { success: boolean };
+
+    if (!turnstileResult.success) {
+      return NextResponse.json(
+        { error: 'Sicherheitsprüfung fehlgeschlagen. Bitte versuchen Sie es erneut.' },
+        { status: 403 }
+      );
+    }
 
     // -------------------------------------------------------------------------
     // Validate required fields

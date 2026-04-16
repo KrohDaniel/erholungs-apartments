@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, type FormEvent } from 'react';
+import { useState, useRef, useEffect, useCallback, type FormEvent } from 'react';
+import Script from 'next/script';
 import Link from 'next/link';
 import {
   ChevronRight,
@@ -16,6 +17,8 @@ import { Button } from '@/components/ui/Button';
 import { SITE_CONFIG } from '@/lib/constants';
 import { BreadcrumbSchema } from '@/components/seo/SchemaMarkup';
 
+const TURNSTILE_SITE_KEY = '0x4AAAAAAC-WlJP2KA0gC6MN';
+
 // =============================================================================
 // Kontakt Page
 // =============================================================================
@@ -29,6 +32,27 @@ const APARTMENT_OPTIONS = [
 export default function KontaktPage() {
   const [formState, setFormState] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
+  const [turnstileToken, setTurnstileToken] = useState('');
+  const turnstileRef = useRef<HTMLDivElement>(null);
+  const widgetIdRef = useRef<string | null>(null);
+
+  const renderTurnstile = useCallback(() => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const win = window as any;
+    if (turnstileRef.current && !widgetIdRef.current && win.turnstile) {
+      widgetIdRef.current = win.turnstile.render(turnstileRef.current, {
+        sitekey: TURNSTILE_SITE_KEY,
+        callback: (token: string) => setTurnstileToken(token),
+        'expired-callback': () => setTurnstileToken(''),
+        theme: 'light',
+        language: 'de',
+      });
+    }
+  }, []);
+
+  useEffect(() => {
+    renderTurnstile();
+  }, [renderTurnstile]);
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -36,12 +60,26 @@ export default function KontaktPage() {
     setErrorMessage('');
 
     const formData = new FormData(e.currentTarget);
+
+    // Honeypot check - if filled, silently pretend success
+    if (formData.get('website')) {
+      setFormState('success');
+      return;
+    }
+
+    if (!turnstileToken) {
+      setFormState('error');
+      setErrorMessage('Bitte bestätigen Sie, dass Sie kein Roboter sind.');
+      return;
+    }
+
     const data = {
       name: formData.get('name') as string,
       email: formData.get('email') as string,
       phone: formData.get('phone') as string,
       subject: formData.get('apartment') as string,
       message: formData.get('message') as string,
+      turnstileToken,
     };
 
     try {
@@ -52,11 +90,19 @@ export default function KontaktPage() {
       });
 
       if (!response.ok) {
-        throw new Error('Beim Senden ist ein Fehler aufgetreten.');
+        const result = await response.json().catch(() => ({}));
+        throw new Error(result.error || 'Beim Senden ist ein Fehler aufgetreten.');
       }
 
       setFormState('success');
       (e.target as HTMLFormElement).reset();
+      setTurnstileToken('');
+      // Reset Turnstile widget
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const win = window as any;
+      if (widgetIdRef.current && win.turnstile) {
+        win.turnstile.reset(widgetIdRef.current);
+      }
     } catch (err) {
       setFormState('error');
       setErrorMessage(
@@ -148,6 +194,18 @@ export default function KontaktPage() {
                 )}
 
                 <form onSubmit={handleSubmit} className="space-y-5">
+                  {/* Honeypot - hidden from real users, bots fill it */}
+                  <div className="absolute -left-[9999px]" aria-hidden="true">
+                    <label htmlFor="website">Website</label>
+                    <input
+                      type="text"
+                      id="website"
+                      name="website"
+                      tabIndex={-1}
+                      autoComplete="off"
+                    />
+                  </div>
+
                   <div className="grid gap-5 sm:grid-cols-2">
                     <Input
                       name="name"
@@ -190,17 +248,27 @@ export default function KontaktPage() {
                     required
                   />
 
+                  {/* Cloudflare Turnstile */}
+                  <div ref={turnstileRef} className="flex justify-center" />
+
                   <Button
                     type="submit"
                     size="lg"
                     fullWidth
                     loading={formState === 'loading'}
+                    disabled={!turnstileToken}
                     icon={<Send className="h-4 w-4" />}
                     iconPosition="right"
                   >
                     Nachricht senden
                   </Button>
                 </form>
+
+                <Script
+                  src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"
+                  onLoad={renderTurnstile}
+                  strategy="lazyOnload"
+                />
               </div>
             </div>
 

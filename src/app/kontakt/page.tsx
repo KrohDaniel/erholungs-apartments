@@ -17,7 +17,7 @@ import { Button } from '@/components/ui/Button';
 import { SITE_CONFIG } from '@/lib/constants';
 import { BreadcrumbSchema } from '@/components/seo/SchemaMarkup';
 
-const TURNSTILE_SITE_KEY = '0x4AAAAAAC-WlJP2KA0gC6MN';
+const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || '';
 
 // =============================================================================
 // Kontakt Page
@@ -39,7 +39,7 @@ export default function KontaktPage() {
   const renderTurnstile = useCallback(() => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const win = window as any;
-    if (turnstileRef.current && !widgetIdRef.current && win.turnstile) {
+    if (turnstileRef.current && !widgetIdRef.current && win.turnstile && TURNSTILE_SITE_KEY) {
       widgetIdRef.current = win.turnstile.render(turnstileRef.current, {
         sitekey: TURNSTILE_SITE_KEY,
         callback: (token: string) => setTurnstileToken(token),

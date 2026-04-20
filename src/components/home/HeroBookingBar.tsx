@@ -124,7 +124,7 @@ export default function HeroBookingBar() {
         </div>
       </div>
       <p className="mt-2.5 text-center text-xs text-text-muted sm:mt-3">
-        ab 30&euro;/Nacht &middot; Mindestaufenthalt 2 N&auml;chte
+        ab 45&euro;/Nacht &middot; Mindestaufenthalt 2 N&auml;chte
       </p>
     </div>
   );

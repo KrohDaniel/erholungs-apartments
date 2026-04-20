@@ -10,7 +10,7 @@ import { BookingForm } from '@/components/booking/BookingForm';
 // =============================================================================
 
 export const metadata: Metadata = {
-  title: 'Online Buchen | Ferienwohnung Bad Lippspringe ab 30€',
+  title: 'Online Buchen | Ferienwohnung Bad Lippspringe ab 45€',
   description:
     'Prüfen Sie die Verfügbarkeit unserer Ferienwohnungen in Bad Lippspringe. ' +
     'Erholungs Kellerchen oder Erholungs Apartment – Datum wählen und ' +

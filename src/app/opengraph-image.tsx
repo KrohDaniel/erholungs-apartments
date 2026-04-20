@@ -39,7 +39,7 @@ export default function Image() {
               ★ 9.0/10 Booking.com
             </div>
             <div style={{ background: 'rgba(255,255,255,0.15)', borderRadius: '12px', padding: '12px 24px', color: 'white', fontSize: '20px' }}>
-              ab 30€/Nacht
+              ab 45€/Nacht
             </div>
             <div style={{ background: 'rgba(255,255,255,0.15)', borderRadius: '12px', padding: '12px 24px', color: 'white', fontSize: '20px' }}>
               500m zur Therme

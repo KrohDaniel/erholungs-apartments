@@ -150,7 +150,7 @@ const blogPostData: Record<string, BlogPostFull> = {
       </p>
       <p>
         <strong><a href="/buchen/">Jetzt Ferienwohnung buchen</a></strong> und Bad Lippspringe
-        zu Fuß entdecken – ab 30 € pro Nacht.
+        zu Fuß entdecken – ab 45 € pro Nacht.
       </p>
     `,
   },
@@ -238,8 +238,8 @@ const blogPostData: Record<string, BlogPostFull> = {
       <h2>Therme + Apartment: Die perfekte Kombination</h2>
       <p>
         Warum nicht den Thermenbesuch mit einer Übernachtung verbinden? In unseren
-        <a href="/erholungs-apartment/">Apartments</a> (ab 60 €/Nacht) oder dem gemütlichen
-        <a href="/erholungs-kellerchen/">Erholungs Kellerchen</a> (ab 30 €/Nacht) können Sie
+        <a href="/erholungs-apartment/">Apartments</a> (ab 70 €/Nacht) oder dem gemütlichen
+        <a href="/erholungs-kellerchen/">Erholungs Kellerchen</a> (ab 45 €/Nacht) können Sie
         nach der Therme direkt in Ihre eigene Ferienwohnung zurückkehren – kein Stress, keine
         lange Heimfahrt. Und am nächsten Morgen starten Sie ausgeruht in einen neuen Tag.
       </p>
@@ -277,9 +277,9 @@ const blogPostData: Record<string, BlogPostFull> = {
 
       <h3>15:00 – Check-in</h3>
       <p>
-        Beziehen Sie Ihr <a href="/erholungs-apartment/">Erholungs Apartment</a> (ab 60 €/Nacht,
-        bis 4 Personen) oder das gemütliche <a href="/erholungs-kellerchen/">Erholungs Kellerchen</a>
-        (ab 30 €/Nacht, bis 2 Personen). Beide Unterkünfte sind voll ausgestattet mit Küche,
+        Beziehen Sie Ihr <a href="/erholungs-apartment/">Erholungs Apartment</a> (ab 70 €/Nacht,
+        bis 2 Personen + 1 Kind) oder das gemütliche <a href="/erholungs-kellerchen/">Erholungs Kellerchen</a>
+        (ab 45 €/Nacht, bis 2 Personen). Beide Unterkünfte sind voll ausgestattet mit Küche,
         WLAN und kostenlosem Parkplatz direkt am Haus.
       </p>
 
@@ -362,7 +362,7 @@ const blogPostData: Record<string, BlogPostFull> = {
       <h2>Was kostet ein Wellness-Wochenende?</h2>
       <p>Hier eine Beispielrechnung für 2 Personen, 2 Nächte:</p>
       <ul>
-        <li><strong>Apartment (2 Nächte):</strong> ab 120 € (Erholungs Apartment) oder ab 60 € (Kellerchen)</li>
+        <li><strong>Apartment (2 Nächte):</strong> ab 140 € (Erholungs Apartment) oder ab 90 € (Kellerchen)</li>
         <li><strong>Westfalen Therme:</strong> ca. 25–30 € pro Person</li>
         <li><strong>Massage (60 Min.):</strong> 75 € pro Person</li>
         <li><strong>Verpflegung:</strong> ca. 40–60 € (Selbstverpflegung)</li>
@@ -487,8 +487,8 @@ const blogPostData: Record<string, BlogPostFull> = {
       <h2>Jetzt den Frühling buchen</h2>
       <p>
         Planen Sie Ihren Frühlings-Aufenthalt in unseren
-        <a href="/erholungs-apartment/">Erholungs Apartments</a> – ab 30 € pro Nacht im
-        <a href="/erholungs-kellerchen/">Erholungs Kellerchen</a> oder ab 60 € im Apartment.
+        <a href="/erholungs-apartment/">Erholungs Apartments</a> – ab 45 € pro Nacht im
+        <a href="/erholungs-kellerchen/">Erholungs Kellerchen</a> oder ab 70 € im Apartment.
         Bei längeren Aufenthalten ab 7 Nächten profitieren Sie von <strong>10 % Rabatt</strong>.
       </p>
       <p>

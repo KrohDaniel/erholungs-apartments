@@ -68,7 +68,7 @@ export default function Hero() {
               >
                 <span>Kellerchen</span>
                 <span className="rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-bold group-hover:bg-white/20 group-hover:text-white sm:text-xs">
-                  ab 30&euro;
+                  ab 45&euro;
                 </span>
                 <ArrowRight className="h-3.5 w-3.5 shrink-0 transition-transform group-hover:translate-x-0.5" />
               </Link>
@@ -78,7 +78,7 @@ export default function Hero() {
               >
                 <span>Apartment</span>
                 <span className="rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-bold group-hover:bg-white/20 group-hover:text-white sm:text-xs">
-                  ab 60&euro;
+                  ab 70&euro;
                 </span>
                 <ArrowRight className="h-3.5 w-3.5 shrink-0 transition-transform group-hover:translate-x-0.5" />
               </Link>
@@ -114,7 +114,7 @@ export default function Hero() {
                     Erdgeschoss &middot; bis 2 Pers. + 1 Kind
                   </p>
                   <span className="mt-2 inline-block rounded-full bg-accent px-2.5 py-0.5 text-[10px] font-semibold text-white shadow sm:px-3 sm:py-1 sm:text-xs">
-                    ab 60&euro;/Nacht
+                    ab 70&euro;/Nacht
                   </span>
                 </div>
               </Link>
@@ -142,7 +142,7 @@ export default function Hero() {
                     ~25 m&sup2; &middot; bis 2 Personen
                   </p>
                   <span className="mt-2 inline-block rounded-full bg-accent px-2.5 py-0.5 text-[10px] font-semibold text-white shadow sm:px-3 sm:py-1 sm:text-xs">
-                    ab 30&euro;/Nacht
+                    ab 45&euro;/Nacht
                   </span>
                 </div>
               </Link>

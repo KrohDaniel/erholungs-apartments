@@ -54,10 +54,7 @@ export const metadata: Metadata = {
 // =============================================================================
 
 export default function ErholungsKellerchenPage() {
-  const minPrice = Math.min(
-    ...Object.values(apartment.prices.weekday),
-    ...Object.values(apartment.prices.weekend)
-  );
+  const minPrice = 45;
 
   return (
     <>

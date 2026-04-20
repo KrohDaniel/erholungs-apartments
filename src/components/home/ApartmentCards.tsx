@@ -32,7 +32,7 @@ const apartments: ApartmentData[] = [
     subtitle: '~25 qm | bis 2 Personen',
     description:
       'Gem\u00FCtliche Kellerwohnung mit Doppelbett, K\u00FCche und renoviertem Bad. Perfekt f\u00FCr Paare und Alleinreisende.',
-    price: 'ab 30\u20AC/Nacht',
+    price: 'ab 45\u20AC/Nacht',
     image: '/images/kellerchen/booking/19.jpg',
     imageAlt: 'Erholungs Kellerchen - Schlafzimmer mit Himmelbett und LED-Beleuchtung',
     amenities: [
@@ -48,7 +48,7 @@ const apartments: ApartmentData[] = [
     subtitle: 'Erdgeschoss | bis 2 Pers. + 1 Kind',
     description:
       'Ger\u00E4umiges Erdgeschoss-Apartment mit Doppelbett, K\u00FCche, Bad und Balkon. Ideal f\u00FCr Paare und Familien mit Kind.',
-    price: 'ab 60\u20AC/Nacht',
+    price: 'ab 70\u20AC/Nacht',
     image: '/images/apartment/463798182.jpg',
     imageAlt: 'Erholungs Apartment - Wohn- und Schlafbereich mit Doppelbett und Kronleuchter',
     amenities: [

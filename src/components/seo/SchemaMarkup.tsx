@@ -46,6 +46,12 @@ function generateLodgingBusinessSchema() {
     '@type': 'LodgingBusiness',
     '@id': `https://${SITE_CONFIG.domain}/#lodging`,
     name: SITE_CONFIG.name,
+    alternateName: [
+      'Ferienwohnung Bad Lippspringe - Erholungsapartment - Erholungskellerchen',
+      'Ferienwohnung Bad Lippspringe',
+      'Erholungsapartment Bad Lippspringe',
+      'Erholungskellerchen Bad Lippspringe',
+    ],
     description:
       'Gemütliche Ferienwohnungen in Bad Lippspringe nahe der Westfalen Therme. ' +
       'Ideal für Erholung, Kur und Wellness am Teutoburger Wald.',
@@ -71,6 +77,32 @@ function generateLodgingBusinessSchema() {
     paymentAccepted: 'Cash, Bank Transfer, Credit Card, PayPal',
     checkinTime: '14:00',
     checkoutTime: '11:00',
+    openingHoursSpecification: {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: [
+        'Monday',
+        'Tuesday',
+        'Wednesday',
+        'Thursday',
+        'Friday',
+        'Saturday',
+        'Sunday',
+      ],
+      opens: '00:00',
+      closes: '23:59',
+    },
+    areaServed: [
+      { '@type': 'City', name: 'Bad Lippspringe' },
+      { '@type': 'City', name: 'Paderborn' },
+      { '@type': 'AdministrativeArea', name: 'Kreis Paderborn' },
+      { '@type': 'AdministrativeArea', name: 'Nordrhein-Westfalen' },
+    ],
+    knowsLanguage: ['de', 'en'],
+    sameAs: [
+      `https://www.google.com/maps/search/Erholungs+Apartments+Bad+Lippspringe`,
+      `https://www.booking.com/hotel/de/erholungs-apartment.de.html`,
+      `https://www.booking.com/hotel/de/erholungskellerche.de.html`,
+    ],
     aggregateRating: {
       '@type': 'AggregateRating',
       ratingValue: '4.9',
@@ -84,6 +116,8 @@ function generateLodgingBusinessSchema() {
       { '@type': 'LocationFeatureSpecification', name: 'Voll ausgestattete Küche', value: true },
       { '@type': 'LocationFeatureSpecification', name: 'Bettwäsche und Handtücher', value: true },
       { '@type': 'LocationFeatureSpecification', name: 'Massage-Service', value: true },
+      { '@type': 'LocationFeatureSpecification', name: 'Balkon', value: true },
+      { '@type': 'LocationFeatureSpecification', name: 'Nichtraucher', value: true },
     ],
     numberOfRooms: APARTMENTS.length,
     hasMap: `https://www.google.com/maps?q=${SITE_CONFIG.address},+${SITE_CONFIG.zip}+${SITE_CONFIG.city}`,
@@ -201,6 +235,10 @@ function generateLocalBusinessSchema() {
     '@type': 'LocalBusiness',
     '@id': `https://${SITE_CONFIG.domain}/#business`,
     name: SITE_CONFIG.name,
+    alternateName: [
+      'Ferienwohnung Bad Lippspringe - Erholungsapartment - Erholungskellerchen',
+      'Ferienwohnung Bad Lippspringe',
+    ],
     description:
       'Gemütliche Ferienwohnungen in Bad Lippspringe nahe der Westfalen Therme.',
     url: `https://${SITE_CONFIG.domain}`,
@@ -221,6 +259,25 @@ function generateLocalBusinessSchema() {
     },
     image: `https://${SITE_CONFIG.domain}/images/hero/20180406_182210.jpg`,
     priceRange: '€€',
+    openingHoursSpecification: {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: [
+        'Monday',
+        'Tuesday',
+        'Wednesday',
+        'Thursday',
+        'Friday',
+        'Saturday',
+        'Sunday',
+      ],
+      opens: '00:00',
+      closes: '23:59',
+    },
+    sameAs: [
+      `https://www.google.com/maps/search/Erholungs+Apartments+Bad+Lippspringe`,
+      `https://www.booking.com/hotel/de/erholungs-apartment.de.html`,
+      `https://www.booking.com/hotel/de/erholungskellerche.de.html`,
+    ],
     aggregateRating: {
       '@type': 'AggregateRating',
       ratingValue: '4.9',
@@ -228,10 +285,11 @@ function generateLocalBusinessSchema() {
       bestRating: '5',
       worstRating: '1',
     },
-    areaServed: {
-      '@type': 'City',
-      name: 'Bad Lippspringe',
-    },
+    areaServed: [
+      { '@type': 'City', name: 'Bad Lippspringe' },
+      { '@type': 'City', name: 'Paderborn' },
+      { '@type': 'AdministrativeArea', name: 'Kreis Paderborn' },
+    ],
   };
 }
 
@@ -260,6 +318,7 @@ function generateOrganizationSchema() {
     '@type': 'Organization',
     '@id': `https://${SITE_CONFIG.domain}/#organization`,
     name: SITE_CONFIG.name,
+    alternateName: 'Ferienwohnung Bad Lippspringe',
     url: `https://${SITE_CONFIG.domain}`,
     logo: {
       '@type': 'ImageObject',
@@ -269,7 +328,8 @@ function generateOrganizationSchema() {
       '@type': 'ContactPoint',
       telephone: formatPhoneInternational(),
       contactType: 'reservations',
-      availableLanguage: ['German'],
+      availableLanguage: ['German', 'English'],
+      areaServed: 'DE',
     },
     address: {
       '@type': 'PostalAddress',
@@ -279,6 +339,9 @@ function generateOrganizationSchema() {
       addressCountry: 'DE',
       addressRegion: 'Nordrhein-Westfalen',
     },
+    sameAs: [
+      'https://www.google.com/maps/search/Erholungs+Apartments+Bad+Lippspringe',
+    ],
   };
 }
 

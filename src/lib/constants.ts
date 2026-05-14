@@ -60,23 +60,17 @@ export const APARTMENTS: Apartment[] = [
     sqm: 25,
     maxGuests: 2,
     images: [
-      { src: '/images/kellerchen/booking/19.jpg', alt: 'Erholungs Kellerchen - Schlafzimmer mit Himmelbett und LED-Beleuchtung' },
-      { src: '/images/kellerchen/booking/09.jpg', alt: 'Erholungs Kellerchen - Gesamtansicht mit Doppelbett und Sitzecke' },
-      { src: '/images/kellerchen/booking/02.jpg', alt: 'Erholungs Kellerchen - Gemütliches Schlafzimmer mit Baldachin' },
-      { src: '/images/kellerchen/booking/06.jpg', alt: 'Erholungs Kellerchen - Wohnbereich mit Essplatz' },
-      { src: '/images/kellerchen/booking/12.jpg', alt: 'Erholungs Kellerchen - Bett mit Blick auf Essbereich und Küche' },
-      { src: '/images/kellerchen/booking/05.jpg', alt: 'Erholungs Kellerchen - Essbereich mit Wandkunst' },
-      { src: '/images/kellerchen/booking/04.jpg', alt: 'Erholungs Kellerchen - Küchenzeile' },
-      { src: '/images/kellerchen/booking/08.jpg', alt: 'Erholungs Kellerchen - Küche mit Blick ins Schlafzimmer' },
-      { src: '/images/kellerchen/booking/16.jpg', alt: 'Erholungs Kellerchen - Küchenregale mit Gewürzen' },
-      { src: '/images/kellerchen/booking/07.jpg', alt: 'Erholungs Kellerchen - Badezimmer' },
-      { src: '/images/kellerchen/booking/10.jpg', alt: 'Erholungs Kellerchen - Dusche und WC' },
-      { src: '/images/kellerchen/booking/11.jpg', alt: 'Erholungs Kellerchen - Smart-TV mit Streaming' },
-      { src: '/images/kellerchen/booking/03.jpg', alt: 'Erholungs Kellerchen - Flur mit Blick auf Bad und Schlafzimmer' },
+      { src: '/images/kellerchen/booking/hero_keller.jpeg', alt: 'Erholungs Kellerchen - Gemütliches Schlafzimmer mit Doppelbett, Sitzecke und Essplatz' },
+      { src: '/images/kellerchen/booking/keller1.jpeg', alt: 'Erholungs Kellerchen - Schlafzimmer mit Doppelbett, Essecke und Smart-TV' },
+      { src: '/images/kellerchen/booking/keller2.jpeg', alt: 'Erholungs Kellerchen - Großzügiger Schlafbereich mit Bett, Ablage und Küchenzeile' },
+      { src: '/images/kellerchen/booking/keller_tisch.jpeg', alt: 'Erholungs Kellerchen - Gemütlicher Essplatz mit Wandkunst und Smart-TV' },
       { src: '/images/kellerchen/booking/14.jpg', alt: 'Erholungs Kellerchen - Treppenhaus und Eingangsbereich' },
       { src: '/images/kellerchen/booking/18.jpg', alt: 'Erholungs Kellerchen - Eigener Eingang' },
       { src: '/images/kellerchen/booking/15.jpg', alt: 'Erholungs Kellerchen - Dekorative Details' },
       { src: '/images/kellerchen/booking/17.jpg', alt: 'Erholungs Kellerchen - Flamingo-Dekoration' },
+      { src: '/images/kellerchen/booking/08.jpg', alt: 'Erholungs Kellerchen - Küche mit Blick ins Schlafzimmer' },
+      { src: '/images/kellerchen/booking/09.jpg', alt: 'Erholungs Kellerchen - Wohnbereich mit Sitzecke' },
+      { src: '/images/kellerchen/booking/10.jpg', alt: 'Erholungs Kellerchen - Badezimmer mit Dusche und WC' },
     ],
     amenities: [
       'WLAN',
@@ -88,8 +82,8 @@ export const APARTMENTS: Apartment[] = [
       'Gemütliche Atmosphäre',
     ],
     prices: {
-      weekday: { 1: 30, 2: 35 },
-      weekend: { 1: 45, 2: 50 },
+      weekday: { 1: 45, 2: 45 },
+      weekend: { 1: 45, 2: 45 },
     },
     discounts: [
       { minNights: 7, percentage: 10 },
@@ -106,33 +100,26 @@ export const APARTMENTS: Apartment[] = [
     slug: 'erholungs-apartment',
     name: 'Erholungs Apartment',
     description:
-      'Das Erholungs Apartment befindet sich im Erdgeschoss und bietet Platz für bis zu 2 Personen und 1 Kind. ' +
+      'Das Erholungs Apartment befindet sich in der ersten Etage und bietet Platz für bis zu 2 Personen und 1 Kind. ' +
       'Die Wohnung verfügt über ein gemütliches Doppelbett, eine voll ausgestattete Küche, ' +
-      'ein modernes Badezimmer und einen eigenen Balkon. Die Erdgeschosslage sorgt für einen ' +
-      'bequemen Zugang ohne Treppen. Perfekt für Paare und Familien mit Kind, die ' +
+      'ein modernes Badezimmer und einen eigenen Balkon mit Blick ins Grüne. ' +
+      'Perfekt für Paare und Familien mit Kind, die ' +
       'einen erholsamen Aufenthalt in Bad Lippspringe genießen möchten.',
     shortDescription:
-      'Geräumige Erdgeschosswohnung für bis zu 2 Personen + 1 Kind mit Balkon, Küche und Bad.',
+      'Geräumige Wohnung in der ersten Etage für bis zu 2 Personen + 1 Kind mit Balkon, Küche und Bad.',
     sqm: 50,
     maxGuests: 2,
     images: [
-      { src: '/images/apartment/463798182.jpg', alt: 'Erholungs Apartment - Wohn- und Schlafbereich mit Doppelbett, Sofa und Kronleuchter' },
-      { src: '/images/apartment/463798240.jpg', alt: 'Erholungs Apartment - Wohnzimmer mit TV, Steinwand und Balkonzugang' },
-      { src: '/images/apartment/463798570.jpg', alt: 'Erholungs Apartment - Schlafzimmer mit Metallbett und gemütlicher Sitzecke' },
-      { src: '/images/apartment/463798458.jpg', alt: 'Erholungs Apartment - Schlafbereich mit Kleiderstange und Spiegel' },
-      { src: '/images/apartment/463797986.jpg', alt: 'Erholungs Apartment - Voll ausgestattete Küche mit Backofen und Mikrowelle' },
-      { src: '/images/apartment/463798165.jpg', alt: 'Erholungs Apartment - Küche mit Herd und Essplatz am Fenster' },
+      { src: '/images/apartment/hero_apartment.jpeg', alt: 'Erholungs Apartment - Geräumiger Wohn- und Schlafbereich mit Doppelbett, Sofa und Kronleuchter' },
+      { src: '/images/apartment/apartment1.jpeg', alt: 'Erholungs Apartment - Schlafzimmer mit Metallbett, Kleiderstange und gemütlicher Sitzecke' },
+      { src: '/images/apartment/apartment2.jpeg', alt: 'Erholungs Apartment - Schlafbereich mit Bett, Kronleuchter und Loungesofa am Fenster' },
+      { src: '/images/apartment/apartment_kueche.jpeg', alt: 'Erholungs Apartment - Voll ausgestattete Küche mit Backofen, Mikrowelle und Essplatz' },
+      { src: '/images/apartment/apartment_balkon.jpeg', alt: 'Erholungs Apartment - Gemütlicher Balkon mit Sitzgruppe, Pflanzen und Loungeliege' },
+      { src: '/images/apartment/apartment_balkon1.jpeg', alt: 'Erholungs Apartment - Balkon mit Blick ins Grüne und stimmungsvoller Beleuchtung' },
       { src: '/images/apartment/463798149.jpg', alt: 'Erholungs Apartment - Küchendetail mit Schneidebrettern und Spüle' },
-      { src: '/images/apartment/463798023.jpg', alt: 'Erholungs Apartment - Willkommensdekoration mit Blumen und Kunstwerk' },
       { src: '/images/apartment/302153279.jpg', alt: 'Erholungs Apartment - Flur mit Sitzbank und Wanddekoration' },
       { src: '/images/apartment/302153255.jpg', alt: 'Erholungs Apartment - Badezimmer mit Waschbecken und Handtuchheizung' },
       { src: '/images/apartment/302153267.jpg', alt: 'Erholungs Apartment - Badewanne mit Dusche' },
-      { src: '/images/apartment/302153277.jpg', alt: 'Erholungs Apartment - WC mit Fenster und Dekoration' },
-      { src: '/images/apartment/302153284.jpg', alt: 'Erholungs Apartment - Dusche im Detail' },
-      { src: '/images/apartment/463798332.jpg', alt: 'Erholungs Apartment - Gemütlicher Balkon mit Sitzgruppe und Pflanzen' },
-      { src: '/images/apartment/463798348.jpg', alt: 'Erholungs Apartment - Balkon mit Blick ins Grüne' },
-      { src: '/images/apartment/463798390.jpg', alt: 'Erholungs Apartment - TV-Bereich mit Steinwand-Akzent' },
-      { src: '/images/apartment/463798257.jpg', alt: 'Erholungs Apartment - Smart-TV mit Gästeinformationen' },
       { src: '/images/apartment/193468376.jpg', alt: 'Erholungs Apartment - Dekorative Muschel mit Zimmerpflanzen' },
     ],
     amenities: [
@@ -143,7 +130,7 @@ export const APARTMENTS: Apartment[] = [
       'Bettwäsche',
       'Handtücher',
       'Balkon',
-      'Erdgeschoss',
+      'Erste Etage',
     ],
     prices: {
       weekday: { 1: 60, 2: 60 },
@@ -156,7 +143,7 @@ export const APARTMENTS: Apartment[] = [
     minNights: 2,
     checkInTime: '17:00',
     checkOutTime: '11:00',
-    floor: 'Erdgeschoss',
+    floor: 'Erste Etage',
     bedType: 'Doppelbett',
   },
 ];
@@ -358,8 +345,10 @@ export const BOOKING_COM_URLS: Record<string, string> = {
 export const ICAL_FEEDS: Record<string, { booking?: string; airbnb?: string }> = {
   'erholungs-apartment': {
     booking: process.env.ICAL_FEED_APARTMENT || undefined,
+    airbnb: process.env.ICAL_FEED_APARTMENT_AIRBNB || undefined,
   },
   'erholungs-kellerchen': {
     booking: process.env.ICAL_FEED_KELLERCHEN || undefined,
+    airbnb: process.env.ICAL_FEED_KELLERCHEN_AIRBNB || undefined,
   },
 };

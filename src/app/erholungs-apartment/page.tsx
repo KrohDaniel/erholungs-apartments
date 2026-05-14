@@ -26,13 +26,13 @@ const apartment = getApartmentBySlug('erholungs-apartment')!;
 export const metadata: Metadata = {
   title: 'Erholungs Apartment | Ferienwohnung Bad Lippspringe 2 Personen',
   description:
-    'Geräumige Erdgeschoss-Ferienwohnung in Bad Lippspringe für bis zu 2 Personen und 1 Kind. ' +
+    'Geräumige Ferienwohnung in der ersten Etage in Bad Lippspringe für bis zu 2 Personen und 1 Kind. ' +
     'Mit Balkon, Küche, Bad und kostenlosem Parkplatz. Nahe Westfalen Therme. Ab 70 Euro/Nacht.',
   keywords: [
     'Erholungs Apartment',
     'Ferienwohnung Bad Lippspringe',
     'Ferienwohnung 2 Personen',
-    'Erdgeschoss Ferienwohnung',
+    'Ferienwohnung erste Etage',
     'Westfalen Therme Unterkunft',
     'Familie Ferienwohnung NRW',
     'Balkon Ferienwohnung',
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Erholungs Apartment | Ferienwohnung Bad Lippspringe 2 Personen',
     description:
-      'Geräumige Erdgeschoss-Ferienwohnung für bis zu 2 Personen + 1 Kind mit Balkon. Nahe Westfalen Therme. Ab 70 Euro/Nacht.',
+      'Geräumige Ferienwohnung in der ersten Etage für bis zu 2 Personen + 1 Kind mit Balkon. Nahe Westfalen Therme. Ab 70 Euro/Nacht.',
     type: 'website',
     locale: 'de_DE',
     siteName: 'Erholungs Apartments',

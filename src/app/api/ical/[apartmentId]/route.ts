@@ -3,11 +3,17 @@ import { generateICalFeed } from '@/lib/availability';
 import { APARTMENTS } from '@/lib/constants';
 
 export async function GET(
-  _request: Request,
+  request: Request,
   { params }: { params: Promise<{ apartmentId: string }> }
 ) {
   try {
     const { apartmentId } = await params;
+    const { searchParams } = new URL(request.url);
+    const excludeParam = searchParams.get('exclude');
+    const excludeSource =
+      excludeParam === 'airbnb' || excludeParam === 'booking'
+        ? excludeParam
+        : undefined;
 
     const apartmentExists = APARTMENTS.some((a) => a.id === apartmentId);
     if (!apartmentExists) {
@@ -17,7 +23,7 @@ export async function GET(
       );
     }
 
-    const icalContent = await generateICalFeed(apartmentId);
+    const icalContent = await generateICalFeed(apartmentId, excludeSource);
 
     return new Response(icalContent, {
       headers: {

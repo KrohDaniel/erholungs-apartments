@@ -36,6 +36,7 @@ const amenityIconMap: Record<string, LucideIcon> = {
   Handtücher: Droplets,
   Balkon: Sun,
   Erdgeschoss: Home,
+  'Erste Etage': Home,
   'Gemütliche Atmosphäre': Sparkles,
   Gemütlich: Sparkles,
 };

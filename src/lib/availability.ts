@@ -300,12 +300,28 @@ function parseICalEvents(icalText: string): string[] {
 // -----------------------------------------------------------------------------
 
 /**
- * Generates an iCal feed string for all confirmed/paid bookings of an
- * apartment. This feed can be imported into Airbnb.
+ * Generates an iCal feed string combining:
+ *   1. Direct bookings (status CONFIRMED/PAID) from the website
+ *   2. Blocked dates synced from external sources (Booking.com, Airbnb, …)
+ *      — optionally excluding a given source to prevent re-importing the
+ *      receiving platform's own blocks.
+ *
+ * Consecutive blocked dates are grouped into single VEVENT entries to keep
+ * the feed compact.
+ *
+ * @param apartmentId — the apartment's ID
+ * @param excludeSource — optional iCal source to exclude (e.g. 'airbnb' when
+ *   generating the feed that Airbnb will import). Prevents feedback loops.
  */
-export async function generateICalFeed(apartmentId: string): Promise<string> {
+export async function generateICalFeed(
+  apartmentId: string,
+  excludeSource?: 'airbnb' | 'booking'
+): Promise<string> {
   const db = getAdminDb();
+  const now = new Date();
+  const timestamp = format(now, "yyyyMMdd'T'HHmmss'Z'");
 
+  // 1. Direct bookings
   const bookingsSnapshot = await db
     .collection('bookings')
     .where('apartmentId', '==', apartmentId)
@@ -313,26 +329,77 @@ export async function generateICalFeed(apartmentId: string): Promise<string> {
     .orderBy('checkIn', 'asc')
     .get();
 
-  const now = new Date();
-  const timestamp = format(now, "yyyyMMdd'T'HHmmss'Z'");
+  const bookingEvents = bookingsSnapshot.docs.map((doc) => {
+    const data = doc.data();
+    const dtStart = (data.checkIn as string).replace(/-/g, '');
+    const dtEnd = (data.checkOut as string).replace(/-/g, '');
+    return [
+      'BEGIN:VEVENT',
+      `DTSTART;VALUE=DATE:${dtStart}`,
+      `DTEND;VALUE=DATE:${dtEnd}`,
+      `DTSTAMP:${timestamp}`,
+      `UID:booking-${doc.id}@erholungs-apartments.de`,
+      `SUMMARY:Gebucht - ${data.guestName}`,
+      'STATUS:CONFIRMED',
+      'END:VEVENT',
+    ].join('\r\n');
+  });
 
-  const events = bookingsSnapshot.docs
-    .map((doc) => {
-      const data = doc.data();
-      const dtStart = (data.checkIn as string).replace(/-/g, '');
-      const dtEnd = (data.checkOut as string).replace(/-/g, '');
-      return [
+  // 2. Blocked dates from external syncs (Booking.com, Airbnb)
+  let blockedQuery = db
+    .collection('blockedDates')
+    .where('apartmentId', '==', apartmentId);
+  if (excludeSource) {
+    blockedQuery = blockedQuery.where('source', '!=', excludeSource);
+  }
+  const blockedSnapshot = await blockedQuery.get();
+
+  const blockedDates = blockedSnapshot.docs
+    .map((d) => d.data().date as string)
+    .filter((d): d is string => typeof d === 'string')
+    .sort();
+
+  // Group consecutive blocked dates into ranges
+  const blockedEvents: string[] = [];
+  let rangeStart: string | null = null;
+  let rangeEnd: string | null = null;
+
+  const flushRange = () => {
+    if (!rangeStart || !rangeEnd) return;
+    const dtStart = rangeStart.replace(/-/g, '');
+    const dtEnd = format(addDays(parseISO(rangeEnd), 1), 'yyyyMMdd');
+    blockedEvents.push(
+      [
         'BEGIN:VEVENT',
         `DTSTART;VALUE=DATE:${dtStart}`,
         `DTEND;VALUE=DATE:${dtEnd}`,
         `DTSTAMP:${timestamp}`,
-        `UID:${doc.id}@erholungs-apartments.de`,
-        `SUMMARY:Gebucht - ${data.guestName}`,
+        `UID:blocked-${apartmentId}-${dtStart}@erholungs-apartments.de`,
+        'SUMMARY:Belegt',
         'STATUS:CONFIRMED',
         'END:VEVENT',
-      ].join('\r\n');
-    })
-    .join('\r\n');
+      ].join('\r\n')
+    );
+  };
+
+  for (const date of blockedDates) {
+    if (!rangeStart) {
+      rangeStart = date;
+      rangeEnd = date;
+      continue;
+    }
+    const expectedNext = format(addDays(parseISO(rangeEnd!), 1), 'yyyy-MM-dd');
+    if (date === expectedNext) {
+      rangeEnd = date;
+    } else {
+      flushRange();
+      rangeStart = date;
+      rangeEnd = date;
+    }
+  }
+  flushRange();
+
+  const allEvents = [...bookingEvents, ...blockedEvents].join('\r\n');
 
   return [
     'BEGIN:VCALENDAR',
@@ -341,7 +408,7 @@ export async function generateICalFeed(apartmentId: string): Promise<string> {
     'CALSCALE:GREGORIAN',
     'METHOD:PUBLISH',
     `X-WR-CALNAME:Erholungs Apartments - ${apartmentId}`,
-    events,
+    allEvents,
     'END:VCALENDAR',
   ].join('\r\n');
 }

@@ -33,8 +33,8 @@ const apartments: ApartmentData[] = [
     description:
       'Gem\u00FCtliche Kellerwohnung mit Doppelbett, K\u00FCche und renoviertem Bad. Perfekt f\u00FCr Paare und Alleinreisende.',
     price: 'ab 45\u20AC/Nacht',
-    image: '/images/kellerchen/booking/19.jpg',
-    imageAlt: 'Erholungs Kellerchen - Schlafzimmer mit Himmelbett und LED-Beleuchtung',
+    image: '/images/kellerchen/booking/hero_keller.jpeg',
+    imageAlt: 'Erholungs Kellerchen - Gemütliches Schlafzimmer mit Doppelbett und Sitzecke',
     amenities: [
       { icon: Bed, label: 'Doppelbett' },
       { icon: CookingPot, label: 'K\u00FCche' },
@@ -45,12 +45,12 @@ const apartments: ApartmentData[] = [
   {
     slug: '/erholungs-apartment/',
     title: 'Erholungs Apartment',
-    subtitle: 'Erdgeschoss | bis 2 Pers. + 1 Kind',
+    subtitle: '1. Etage | bis 2 Pers. + 1 Kind',
     description:
-      'Ger\u00E4umiges Erdgeschoss-Apartment mit Doppelbett, K\u00FCche, Bad und Balkon. Ideal f\u00FCr Paare und Familien mit Kind.',
+      'Ger\u00E4umiges Apartment in der ersten Etage mit Doppelbett, K\u00FCche, Bad und Balkon. Ideal f\u00FCr Paare und Familien mit Kind.',
     price: 'ab 70\u20AC/Nacht',
-    image: '/images/apartment/463798182.jpg',
-    imageAlt: 'Erholungs Apartment - Wohn- und Schlafbereich mit Doppelbett und Kronleuchter',
+    image: '/images/apartment/hero_apartment.jpeg',
+    imageAlt: 'Erholungs Apartment - Geräumiger Wohn- und Schlafbereich mit Doppelbett und Kronleuchter',
     amenities: [
       { icon: Bed, label: 'Doppelbett' },
       { icon: CookingPot, label: 'K\u00FCche' },

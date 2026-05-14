@@ -124,9 +124,8 @@ export default function BookingForm() {
                 const isSelected =
                   selectedApartmentId === apartment.id ||
                   selectedApartmentId === apartment.slug;
-                const minPrice = Math.min(
-                  ...Object.values(apartment.prices.weekday)
-                );
+                const minPrice =
+                  apartment.slug === 'erholungs-apartment' ? 70 : 45;
 
                 return (
                   <button

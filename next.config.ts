@@ -1,5 +1,7 @@
 import type { NextConfig } from "next";
 
+const isDev = process.env.NODE_ENV !== 'production';
+
 const nextConfig: NextConfig = {
   trailingSlash: true,
   poweredByHeader: false,
@@ -39,7 +41,7 @@ const nextConfig: NextConfig = {
             key: 'Content-Security-Policy',
             value: [
               "default-src 'self'",
-              "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://js.stripe.com https://*.cloudflare.com https://*.cloudflareinsights.com",
+              `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ''} https://www.googletagmanager.com https://www.google-analytics.com https://js.stripe.com https://*.cloudflare.com https://*.cloudflareinsights.com`,
               "style-src 'self' 'unsafe-inline'",
               "img-src 'self' data: blob: https://www.google-analytics.com https://www.googletagmanager.com https://*.booking.com https://*.stripe.com https://*.cloudflare.com",
               "font-src 'self' data:",

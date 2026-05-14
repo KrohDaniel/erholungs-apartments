@@ -97,8 +97,8 @@ export default function Hero() {
                 className="group relative overflow-hidden rounded-2xl shadow-lg block aspect-[3/4] sm:aspect-auto"
               >
                 <Image
-                  src="/images/apartment/463798182.jpg"
-                  alt="Erholungs Apartment - Wohn- und Schlafbereich mit Doppelbett und Kronleuchter"
+                  src="/images/apartment/hero_apartment.jpeg"
+                  alt="Erholungs Apartment - Geräumiger Wohn- und Schlafbereich mit Doppelbett und Kronleuchter"
                   fill
                   priority
                   className="object-cover transition-transform duration-500 group-hover:scale-105"
@@ -111,7 +111,7 @@ export default function Hero() {
                     Erholungs Apartment
                   </h3>
                   <p className="mt-0.5 text-xs text-white/80 sm:text-sm">
-                    Erdgeschoss &middot; bis 2 Pers. + 1 Kind
+                    bis 2 Pers. + 1 Kind
                   </p>
                   <span className="mt-2 inline-block rounded-full bg-accent px-2.5 py-0.5 text-[10px] font-semibold text-white shadow sm:px-3 sm:py-1 sm:text-xs">
                     ab 70&euro;/Nacht
@@ -125,8 +125,8 @@ export default function Hero() {
                 className="group relative overflow-hidden rounded-2xl shadow-lg block aspect-[3/4] sm:aspect-auto"
               >
                 <Image
-                  src="/images/kellerchen/booking/19.jpg"
-                  alt="Erholungs Kellerchen - Schlafzimmer mit Himmelbett und LED-Beleuchtung"
+                  src="/images/kellerchen/booking/hero_keller.jpeg"
+                  alt="Erholungs Kellerchen - Gemütliches Schlafzimmer mit Doppelbett und Sitzecke"
                   fill
                   priority
                   className="object-cover transition-transform duration-500 group-hover:scale-105"

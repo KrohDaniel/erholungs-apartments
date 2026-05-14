@@ -15,7 +15,6 @@ export default function PriceTable({ apartmentSlug }: PriceTableProps) {
   if (!apartment) return null;
 
   const { prices, discounts, minNights, checkInTime, checkOutTime } = apartment;
-  const isKellerchen = apartmentSlug === 'erholungs-kellerchen';
 
   return (
     <section aria-labelledby="prices-heading">
@@ -34,84 +33,24 @@ export default function PriceTable({ apartmentSlug }: PriceTableProps) {
               <th className="px-5 py-3.5 text-sm font-semibold text-text-light">
                 Zeitraum
               </th>
-              {isKellerchen ? (
-                <>
-                  <th className="px-5 py-3.5 text-sm font-semibold text-text-light text-center">
-                    1 Person
-                  </th>
-                  <th className="px-5 py-3.5 text-sm font-semibold text-text-light text-center">
-                    2 Personen
-                  </th>
-                </>
-              ) : (
-                <>
-                  <th className="px-5 py-3.5 text-sm font-semibold text-text-light text-center">
-                    1–2 Personen
-                  </th>
-                </>
-              )}
+              <th className="px-5 py-3.5 text-sm font-semibold text-text-light text-center">
+                1–2 Personen
+              </th>
             </tr>
           </thead>
           <tbody className="divide-y divide-border-light">
-            {isKellerchen ? (
-              <>
-                {/* Kellerchen: weekday / weekend rows */}
-                <tr className="bg-white hover:bg-background transition-colors">
-                  <td className="px-5 py-4 text-sm font-medium text-text">
-                    Mo – Do
-                  </td>
-                  <td className="px-5 py-4 text-center">
-                    <span className="text-xs text-text-muted">ab </span>
-                    <span className="text-lg font-semibold text-primary">
-                      {prices.weekday[1]}&thinsp;&euro;
-                    </span>
-                    <span className="text-xs text-text-muted block">/Nacht</span>
-                  </td>
-                  <td className="px-5 py-4 text-center">
-                    <span className="text-xs text-text-muted">ab </span>
-                    <span className="text-lg font-semibold text-primary">
-                      {prices.weekday[2]}&thinsp;&euro;
-                    </span>
-                    <span className="text-xs text-text-muted block">/Nacht</span>
-                  </td>
-                </tr>
-                <tr className="bg-white hover:bg-background transition-colors">
-                  <td className="px-5 py-4 text-sm font-medium text-text">
-                    Fr – So
-                  </td>
-                  <td className="px-5 py-4 text-center">
-                    <span className="text-xs text-text-muted">ab </span>
-                    <span className="text-lg font-semibold text-primary">
-                      {prices.weekend[1]}&thinsp;&euro;
-                    </span>
-                    <span className="text-xs text-text-muted block">/Nacht</span>
-                  </td>
-                  <td className="px-5 py-4 text-center">
-                    <span className="text-xs text-text-muted">ab </span>
-                    <span className="text-lg font-semibold text-primary">
-                      {prices.weekend[2]}&thinsp;&euro;
-                    </span>
-                    <span className="text-xs text-text-muted block">/Nacht</span>
-                  </td>
-                </tr>
-              </>
-            ) : (
-              <>
-                {/* Apartment: single row (weekday === weekend in data) */}
-                <tr className="bg-white hover:bg-background transition-colors">
-                  <td className="px-5 py-4 text-sm font-medium text-text">
-                    Pro Nacht
-                  </td>
-                  <td className="px-5 py-4 text-center">
-                    <span className="text-xs text-text-muted">ab </span>
-                    <span className="text-lg font-semibold text-primary">
-                      {prices.weekday[1]}&thinsp;&euro;
-                    </span>
-                    <span className="text-xs text-text-muted block">/Nacht</span>
-                  </td>
-                </tr>
-              </>
-            )}
+            <tr className="bg-white hover:bg-background transition-colors">
+              <td className="px-5 py-4 text-sm font-medium text-text">
+                Pro Nacht
+              </td>
+              <td className="px-5 py-4 text-center">
+                <span className="text-xs text-text-muted">ab </span>
+                <span className="text-lg font-semibold text-primary">
+                  {prices.weekday[1]}&thinsp;&euro;
+                </span>
+                <span className="text-xs text-text-muted block">/Nacht</span>
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -133,7 +72,7 @@ export default function PriceTable({ apartmentSlug }: PriceTableProps) {
             "
           >
             <Tag size={14} />
-            -{discount.percentage}% ab {discount.minNights} N&auml;chten
+            <span>{`-${discount.percentage}% ab ${discount.minNights} Nächten`}</span>
           </span>
         ))}
       </div>

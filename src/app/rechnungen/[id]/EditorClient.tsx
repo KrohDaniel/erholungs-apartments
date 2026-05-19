@@ -200,42 +200,44 @@ export default function EditorClient({ id }: { id: string }) {
   }
 
   return (
-    <div className="mx-auto max-w-7xl px-6 py-8">
+    <div className="mx-auto max-w-7xl px-4 py-5 sm:px-6 sm:py-8">
       <Link
         href="/rechnungen/"
-        className="mb-4 inline-flex items-center gap-1 text-sm text-text-light hover:text-primary"
+        className="mb-3 inline-flex items-center gap-1 text-sm text-text-light hover:text-primary"
       >
         ← Zurück
       </Link>
 
-      <div className="mb-6 flex items-baseline justify-between flex-wrap gap-4">
-        <div>
-          <h1 className="text-3xl font-bold text-text">
-            Rechnung {inv.invoiceNumber}
-          </h1>
-          <p className="mt-1 text-text-muted">
-            {inv.fullName || 'Gast'}
-            {' · '}
-            {inv.status === 'sent'
-              ? 'abgeschlossen'
-              : inv.status === 'cancelled'
-              ? 'storniert'
-              : 'Entwurf'}
-            {inv.sentAt && (
-              <span className="ml-2 text-xs">
-                · per E-Mail versendet
-              </span>
-            )}
-            {inv.paid && (
-              <span className="ml-2 text-xs text-primary">· bezahlt</span>
-            )}
-            {saving && <span className="ml-2 italic">speichert…</span>}
-          </p>
-        </div>
-        <div className="flex flex-wrap gap-2">
+      <div className="mb-5 sm:mb-6">
+        <h1 className="text-2xl font-bold text-text sm:text-3xl">
+          Rechnung {inv.invoiceNumber}
+        </h1>
+        <p className="mt-1 text-sm text-text-muted">
+          {inv.fullName || 'Gast'}
+          {' · '}
+          {inv.status === 'sent'
+            ? 'abgeschlossen'
+            : inv.status === 'cancelled'
+            ? 'storniert'
+            : 'Entwurf'}
+          {inv.sentAt && (
+            <span className="block text-xs sm:ml-2 sm:inline">
+              · per E-Mail versendet
+            </span>
+          )}
+          {inv.paid && (
+            <span className="block text-xs text-primary sm:ml-2 sm:inline">
+              · bezahlt
+            </span>
+          )}
+          {saving && <span className="ml-2 italic">speichert…</span>}
+        </p>
+
+        {/* Tab switch */}
+        <div className="mt-4 flex gap-2">
           <button
             onClick={() => setTab('edit')}
-            className={`rounded-lg px-4 py-2 text-sm font-medium ${
+            className={`flex-1 rounded-lg px-3 py-2 text-sm font-medium sm:flex-none sm:px-4 ${
               tab === 'edit'
                 ? 'bg-primary text-white'
                 : 'bg-white border border-border text-text-light hover:bg-secondary'
@@ -246,7 +248,7 @@ export default function EditorClient({ id }: { id: string }) {
           <button
             onClick={() => setTab('send')}
             disabled={!ready && !readonly}
-            className={`rounded-lg px-4 py-2 text-sm font-medium ${
+            className={`flex-1 rounded-lg px-3 py-2 text-sm font-medium sm:flex-none sm:px-4 ${
               tab === 'send'
                 ? 'bg-primary text-white'
                 : 'bg-white border border-border text-text-light hover:bg-secondary'
@@ -254,17 +256,21 @@ export default function EditorClient({ id }: { id: string }) {
           >
             Versand
           </button>
+        </div>
+
+        {/* Primary actions */}
+        <div className="mt-3 flex flex-wrap gap-2">
           {!readonly && ready && (
             <button
               onClick={() => setConfirmFinalize(true)}
-              className="rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white hover:bg-primary-light"
+              className="flex-1 rounded-lg bg-primary px-3 py-2 text-sm font-semibold text-white hover:bg-primary-light sm:flex-none sm:px-4"
             >
               🔒 Rechnung abschließen
             </button>
           )}
           <button
             onClick={() => setConfirmDelete(true)}
-            className="rounded-lg border border-red-200 bg-white px-4 py-2 text-sm font-medium text-red-700 hover:bg-red-50"
+            className="rounded-lg border border-red-200 bg-white px-3 py-2 text-sm font-medium text-red-700 hover:bg-red-50 sm:px-4"
           >
             🗑 Löschen
           </button>
@@ -291,9 +297,9 @@ export default function EditorClient({ id }: { id: string }) {
         </div>
       )}
 
-      <div className="grid gap-6 lg:grid-cols-[1fr,1.1fr]">
+      <div className="grid gap-5 lg:grid-cols-[1fr,1.1fr] lg:gap-6">
         {/* LEFT: form or send */}
-        <div className="rounded-2xl border border-border bg-white p-6">
+        <div className="rounded-2xl border border-border bg-white p-4 sm:p-6">
           {tab === 'edit' ? (
             <EditForm inv={inv} readonly={readonly} update={update} missing={missing} />
           ) : (
@@ -317,15 +323,8 @@ export default function EditorClient({ id }: { id: string }) {
           )}
         </div>
 
-        {/* RIGHT: preview */}
-        <div>
-          <div className="mb-2 text-xs uppercase tracking-wider text-text-muted">
-            Vorschau (PDF-Layout)
-          </div>
-          <div className="rounded-2xl bg-secondary p-4 overflow-hidden">
-            <PreviewWrapper inv={inv} />
-          </div>
-        </div>
+        {/* RIGHT: preview (always visible on desktop, collapsible on mobile) */}
+        <PreviewSection inv={inv} />
       </div>
 
       {/* Confirm: Send / Re-Send */}
@@ -406,12 +405,38 @@ export default function EditorClient({ id }: { id: string }) {
   );
 }
 
+function PreviewSection({ inv }: { inv: Invoice }) {
+  const [openMobile, setOpenMobile] = useState(false);
+  return (
+    <div className="rounded-2xl bg-secondary">
+      <button
+        type="button"
+        onClick={() => setOpenMobile((v) => !v)}
+        className="flex w-full items-center justify-between px-4 py-3 text-xs uppercase tracking-wider text-text-muted lg:cursor-default lg:pointer-events-none lg:py-3"
+      >
+        <span>Vorschau (PDF-Layout)</span>
+        <span
+          className={`text-base transition-transform lg:hidden ${
+            openMobile ? 'rotate-180' : ''
+          }`}
+        >
+          ⌄
+        </span>
+      </button>
+      <div className={`${openMobile ? 'block' : 'hidden'} px-3 pb-4 lg:block lg:px-4`}>
+        <PreviewWrapper inv={inv} />
+      </div>
+    </div>
+  );
+}
+
 function PreviewWrapper({ inv }: { inv: Invoice }) {
   // The InvoicePreview is fixed at 794px wide. We scale it down to fit the column.
-  // Container handles the height adjustment.
   return (
-    <div style={{ position: 'relative', height: 1123 * 0.55 }}>
-      <InvoicePreview inv={inv} scale={0.55} />
+    <div className="overflow-x-auto">
+      <div style={{ position: 'relative', height: 1123 * 0.55, minWidth: 794 * 0.55 }}>
+        <InvoicePreview inv={inv} scale={0.55} />
+      </div>
     </div>
   );
 }

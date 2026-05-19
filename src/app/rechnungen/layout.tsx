@@ -14,30 +14,34 @@ export default async function RechnungenLayout({
   return (
     <div className="min-h-screen bg-background">
       <header className="sticky top-0 z-30 border-b border-border bg-white">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
-          <Link href="/rechnungen/" className="flex items-center gap-3">
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-2 px-4 py-3 sm:px-6 sm:py-4">
+          <Link href="/rechnungen/" className="flex items-center gap-2 min-w-0 sm:gap-3">
             <img
               src="/images/general/logo_weiss_FeWo.png"
               alt="Erholungs Apartments"
-              className="h-10 w-auto"
+              className="h-8 w-auto shrink-0 sm:h-10"
             />
-            <div>
-              <div className="font-semibold text-text">Erholungs Apartments</div>
-              <div className="text-xs uppercase tracking-wider text-text-muted">
+            <div className="min-w-0">
+              <div className="truncate text-sm font-semibold text-text sm:text-base">
+                Erholungs Apartments
+              </div>
+              <div className="text-[10px] uppercase tracking-wider text-text-muted sm:text-xs">
                 Rechnungs-Tool
               </div>
             </div>
           </Link>
-          <div className="flex items-center gap-4 text-sm">
+          <div className="flex items-center gap-2 text-sm sm:gap-4">
             <a
               href="https://erholungs-apartments.de"
               target="_blank"
               rel="noreferrer"
-              className="text-text-light hover:text-primary"
+              className="hidden text-text-light hover:text-primary md:inline"
             >
               ↗ Hauptseite
             </a>
-            <span className="text-text-muted">{admin.email}</span>
+            <span className="hidden text-xs text-text-muted lg:inline">
+              {admin.email}
+            </span>
             <LogoutButton />
           </div>
         </div>

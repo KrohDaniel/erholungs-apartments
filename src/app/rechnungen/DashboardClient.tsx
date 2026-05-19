@@ -61,7 +61,7 @@ export default function DashboardClient() {
   return (
     <>
       {/* Stats */}
-      <div className="mb-8 grid grid-cols-2 gap-4 md:grid-cols-4">
+      <div className="mb-6 grid grid-cols-2 gap-3 md:mb-8 md:grid-cols-4 md:gap-4">
         <Stat label="Gesamt" value={total} />
         <Stat label="Versendet" value={totalSent} tone="success" />
         <Stat label="Entwürfe" value={totalDraft} tone="warning" />
@@ -76,12 +76,12 @@ export default function DashboardClient() {
 
       {/* Filter + Table */}
       <div className="overflow-hidden rounded-2xl border border-border bg-white">
-        <div className="flex flex-wrap items-center gap-3 border-b border-border p-4">
+        <div className="flex flex-col gap-3 border-b border-border p-3 md:flex-row md:flex-wrap md:items-center md:p-4">
           <input
-            placeholder="Name, Rechnungs- oder Buchungsnummer…"
+            placeholder="Name, Rechnungs- oder Buchungsnr…"
             value={q}
             onChange={(e) => setQ(e.target.value)}
-            className="flex-1 min-w-[200px] max-w-md rounded-lg border border-border px-3 py-2 text-sm focus:border-primary focus:outline-none"
+            className="w-full rounded-lg border border-border px-3 py-2 text-sm focus:border-primary focus:outline-none md:flex-1 md:max-w-md"
           />
           <div className="flex gap-1">
             {(
@@ -94,7 +94,7 @@ export default function DashboardClient() {
               <button
                 key={k}
                 onClick={() => setFilter(k)}
-                className={`rounded-md px-3 py-1.5 text-sm transition-colors ${
+                className={`flex-1 rounded-md px-3 py-1.5 text-sm transition-colors md:flex-none ${
                   filter === k
                     ? 'bg-primary text-white'
                     : 'text-text-light hover:bg-secondary'
@@ -107,7 +107,7 @@ export default function DashboardClient() {
         </div>
 
         {filtered.length === 0 ? (
-          <div className="p-16 text-center">
+          <div className="p-12 text-center sm:p-16">
             <p className="text-text-muted mb-4">
               {total > 0 ? 'Keine Treffer.' : 'Noch keine Rechnungen vorhanden.'}
             </p>
@@ -119,78 +119,73 @@ export default function DashboardClient() {
             </Link>
           </div>
         ) : (
-          <table className="w-full">
-            <thead>
-              <tr className="bg-background text-left text-xs uppercase tracking-wider text-text-muted">
-                <th className="px-4 py-3 font-medium">Nr.</th>
-                <th className="px-4 py-3 font-medium">Gast</th>
-                <th className="px-4 py-3 font-medium">Apartment</th>
-                <th className="px-4 py-3 font-medium">Zeitraum</th>
-                <th className="px-4 py-3 font-medium text-right">Betrag</th>
-                <th className="px-4 py-3 font-medium">Status</th>
-                <th />
-              </tr>
-            </thead>
-            <tbody>
-              {filtered.map((inv) => {
-                const apt = INVOICE_APARTMENTS.find((a) => a.id === inv.apartmentId);
-                return (
-                  <tr
-                    key={inv.id}
-                    className="cursor-pointer border-t border-border hover:bg-secondary/50"
-                  >
-                    <td className="px-4 py-3.5 font-semibold">
-                      <Link
-                        href={`/rechnungen/${inv.id}/`}
-                        className="block"
-                      >
-                        {inv.invoiceNumber}
-                      </Link>
-                    </td>
-                    <td className="px-4 py-3.5">
-                      <div className="font-medium">{inv.fullName || '—'}</div>
-                      <div className="text-xs text-text-muted">{inv.email}</div>
-                    </td>
-                    <td className="px-4 py-3.5 text-sm">
-                      {apt ? apt.shortName : '—'}
-                    </td>
-                    <td className="px-4 py-3.5 text-sm">
-                      {dateShort(inv.arrivalDate)} – {dateShort(inv.departureDate)}
-                      <div className="text-xs text-text-muted">
-                        {nights(inv.arrivalDate, inv.departureDate)} Nächte
-                      </div>
-                    </td>
-                    <td className="px-4 py-3.5 text-right font-medium tabular-nums">
-                      {eur(inv.paidAmount)}
-                    </td>
-                    <td className="px-4 py-3.5">
-                      {inv.status === 'sent' ? (
-                        <span className="inline-flex items-center gap-1.5 rounded-full bg-green-50 px-2.5 py-1 text-xs font-medium text-green-700">
-                          versendet
-                        </span>
-                      ) : inv.status === 'cancelled' ? (
-                        <span className="inline-flex items-center gap-1.5 rounded-full bg-red-50 px-2.5 py-1 text-xs font-medium text-red-700">
-                          storniert
-                        </span>
-                      ) : (
-                        <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-50 px-2.5 py-1 text-xs font-medium text-amber-700">
-                          Entwurf
-                        </span>
-                      )}
-                    </td>
-                    <td className="px-4 py-3.5 text-right">
-                      <Link
-                        href={`/rechnungen/${inv.id}/`}
-                        className="text-sm text-primary hover:underline"
-                      >
-                        Öffnen →
-                      </Link>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+          <>
+            {/* Mobile: card list */}
+            <ul className="divide-y divide-border md:hidden">
+              {filtered.map((inv) => (
+                <InvoiceCard key={inv.id} inv={inv} />
+              ))}
+            </ul>
+
+            {/* Desktop: table */}
+            <table className="hidden w-full md:table">
+              <thead>
+                <tr className="bg-background text-left text-xs uppercase tracking-wider text-text-muted">
+                  <th className="px-4 py-3 font-medium">Nr.</th>
+                  <th className="px-4 py-3 font-medium">Gast</th>
+                  <th className="px-4 py-3 font-medium">Apartment</th>
+                  <th className="px-4 py-3 font-medium">Zeitraum</th>
+                  <th className="px-4 py-3 font-medium text-right">Betrag</th>
+                  <th className="px-4 py-3 font-medium">Status</th>
+                  <th />
+                </tr>
+              </thead>
+              <tbody>
+                {filtered.map((inv) => {
+                  const apt = INVOICE_APARTMENTS.find((a) => a.id === inv.apartmentId);
+                  return (
+                    <tr
+                      key={inv.id}
+                      className="cursor-pointer border-t border-border hover:bg-secondary/50"
+                    >
+                      <td className="px-4 py-3.5 font-semibold">
+                        <Link href={`/rechnungen/${inv.id}/`} className="block">
+                          {inv.invoiceNumber}
+                        </Link>
+                      </td>
+                      <td className="px-4 py-3.5">
+                        <div className="font-medium">{inv.fullName || '—'}</div>
+                        <div className="text-xs text-text-muted">{inv.email}</div>
+                      </td>
+                      <td className="px-4 py-3.5 text-sm">
+                        {apt ? apt.shortName : '—'}
+                      </td>
+                      <td className="px-4 py-3.5 text-sm">
+                        {dateShort(inv.arrivalDate)} – {dateShort(inv.departureDate)}
+                        <div className="text-xs text-text-muted">
+                          {nights(inv.arrivalDate, inv.departureDate)} Nächte
+                        </div>
+                      </td>
+                      <td className="px-4 py-3.5 text-right font-medium tabular-nums">
+                        {eur(inv.paidAmount)}
+                      </td>
+                      <td className="px-4 py-3.5">
+                        <StatusBadge status={inv.status} />
+                      </td>
+                      <td className="px-4 py-3.5 text-right">
+                        <Link
+                          href={`/rechnungen/${inv.id}/`}
+                          className="text-sm text-primary hover:underline"
+                        >
+                          Öffnen →
+                        </Link>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </>
         )}
       </div>
     </>
@@ -215,10 +210,65 @@ function Stat({
       ? 'text-accent-dark'
       : 'text-text';
   return (
-    <div className="rounded-2xl border border-border bg-white p-5">
-      <div className="text-xs uppercase tracking-wider text-text-muted">{label}</div>
-      <div className={`mt-1 text-2xl font-bold ${valueClass}`}>{value}</div>
+    <div className="rounded-xl border border-border bg-white p-4 md:rounded-2xl md:p-5">
+      <div className="text-[10px] uppercase tracking-wider text-text-muted md:text-xs">
+        {label}
+      </div>
+      <div className={`mt-1 text-xl font-bold md:text-2xl ${valueClass}`}>{value}</div>
       {hint && <div className="mt-1 text-xs text-text-muted">{hint}</div>}
     </div>
+  );
+}
+
+function InvoiceCard({ inv }: { inv: Invoice }) {
+  const apt = INVOICE_APARTMENTS.find((a) => a.id === inv.apartmentId);
+  return (
+    <li>
+      <Link
+        href={`/rechnungen/${inv.id}/`}
+        className="flex flex-col gap-2 px-4 py-3.5 active:bg-secondary/60"
+      >
+        <div className="flex items-baseline justify-between gap-3">
+          <div className="font-semibold text-text">{inv.invoiceNumber}</div>
+          <StatusBadge status={inv.status} />
+        </div>
+        <div className="text-sm font-medium text-text">
+          {inv.fullName || '—'}
+        </div>
+        <div className="flex items-baseline justify-between gap-3">
+          <div className="text-xs text-text-muted">
+            {apt ? apt.shortName : '—'} ·{' '}
+            {inv.arrivalDate
+              ? `${dateShort(inv.arrivalDate)} – ${dateShort(inv.departureDate)} · ${nights(inv.arrivalDate, inv.departureDate)} N.`
+              : '—'}
+          </div>
+          <div className="text-sm font-semibold tabular-nums text-text">
+            {eur(inv.paidAmount)}
+          </div>
+        </div>
+      </Link>
+    </li>
+  );
+}
+
+function StatusBadge({ status }: { status: InvoiceStatus }) {
+  if (status === 'sent') {
+    return (
+      <span className="inline-flex items-center rounded-full bg-green-50 px-2 py-0.5 text-[11px] font-medium text-green-700">
+        versendet
+      </span>
+    );
+  }
+  if (status === 'cancelled') {
+    return (
+      <span className="inline-flex items-center rounded-full bg-red-50 px-2 py-0.5 text-[11px] font-medium text-red-700">
+        storniert
+      </span>
+    );
+  }
+  return (
+    <span className="inline-flex items-center rounded-full bg-amber-50 px-2 py-0.5 text-[11px] font-medium text-amber-700">
+      Entwurf
+    </span>
   );
 }

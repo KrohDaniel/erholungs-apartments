@@ -232,6 +232,52 @@ export default function DatenschutzerklaerungPage() {
               </p>
             </div>
 
+            {/* 5a. Rechnungsanfrage */}
+            <div>
+              <h2 className="mb-4 text-xl font-bold text-text">
+                5a. Rechnungsanfrage-Formular
+              </h2>
+              <p>
+                Auf der Seite{' '}
+                <a href="/rechnungsanfrage/" className="text-primary hover:underline">
+                  /rechnungsanfrage
+                </a>{' '}
+                k&ouml;nnen Sie als Gast nach Ihrem Aufenthalt eine Rechnung
+                anfordern. Die dort eingegebenen Daten (Name, Anschrift, E-Mail,
+                Aufenthaltsdaten, Buchungsnummer, gezahlter Betrag, ggf. Firma)
+                werden bei uns gespeichert, um Ihnen eine Rechnung erstellen und
+                per E-Mail zustellen zu k&ouml;nnen.
+              </p>
+              <p className="mt-3">
+                Rechtsgrundlage der Verarbeitung ist Art. 6 Abs. 1 lit. b DSGVO
+                (Erf&uuml;llung eines Vertrags bzw. vorvertraglicher Ma&szlig;nahmen)
+                in Verbindung mit den steuer- und handelsrechtlichen
+                Aufbewahrungspflichten gem&auml;&szlig; &sect; 147 AO und
+                &sect; 257 HGB.
+              </p>
+              <p className="mt-3">
+                <strong className="text-text">Speicherdauer:</strong> Die im
+                Formular eingegebenen Daten werden so lange in unserer Datenbank
+                vorgehalten, bis die Rechnung erstellt und versendet wurde, und
+                anschlie&szlig;end gel&ouml;scht. Die erstellte Rechnung selbst
+                wird gem&auml;&szlig; den gesetzlichen Aufbewahrungsfristen
+                <strong> 10 Jahre</strong> aufbewahrt (&sect; 147 AO).
+              </p>
+              <p className="mt-3">
+                Falls Sie das Formular versehentlich ausgef&uuml;llt haben oder
+                Ihre Anfrage zur&uuml;ckziehen m&ouml;chten, kontaktieren Sie uns
+                bitte unter{' '}
+                <a
+                  href={`mailto:${SITE_CONFIG.email}`}
+                  className="text-primary hover:underline"
+                >
+                  {SITE_CONFIG.email}
+                </a>
+                . Wir l&ouml;schen Ihre Anfrage dann umgehend, sofern noch keine
+                Rechnung erstellt wurde.
+              </p>
+            </div>
+
             {/* 6. Zahlungsdaten */}
             <div>
               <h2 className="mb-4 text-xl font-bold text-text">

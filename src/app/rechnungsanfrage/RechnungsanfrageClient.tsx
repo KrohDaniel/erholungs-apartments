@@ -1,10 +1,13 @@
 'use client';
 
-import { useState, type FormEvent } from 'react';
+import { useState, useRef, useEffect, useCallback, type FormEvent } from 'react';
+import Script from 'next/script';
 import Link from 'next/link';
 import { INVOICE_APARTMENTS } from '@/lib/invoice-constants';
 import { nights } from '@/lib/invoice-format';
 import type { InvoiceChannel, InvoiceApartmentId } from '@/types/invoice';
+
+const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || '';
 
 interface FormState {
   fullName: string;
@@ -45,17 +48,46 @@ const INITIAL: FormState = {
 export default function RechnungsanfrageClient() {
   const [form, setForm] = useState<FormState>(INITIAL);
   const [website, setWebsite] = useState(''); // honeypot
+  const [turnstileToken, setTurnstileToken] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState('');
+  const turnstileRef = useRef<HTMLDivElement>(null);
+  const widgetIdRef = useRef<string | null>(null);
 
   function set<K extends keyof FormState>(key: K, value: FormState[K]) {
     setForm((f) => ({ ...f, [key]: value }));
   }
 
+  const renderTurnstile = useCallback(() => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const win = window as any;
+    if (turnstileRef.current && !widgetIdRef.current && win.turnstile && TURNSTILE_SITE_KEY) {
+      widgetIdRef.current = win.turnstile.render(turnstileRef.current, {
+        sitekey: TURNSTILE_SITE_KEY,
+        callback: (token: string) => setTurnstileToken(token),
+        'expired-callback': () => setTurnstileToken(''),
+        theme: 'light',
+        language: 'de',
+      });
+    }
+  }, []);
+
+  useEffect(() => {
+    renderTurnstile();
+  }, [renderTurnstile]);
+
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setError('');
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const turnstileLoaded = !!(window as any).turnstile;
+    if (TURNSTILE_SITE_KEY && turnstileLoaded && !turnstileToken) {
+      setError('Bitte bestätigen Sie, dass Sie kein Roboter sind.');
+      return;
+    }
+
     setSubmitting(true);
     try {
       const res = await fetch('/api/invoice-request', {
@@ -65,6 +97,7 @@ export default function RechnungsanfrageClient() {
           ...form,
           paidAmount: form.paidAmount === '' ? null : Number(form.paidAmount),
           website,
+          ...(turnstileToken ? { turnstileToken } : {}),
         }),
       });
       const result = await res.json().catch(() => ({}));
@@ -311,6 +344,9 @@ export default function RechnungsanfrageClient() {
           </div>
         )}
 
+        {/* Cloudflare Turnstile */}
+        <div ref={turnstileRef} className="flex justify-center" />
+
         <div className="flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-between">
           <Link
             href="/"
@@ -326,6 +362,14 @@ export default function RechnungsanfrageClient() {
             {submitting ? 'Sende…' : 'Anfrage absenden'}
           </button>
         </div>
+
+        {TURNSTILE_SITE_KEY && (
+          <Script
+            src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"
+            onLoad={renderTurnstile}
+            strategy="lazyOnload"
+          />
+        )}
 
         <p className="text-xs text-text-muted">
           Ihre Daten werden ausschließlich zur Rechnungserstellung verwendet

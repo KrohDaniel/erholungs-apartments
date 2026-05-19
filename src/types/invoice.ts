@@ -43,6 +43,33 @@ export interface Invoice {
   paidAmount: number | null;
 }
 
+/**
+ * Public guest-submitted invoice request.
+ * Stored in `invoiceRequests` collection. Deleted once converted to an Invoice.
+ */
+export interface InvoiceRequest {
+  id: string;
+  createdAt: string;
+  // Guest
+  fullName: string;
+  email: string;
+  skipEmail?: boolean;
+  company?: string;
+  address: string;
+  zipCity: string;
+  // Booking
+  bookingNumber?: string;
+  skipBookingNumber?: boolean;
+  apartmentId: InvoiceApartmentId | '';
+  arrivalDate: string;
+  departureDate: string;
+  channel: InvoiceChannel;
+  paidAmount: number | null;
+  paid?: boolean;
+  // Notes from guest (optional message)
+  message?: string;
+}
+
 export interface InvoiceExtractedData {
   fullName?: string | null;
   email?: string | null;

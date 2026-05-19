@@ -18,6 +18,12 @@ service cloud.firestore {
       allow read, write: if isAdmin();
     }
 
+    // --- Invoice requests: created via Admin SDK from public API route -------
+    // Client SDK has NO access (POST goes through /api/invoice-request).
+    match /invoiceRequests/{id} {
+      allow read, write: if isAdmin();
+    }
+
     // --- Invoices: admin-only -------------------------------------------------
     match /invoices/{id} {
       // Read & list: admin only

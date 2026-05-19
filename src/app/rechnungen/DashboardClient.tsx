@@ -5,20 +5,29 @@ import Link from 'next/link';
 import { listInvoices } from '@/lib/invoices';
 import { INVOICE_APARTMENTS } from '@/lib/invoice-constants';
 import { dateShort, eur, nights } from '@/lib/invoice-format';
-import type { Invoice, InvoiceStatus } from '@/types/invoice';
+import type { Invoice, InvoiceRequest, InvoiceStatus } from '@/types/invoice';
 
 type Filter = 'all' | InvoiceStatus;
 
 export default function DashboardClient() {
   const [items, setItems] = useState<Invoice[]>([]);
+  const [requests, setRequests] = useState<InvoiceRequest[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [q, setQ] = useState('');
   const [filter, setFilter] = useState<Filter>('all');
 
   useEffect(() => {
-    listInvoices()
-      .then((all) => setItems(all))
+    Promise.all([
+      listInvoices(),
+      fetch('/api/invoice-request', { credentials: 'include' })
+        .then((r) => (r.ok ? r.json() : { items: [] }))
+        .then((d) => (d.items as InvoiceRequest[]) || []),
+    ])
+      .then(([invoices, reqs]) => {
+        setItems(invoices);
+        setRequests(reqs);
+      })
       .catch((e) => setError(e instanceof Error ? e.message : 'Fehler beim Laden'))
       .finally(() => setLoading(false));
   }, []);
@@ -60,6 +69,48 @@ export default function DashboardClient() {
 
   return (
     <>
+      {/* Open requests from public form */}
+      {requests.length > 0 && (
+        <div className="mb-6 rounded-2xl border border-accent/40 bg-accent/5 p-4 sm:p-5">
+          <div className="mb-3 flex items-center justify-between">
+            <h2 className="text-sm font-semibold text-text">
+              📩 Offene Rechnungsanfragen ({requests.length})
+            </h2>
+          </div>
+          <ul className="divide-y divide-accent/20">
+            {requests.map((req) => (
+              <li key={req.id}>
+                <Link
+                  href={`/rechnungen/anfrage/${req.id}/`}
+                  className="flex flex-col gap-1 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4 active:bg-accent/10"
+                >
+                  <div className="min-w-0 flex-1">
+                    <div className="font-semibold text-text">
+                      {req.fullName || '—'}
+                    </div>
+                    <div className="text-xs text-text-muted">
+                      {req.email || 'keine E-Mail'}
+                      {req.arrivalDate && (
+                        <>
+                          {' · '}
+                          {dateShort(req.arrivalDate)} – {dateShort(req.departureDate)}
+                        </>
+                      )}
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="text-sm font-semibold tabular-nums text-text">
+                      {eur(req.paidAmount)}
+                    </div>
+                    <span className="text-sm text-primary">→</span>
+                  </div>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
       {/* Stats */}
       <div className="mb-6 grid grid-cols-2 gap-3 md:mb-8 md:grid-cols-4 md:gap-4">
         <Stat label="Gesamt" value={total} />

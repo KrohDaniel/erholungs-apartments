@@ -50,13 +50,17 @@ export async function POST(request: Request) {
     }
     const invoice = { id: snap.id, ...snap.data() } as Invoice;
 
-    const targetEmail = overrideEmail || invoice.email;
+    const targetEmail = (overrideEmail || invoice.email || '').trim();
     if (!targetEmail) {
       return NextResponse.json(
         { error: 'Keine E-Mail-Adresse angegeben.' },
         { status: 400 }
       );
     }
+
+    console.log(
+      `[Invoice Send] invoice=${invoiceId} originalEmail=${invoice.email || '—'} overrideEmail=${overrideEmail || '—'} → targetEmail=${targetEmail}`
+    );
 
     // Render PDF
     const pdfBuffer = await renderToBuffer(<InvoicePdfDocument inv={invoice} />);
@@ -114,6 +118,7 @@ export async function POST(request: Request) {
       ok: true,
       messageId: result.data?.id,
       sentAt: now,
+      sentTo: targetEmail,
       isResend: wasAlreadySent,
     });
   } catch (error) {

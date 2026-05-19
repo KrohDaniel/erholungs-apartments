@@ -43,6 +43,8 @@ export default function EditorClient({ id }: { id: string }) {
   const [deleting, setDeleting] = useState(false);
   /** Override-Adresse für den Mail-Versand (initial aus inv.email) */
   const [sendToEmail, setSendToEmail] = useState('');
+  /** Adresse die zuletzt tatsächlich vom Server angesteuert wurde */
+  const [lastSentTo, setLastSentTo] = useState('');
 
   useEffect(() => {
     getInvoice(id)
@@ -140,6 +142,8 @@ export default function EditorClient({ id }: { id: string }) {
     setConfirmSend(false);
     setSendStatus('sending');
     setError('');
+    const overrideEmail =
+      sendToEmail && sendToEmail !== inv.email ? sendToEmail : undefined;
     try {
       const res = await fetch('/api/invoice/send', {
         method: 'POST',
@@ -148,7 +152,7 @@ export default function EditorClient({ id }: { id: string }) {
           invoiceId: inv.id,
           subject,
           body,
-          overrideEmail: sendToEmail && sendToEmail !== inv.email ? sendToEmail : undefined,
+          overrideEmail,
         }),
       });
       const result = await res.json().catch(() => ({}));
@@ -161,6 +165,7 @@ export default function EditorClient({ id }: { id: string }) {
           ? { ...inv, lastResentAt: now }
           : { ...inv, sentAt: now }
       );
+      setLastSentTo(result.sentTo || overrideEmail || inv.email);
       setSendStatus('sent');
     } catch (e) {
       setSendStatus('error');
@@ -293,7 +298,8 @@ export default function EditorClient({ id }: { id: string }) {
 
       {sendStatus === 'sent' && (
         <div className="mb-4 rounded-lg border border-green-200 bg-green-50 p-3 text-sm text-green-700">
-          ✓ E-Mail mit PDF wurde erfolgreich an {inv.email} gesendet.
+          ✓ E-Mail mit PDF wurde erfolgreich an{' '}
+          <strong>{lastSentTo || inv.email}</strong> gesendet.
         </div>
       )}
 

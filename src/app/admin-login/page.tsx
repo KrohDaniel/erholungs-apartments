@@ -10,7 +10,7 @@ export default function AdminLoginPage() {
   const searchParams = useSearchParams();
   const next = searchParams.get('next') || '/rechnungen';
 
-  const [email, setEmail] = useState('');
+  const email = 'info@erholungs-apartments.de';
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -54,19 +54,18 @@ export default function AdminLoginPage() {
         </p>
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="mb-1 block text-sm font-medium text-text-light" htmlFor="email">
-              E-Mail
-            </label>
-            <input
-              id="email"
-              type="email"
-              required
-              autoComplete="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full rounded-lg border border-border px-3 py-2 text-sm focus:border-primary focus:outline-none"
-            />
+          {/* Hidden email field for password managers */}
+          <input
+            type="email"
+            value={email}
+            autoComplete="username"
+            readOnly
+            hidden
+          />
+
+          <div className="rounded-lg bg-secondary px-3 py-2 text-sm text-text-light">
+            <span className="text-text-muted">Angemeldet als:</span>{' '}
+            <strong>{email}</strong>
           </div>
 
           <div>

@@ -37,7 +37,10 @@ export default function InvoicePreview({ inv, scale }: InvoicePreviewProps) {
   const today = dateLong(todayIso());
   const missing = (v: unknown) =>
     !v || (typeof v === 'string' && !v.trim());
-  const paid = inv.status === 'sent';
+  // "Bezahlt" ist ein eigener Status, getrennt vom Lebenszyklus (sent/draft).
+  // Backward-compat: alte versendete Rechnungen gelten als bezahlt, wenn kein
+  // expliziter `paid`-Wert vorhanden ist.
+  const paid = inv.paid ?? inv.status === 'sent';
 
   return (
     <div

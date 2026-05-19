@@ -72,18 +72,16 @@ export default function NewInvoiceClient() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ text }),
       });
-      if (res.ok) {
-        const data = (await res.json()) as InvoiceExtractedData;
-        await createDraft(data);
-        return;
+      const result = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        throw new Error(result.error || 'KI-Extraktion fehlgeschlagen.');
       }
-      // API not configured / fails - fall back to manual draft with raw text
-      await createDraft({});
+      await createDraft(result as InvoiceExtractedData);
     } catch (e) {
       setError(
         e instanceof Error
           ? e.message
-          : 'KI-Extraktion nicht verfügbar — manuell anlegen.'
+          : 'KI-Extraktion fehlgeschlagen. Bitte Gemini-API-Key prüfen.'
       );
       setLoading(false);
     }

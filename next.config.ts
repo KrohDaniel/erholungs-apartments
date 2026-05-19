@@ -46,7 +46,7 @@ const nextConfig: NextConfig = {
               "img-src 'self' data: blob: https://www.google-analytics.com https://www.googletagmanager.com https://*.booking.com https://*.stripe.com https://*.cloudflare.com",
               "font-src 'self' data:",
               "frame-src https://www.google.com https://maps.google.com https://js.stripe.com https://www.paypal.com https://www.sandbox.paypal.com https://*.cloudflare.com",
-              "connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://firestore.googleapis.com https://*.firebaseio.com https://api.stripe.com https://www.paypal.com https://*.cloudflare.com https://*.cloudflareinsights.com",
+              "connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://firestore.googleapis.com https://*.firebaseio.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://api.stripe.com https://www.paypal.com https://*.cloudflare.com https://*.cloudflareinsights.com",
             ].join('; '),
           },
         ],

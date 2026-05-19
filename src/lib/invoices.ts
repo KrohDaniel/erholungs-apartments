@@ -1,59 +1,57 @@
 // =============================================================================
-// Invoice Repository (Client-Side Firestore)
+// Invoice Repository (Client-Side) — uses /api/invoice/* routes
+// All actual data access happens server-side with the Firebase Admin SDK
+// after verifying the admin session cookie.
 // =============================================================================
 
-import {
-  collection,
-  doc,
-  getDoc,
-  getDocs,
-  setDoc,
-  deleteDoc,
-  query,
-  orderBy,
-  Timestamp,
-} from 'firebase/firestore';
-import { getDb } from './firebase';
 import type { Invoice } from '@/types/invoice';
 
-const COLLECTION = 'invoices';
-
-function normalizeInvoice(data: Record<string, unknown>): Invoice {
-  const out: Record<string, unknown> = { ...data };
-  // Convert any Firestore Timestamps back to ISO strings
-  for (const k of ['createdAt', 'sentAt', 'updatedAt', 'cancelledAt']) {
-    const v = out[k];
-    if (v instanceof Timestamp) {
-      out[k] = v.toDate().toISOString();
-    }
-  }
-  return out as unknown as Invoice;
-}
-
 export async function listInvoices(): Promise<Invoice[]> {
-  const db = getDb();
-  const q = query(collection(db, COLLECTION), orderBy('createdAt', 'desc'));
-  const snap = await getDocs(q);
-  return snap.docs.map((d) => normalizeInvoice({ id: d.id, ...d.data() }));
+  const res = await fetch('/api/invoice', { credentials: 'include' });
+  if (!res.ok) {
+    const body = await res.json().catch(() => ({}));
+    throw new Error(body.error || 'Fehler beim Laden.');
+  }
+  const data = (await res.json()) as { items: Invoice[] };
+  return data.items;
 }
 
 export async function getInvoice(id: string): Promise<Invoice | null> {
-  const db = getDb();
-  const snap = await getDoc(doc(db, COLLECTION, id));
-  if (!snap.exists()) return null;
-  return normalizeInvoice({ id: snap.id, ...snap.data() });
+  const res = await fetch(`/api/invoice/${encodeURIComponent(id)}`, {
+    credentials: 'include',
+  });
+  if (res.status === 404) return null;
+  if (!res.ok) {
+    const body = await res.json().catch(() => ({}));
+    throw new Error(body.error || 'Fehler beim Laden.');
+  }
+  const data = (await res.json()) as { invoice: Invoice };
+  return data.invoice;
 }
 
 export async function upsertInvoice(inv: Invoice): Promise<Invoice> {
-  const db = getDb();
-  const { id, ...data } = inv;
-  await setDoc(doc(db, COLLECTION, id), data, { merge: true });
+  const res = await fetch('/api/invoice', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(inv),
+    credentials: 'include',
+  });
+  if (!res.ok) {
+    const body = await res.json().catch(() => ({}));
+    throw new Error(body.error || 'Fehler beim Speichern.');
+  }
   return inv;
 }
 
 export async function deleteInvoice(id: string): Promise<void> {
-  const db = getDb();
-  await deleteDoc(doc(db, COLLECTION, id));
+  const res = await fetch(`/api/invoice/${encodeURIComponent(id)}`, {
+    method: 'DELETE',
+    credentials: 'include',
+  });
+  if (!res.ok) {
+    const body = await res.json().catch(() => ({}));
+    throw new Error(body.error || 'Fehler beim Löschen.');
+  }
 }
 
 /** Generate next invoice number in current year, format YYYY-NNN */

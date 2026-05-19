@@ -3,11 +3,12 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { getInvoice, upsertInvoice } from '@/lib/invoices';
+import { deleteInvoice, getInvoice, upsertInvoice } from '@/lib/invoices';
 import { INVOICE_APARTMENTS, EMAIL_TEMPLATES } from '@/lib/invoice-constants';
 import { renderTemplate } from '@/lib/invoice-template';
 import { nights } from '@/lib/invoice-format';
 import InvoicePreview from '@/components/invoice/InvoicePreview';
+import ConfirmModal from '@/components/invoice/ConfirmModal';
 import type { Invoice, InvoiceChannel, InvoiceLanguage } from '@/types/invoice';
 
 const REQUIRED: (keyof Invoice)[] = [
@@ -35,6 +36,13 @@ export default function EditorClient({ id }: { id: string }) {
   const [sendStatus, setSendStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>(
     'idle'
   );
+  const [confirmSend, setConfirmSend] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  const [confirmFinalize, setConfirmFinalize] = useState(false);
+  const [finalizing, setFinalizing] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+  /** Override-Adresse für den Mail-Versand (initial aus inv.email) */
+  const [sendToEmail, setSendToEmail] = useState('');
 
   useEffect(() => {
     getInvoice(id)
@@ -43,6 +51,7 @@ export default function EditorClient({ id }: { id: string }) {
           setError('Rechnung nicht gefunden.');
         } else {
           setInv(found);
+          setSendToEmail(found.email || '');
         }
       })
       .catch((e) => setError(e instanceof Error ? e.message : 'Fehler beim Laden'))
@@ -103,41 +112,90 @@ export default function EditorClient({ id }: { id: string }) {
     missing.push('bookingNumber');
   const ready = missing.length === 0;
 
-  function doPrint() {
-    window.print();
+  async function doPrint() {
+    if (!inv) return;
+    try {
+      const res = await fetch(`/api/invoice/${inv.id}/pdf`, {
+        credentials: 'include',
+      });
+      if (!res.ok) throw new Error('PDF konnte nicht generiert werden.');
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const lastName = (inv.fullName || 'Gast').split(/\s+/).slice(-1)[0];
+      const safeLast = lastName.replace(/[^a-zA-Z0-9äöüÄÖÜß-]/g, '');
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `Rechnung_${inv.invoiceNumber || 'Entwurf'}_${safeLast}.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'PDF-Download fehlgeschlagen.');
+    }
   }
 
   async function doSend() {
     if (!inv) return;
+    setConfirmSend(false);
     setSendStatus('sending');
+    setError('');
     try {
       const res = await fetch('/api/invoice/send', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ invoiceId: inv.id, subject, body }),
+        body: JSON.stringify({
+          invoiceId: inv.id,
+          subject,
+          body,
+          overrideEmail: sendToEmail && sendToEmail !== inv.email ? sendToEmail : undefined,
+        }),
       });
+      const result = await res.json().catch(() => ({}));
       if (!res.ok) {
-        const body = await res.json().catch(() => ({}));
-        throw new Error(body.error || 'Versand fehlgeschlagen.');
+        throw new Error(result.error || 'Versand fehlgeschlagen.');
       }
-      const next: Invoice = {
-        ...inv,
-        status: 'sent',
-        sentAt: new Date().toISOString(),
-      };
-      setInv(next);
+      const now = result.sentAt || new Date().toISOString();
+      setInv(
+        inv.sentAt
+          ? { ...inv, lastResentAt: now }
+          : { ...inv, sentAt: now }
+      );
       setSendStatus('sent');
     } catch (e) {
-      // Fallback: lokal als versendet markieren (Resend nicht eingerichtet)
-      const next: Invoice = {
-        ...inv,
-        status: 'sent',
-        sentAt: new Date().toISOString(),
-      };
+      setSendStatus('error');
+      setError(e instanceof Error ? e.message : 'E-Mail-Versand fehlgeschlagen.');
+    }
+  }
+
+  async function doFinalize() {
+    if (!inv) return;
+    setFinalizing(true);
+    setError('');
+    try {
+      const finalizedAt = new Date().toISOString();
+      const next: Invoice = { ...inv, status: 'sent', finalizedAt };
       await upsertInvoice(next);
       setInv(next);
-      setSendStatus('sent');
-      setError(e instanceof Error ? e.message : 'E-Mail-Versand offline, lokal markiert.');
+      setConfirmFinalize(false);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Abschluss fehlgeschlagen.');
+    } finally {
+      setFinalizing(false);
+    }
+  }
+
+  async function doDelete() {
+    if (!inv) return;
+    setDeleting(true);
+    setError('');
+    try {
+      await deleteInvoice(inv.id);
+      router.push('/rechnungen/');
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Löschen fehlgeschlagen.');
+      setDeleting(false);
+      setConfirmDelete(false);
     }
   }
 
@@ -159,14 +217,22 @@ export default function EditorClient({ id }: { id: string }) {
             {inv.fullName || 'Gast'}
             {' · '}
             {inv.status === 'sent'
-              ? 'versendet'
+              ? 'abgeschlossen'
               : inv.status === 'cancelled'
               ? 'storniert'
               : 'Entwurf'}
+            {inv.sentAt && (
+              <span className="ml-2 text-xs">
+                · per E-Mail versendet
+              </span>
+            )}
+            {inv.paid && (
+              <span className="ml-2 text-xs text-primary">· bezahlt</span>
+            )}
             {saving && <span className="ml-2 italic">speichert…</span>}
           </p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
           <button
             onClick={() => setTab('edit')}
             className={`rounded-lg px-4 py-2 text-sm font-medium ${
@@ -179,7 +245,7 @@ export default function EditorClient({ id }: { id: string }) {
           </button>
           <button
             onClick={() => setTab('send')}
-            disabled={!ready}
+            disabled={!ready && !readonly}
             className={`rounded-lg px-4 py-2 text-sm font-medium ${
               tab === 'send'
                 ? 'bg-primary text-white'
@@ -188,13 +254,40 @@ export default function EditorClient({ id }: { id: string }) {
           >
             Versand
           </button>
+          {!readonly && ready && (
+            <button
+              onClick={() => setConfirmFinalize(true)}
+              className="rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white hover:bg-primary-light"
+            >
+              🔒 Rechnung abschließen
+            </button>
+          )}
+          <button
+            onClick={() => setConfirmDelete(true)}
+            className="rounded-lg border border-red-200 bg-white px-4 py-2 text-sm font-medium text-red-700 hover:bg-red-50"
+          >
+            🗑 Löschen
+          </button>
         </div>
       </div>
 
       {readonly && (
         <div className="mb-4 rounded-lg border border-amber-200 bg-amber-50 p-3 text-sm text-amber-800">
-          Diese Rechnung wurde bereits {inv.status === 'sent' ? 'versendet' : 'storniert'}.
-          Änderungen sind aus GoBD-Gründen nicht mehr möglich.
+          Diese Rechnung wurde {inv.status === 'sent' ? 'abgeschlossen' : 'storniert'}.
+          Änderungen an Rechnungsdaten sind aus GoBD-Gründen nicht mehr möglich.
+          {inv.status === 'sent' && ' (Versand per E-Mail ist weiterhin möglich.)'}
+        </div>
+      )}
+
+      {error && sendStatus === 'error' && (
+        <div className="mb-4 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-700">
+          <strong>Fehler beim Versand:</strong> {error}
+        </div>
+      )}
+
+      {sendStatus === 'sent' && (
+        <div className="mb-4 rounded-lg border border-green-200 bg-green-50 p-3 text-sm text-green-700">
+          ✓ E-Mail mit PDF wurde erfolgreich an {inv.email} gesendet.
         </div>
       )}
 
@@ -210,15 +303,16 @@ export default function EditorClient({ id }: { id: string }) {
               setSubject={setSubject}
               body={body}
               setBody={setBody}
+              sendToEmail={sendToEmail}
+              setSendToEmail={setSendToEmail}
               onFocusTpl={() => setEditingTpl(true)}
               onChangeLang={(lang) => {
                 setEditingTpl(false);
                 update({ language: lang });
               }}
               doPrint={doPrint}
-              doSend={doSend}
+              onRequestSend={() => setConfirmSend(true)}
               sendStatus={sendStatus}
-              readonly={readonly}
             />
           )}
         </div>
@@ -233,6 +327,81 @@ export default function EditorClient({ id }: { id: string }) {
           </div>
         </div>
       </div>
+
+      {/* Confirm: Send / Re-Send */}
+      <ConfirmModal
+        open={confirmSend}
+        title={inv.sentAt ? 'Rechnung erneut senden?' : 'Rechnung senden?'}
+        message={
+          <>
+            {inv.sentAt && (
+              <div className="mb-3 rounded-md bg-amber-50 border border-amber-200 p-2 text-amber-800">
+                Diese Rechnung wurde bereits am{' '}
+                {new Date(inv.sentAt).toLocaleDateString('de-DE')} versendet.
+                Sie wird erneut an den Gast geschickt.
+              </div>
+            )}
+            <div>
+              Die Rechnung Nr. <strong>{inv.invoiceNumber}</strong> wird inkl.
+              PDF-Anhang an <strong>{sendToEmail || inv.email}</strong> gesendet.
+            </div>
+          </>
+        }
+        confirmLabel={inv.sentAt ? 'Erneut senden' : 'Jetzt senden'}
+        loading={sendStatus === 'sending'}
+        onConfirm={doSend}
+        onCancel={() => setConfirmSend(false)}
+      />
+
+      {/* Confirm: Finalize (lock invoice) */}
+      <ConfirmModal
+        open={confirmFinalize}
+        title="Rechnung jetzt abschließen?"
+        message={
+          <>
+            <div className="mb-3 rounded-md bg-amber-50 border border-amber-200 p-2 text-amber-800">
+              <strong>GoBD-Hinweis:</strong> Nach dem Abschließen kann die
+              Rechnung nicht mehr bearbeitet werden. Nur der E-Mail-Versand
+              bleibt weiterhin möglich.
+            </div>
+            <div>
+              Möchtest du die Rechnung Nr. <strong>{inv.invoiceNumber}</strong>{' '}
+              endgültig abschließen?
+            </div>
+          </>
+        }
+        confirmLabel="Ja, abschließen"
+        loading={finalizing}
+        onConfirm={doFinalize}
+        onCancel={() => setConfirmFinalize(false)}
+      />
+
+      {/* Confirm: Delete */}
+      <ConfirmModal
+        open={confirmDelete}
+        title="Rechnung löschen?"
+        variant="danger"
+        message={
+          <>
+            {inv.status === 'sent' && (
+              <div className="mb-3 rounded-md bg-red-50 border border-red-200 p-2 text-red-800">
+                <strong>Achtung:</strong> Diese Rechnung wurde bereits versendet.
+                Das Löschen verstößt gegen GoBD. Bitte nur löschen, wenn die
+                Rechnung versehentlich angelegt wurde.
+              </div>
+            )}
+            <div>
+              Möchtest du die Rechnung <strong>{inv.invoiceNumber}</strong>{' '}
+              wirklich endgültig löschen? Diese Aktion kann nicht rückgängig
+              gemacht werden.
+            </div>
+          </>
+        }
+        confirmLabel="Endgültig löschen"
+        loading={deleting}
+        onConfirm={doDelete}
+        onCancel={() => setConfirmDelete(false)}
+      />
     </div>
   );
 }
@@ -473,9 +642,9 @@ function EditForm({
         <div className="grid grid-cols-2 gap-2">
           <button
             disabled={readonly}
-            onClick={() => set('status', 'draft')}
+            onClick={() => set('paid', false)}
             className={`rounded-lg border p-3 text-left transition-colors ${
-              inv.status !== 'sent'
+              !inv.paid
                 ? 'border-accent bg-accent/10'
                 : 'border-border bg-white'
             } disabled:opacity-60`}
@@ -485,9 +654,9 @@ function EditForm({
           </button>
           <button
             disabled={readonly}
-            onClick={() => set('status', 'sent')}
+            onClick={() => set('paid', true)}
             className={`rounded-lg border p-3 text-left transition-colors ${
-              inv.status === 'sent'
+              inv.paid
                 ? 'border-primary bg-primary/5'
                 : 'border-border bg-white'
             } disabled:opacity-60`}
@@ -520,26 +689,30 @@ function SendPanel({
   setSubject,
   body,
   setBody,
+  sendToEmail,
+  setSendToEmail,
   onFocusTpl,
   onChangeLang,
   doPrint,
-  doSend,
+  onRequestSend,
   sendStatus,
-  readonly,
 }: {
   inv: Invoice;
   subject: string;
   setSubject: (s: string) => void;
   body: string;
   setBody: (b: string) => void;
+  sendToEmail: string;
+  setSendToEmail: (e: string) => void;
   onFocusTpl: () => void;
   onChangeLang: (lang: InvoiceLanguage) => void;
   doPrint: () => void;
-  doSend: () => Promise<void>;
+  onRequestSend: () => void;
   sendStatus: 'idle' | 'sending' | 'sent' | 'error';
-  readonly: boolean;
 }) {
   const lang = (inv.language || 'de') as InvoiceLanguage;
+  const isResend = !!inv.sentAt;
+  const emailChanged = sendToEmail !== inv.email;
 
   return (
     <div className="space-y-5">
@@ -547,11 +720,17 @@ function SendPanel({
         <Field label="An">
           <input
             type="email"
-            disabled={readonly}
-            value={inv.email}
-            className="w-full rounded-lg border border-border px-3 py-2 text-sm disabled:opacity-60 disabled:bg-secondary"
-            readOnly
+            value={sendToEmail}
+            onChange={(e) => setSendToEmail(e.target.value)}
+            placeholder="empfaenger@beispiel.de"
+            className="w-full rounded-lg border border-border px-3 py-2 text-sm focus:border-primary focus:outline-none"
           />
+          {emailChanged && (
+            <p className="mt-1 text-xs text-amber-700">
+              Abweichend von gespeicherter Adresse ({inv.email || '—'}). Die
+              Rechnung selbst wird dadurch nicht geändert.
+            </p>
+          )}
         </Field>
         <p className="text-xs text-text-muted">
           Sprache:{' '}
@@ -587,22 +766,28 @@ function SendPanel({
         </Field>
       </Section>
 
+      {isResend && inv.lastResentAt && (
+        <div className="rounded-lg bg-secondary border border-border px-3 py-2 text-xs text-text-muted">
+          Zuletzt erneut versendet: {new Date(inv.lastResentAt).toLocaleString('de-DE')}
+        </div>
+      )}
+
       <div className="grid grid-cols-2 gap-3">
         <button
           onClick={doPrint}
           className="rounded-lg border border-border bg-white px-4 py-3 text-sm font-semibold hover:bg-secondary"
         >
-          ↓ PDF drucken
+          ↓ PDF herunterladen
         </button>
         <button
-          onClick={doSend}
-          disabled={!inv.email || sendStatus === 'sending' || readonly}
+          onClick={onRequestSend}
+          disabled={!sendToEmail || sendStatus === 'sending'}
           className="rounded-lg bg-primary px-4 py-3 text-sm font-semibold text-white hover:bg-primary-light disabled:opacity-50"
         >
           {sendStatus === 'sending'
             ? 'Sende…'
-            : sendStatus === 'sent'
-            ? '✓ Versendet'
+            : isResend
+            ? '✉ Erneut senden'
             : '✉ E-Mail senden'}
         </button>
       </div>

@@ -19,7 +19,7 @@ export async function setSessionCookie(sessionCookie: string): Promise<void> {
     maxAge: SESSION_DURATION_MS / 1000,
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
-    sameSite: 'lax',
+    sameSite: 'strict',
     path: '/',
   });
 }

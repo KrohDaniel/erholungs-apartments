@@ -118,3 +118,26 @@ body {
 body.overflow-hidden {
   overflow: hidden;
 }
+
+/* =============================================================================
+   Print: only show the invoice preview, nothing else
+   Used by /rechnungen/[id]/ when the user clicks "PDF drucken"
+   ============================================================================= */
+
+@media print {
+  body { background: white; }
+  body * { visibility: hidden; }
+  .invoice-print, .invoice-print * { visibility: visible; }
+  .invoice-print {
+    position: absolute !important;
+    left: 0; top: 0;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-height: auto !important;
+    box-shadow: none !important;
+    border: none !important;
+    transform: none !important;
+    padding: 24px 32px !important;
+  }
+  @page { size: A4; margin: 12mm; }
+}

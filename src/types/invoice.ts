@@ -12,8 +12,13 @@ export interface Invoice {
   invoiceNumber: string;
   customerNumber: string;
   status: InvoiceStatus;
+  /** Zahlungsstatus - getrennt vom Lebenszyklus */
+  paid?: boolean;
+  /** Wann die Rechnung als abgeschlossen markiert wurde (status → 'sent') */
+  finalizedAt?: string;
   createdAt: string;
   sentAt?: string;
+  lastResentAt?: string;
   updatedAt?: string;
   cancelledAt?: string;
   cancellationReason?: string;

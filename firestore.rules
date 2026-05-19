@@ -1,0 +1,50 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // --- Helpers --------------------------------------------------------------
+    function isAdmin() {
+      return request.auth != null && request.auth.token.admin == true;
+    }
+
+    // --- Bookings: server-side only (admin SDK bypasses rules) ----------------
+    match /bookings/{id} {
+      allow read, write: if isAdmin();
+    }
+
+    // --- Blocked dates: server-side only --------------------------------------
+    match /blockedDates/{id} {
+      allow read, write: if isAdmin();
+    }
+
+    // --- Invoices: admin-only -------------------------------------------------
+    match /invoices/{id} {
+      // Read & list: admin only
+      allow read: if isAdmin();
+      // Create: admin only, must be a fresh draft
+      allow create: if isAdmin();
+      // Update: admin only, BUT sent invoices are immutable (GoBD).
+      // Only the cancellation fields may be set when status flips to 'cancelled'.
+      allow update: if isAdmin() && (
+        resource.data.status != 'sent'
+        || (request.resource.data.status == 'cancelled'
+            && resource.data.status == 'sent')
+      );
+      // Delete is never allowed via rules (admin SDK on server can if needed).
+      allow delete: if false;
+
+      // Audit-Log subcollection — append-only
+      match /history/{historyId} {
+        allow read: if isAdmin();
+        allow create: if isAdmin();
+        allow update, delete: if false;
+      }
+    }
+
+    // --- Default: deny everything else ----------------------------------------
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

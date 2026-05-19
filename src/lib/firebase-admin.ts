@@ -9,6 +9,7 @@ import {
   type App,
 } from 'firebase-admin/app';
 import { getFirestore, type Firestore } from 'firebase-admin/firestore';
+import { getAuth, type Auth } from 'firebase-admin/auth';
 
 // -----------------------------------------------------------------------------
 // Admin App (Singleton)
@@ -42,6 +43,19 @@ export function getAdminDb(): Firestore {
     adminDb = getFirestore(getAdminApp());
   }
   return adminDb;
+}
+
+// -----------------------------------------------------------------------------
+// Admin Auth
+// -----------------------------------------------------------------------------
+
+let adminAuth: Auth;
+
+export function getAdminAuth(): Auth {
+  if (!adminAuth) {
+    adminAuth = getAuth(getAdminApp());
+  }
+  return adminAuth;
 }
 
 export { getAdminApp };

@@ -7,6 +7,7 @@ import {
   getFirestore,
   type Firestore,
 } from 'firebase/firestore';
+import { getAuth, type Auth } from 'firebase/auth';
 
 // -----------------------------------------------------------------------------
 // Firebase Configuration
@@ -47,6 +48,19 @@ export function getDb(): Firestore {
     db = getFirestore(getApp());
   }
   return db;
+}
+
+// -----------------------------------------------------------------------------
+// Firebase Auth Client
+// -----------------------------------------------------------------------------
+
+let auth: Auth;
+
+export function getFirebaseAuth(): Auth {
+  if (!auth) {
+    auth = getAuth(getApp());
+  }
+  return auth;
 }
 
 export { getApp };
